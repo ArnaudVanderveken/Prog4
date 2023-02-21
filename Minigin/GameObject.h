@@ -1,31 +1,65 @@
 #pragma once
-#include <memory>
+
+#include <vector>
 #include "Transform.h"
 
 namespace dae
 {
-	class Texture2D;
-
-	// todo: this should become final.
-	class GameObject 
+	class BaseComponent;
+	class GameObject final
 	{
 	public:
-		virtual void Update();
-		virtual void Render() const;
-
-		void SetTexture(const std::string& filename);
-		void SetPosition(float x, float y);
-
 		GameObject() = default;
-		virtual ~GameObject();
+		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
+		void AddComponent(BaseComponent* component);
+		template<typename T> T* GetComponent() const;
+		template<typename T> void RemoveComponent();
+		
+		void Update() const;
+		void FixedUpdate() const;
+		void Render() const;
+
+		[[nodiscard]] Transform& GetTransform();
+
 	private:
-		Transform m_transform{};
-		// todo: mmm, every gameobject has a texture? Is that correct?
-		std::shared_ptr<Texture2D> m_texture{};
+		Transform m_Transform{};
+		std::vector<BaseComponent*> m_Components;
 	};
+
+	template <typename T>
+	inline T* GameObject::GetComponent() const
+	{
+		for (auto baseComp : m_Components)
+			if (T* component = dynamic_cast<T*>(baseComp))
+				return component;
+
+		return nullptr;
+	}
+
+	template <typename T>
+	inline void GameObject::RemoveComponent()
+	{
+		for (auto baseComp : m_Components)
+		{
+			T* component = dynamic_cast<T*>(baseComp);
+			if (component)
+			{
+				delete component;
+				component = nullptr;
+
+				//Remove from vector
+				component = m_Components.back();
+				m_Components.pop_back();
+
+				return;
+			}
+		}
+	}
 }
+
+
