@@ -4,6 +4,7 @@
 #include <windows.h>
 
 #include <chrono>
+#include <iostream>
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -70,8 +71,6 @@ dae::Minigin::Minigin(const std::string &dataPath)
 	Renderer::GetInstance().Init(g_window);
 
 	ResourceManager::GetInstance().Init(dataPath);
-
-	Time::GetInstance().Init();
 }
 
 dae::Minigin::~Minigin()
@@ -88,7 +87,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 	using std::chrono::high_resolution_clock, std::chrono::milliseconds, std::chrono::duration;
 
-	const auto& time = Time::GetInstance();
+	auto& time = Time::GetInstance();
 	const auto& renderer = Renderer::GetInstance();
 	const auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
@@ -96,21 +95,23 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	// todo: this update loop could use some work.
 	bool doContinue = true;
 	float lag = 0.0f;
+	const float fixedTimeSteps = time.GetFixedTimeStep();
 	while (doContinue)
 	{
-		lag += time.GetElapsedTime();
+		time.Update();
 
 		doContinue = input.ProcessInput();
 
-		while (lag >= time.GetFixedTimeStep())
+		lag += time.GetElapsedTime();
+		while (lag >= fixedTimeSteps)
 		{
 			sceneManager.FixedUpdate();
-			lag -= time.GetFixedTimeStep();
+			lag -= fixedTimeSteps;
 		}
 
 		sceneManager.Update();
 		renderer.Render();
-		
-		std::this_thread::sleep_for(time.GetTimeToNextFrame());
+
+		std::this_thread::sleep_for(std::chrono::duration<float>(time.GetTimeToNextFrame()));
 	}
 }
