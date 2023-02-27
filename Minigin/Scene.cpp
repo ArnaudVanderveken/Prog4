@@ -24,19 +24,21 @@ void Scene::RemoveAll()
 	m_objects.clear();
 }
 
-void Scene::Update()
+void Scene::Update() const
 {
-	for(auto& object : m_objects)
-	{
+	for(const auto& object : m_objects)
 		object->Update();
-	}
+}
+
+void Scene::FixedUpdate() const
+{
+	for (const auto& object : m_objects)
+		object->FixedUpdate();
 }
 
 void Scene::Render() const
 {
 	for (const auto& object : m_objects)
-	{
 		object->Render();
-	}
 }
 
