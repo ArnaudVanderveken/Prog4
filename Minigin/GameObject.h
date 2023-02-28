@@ -24,11 +24,32 @@ namespace dae
 		void FixedUpdate() const;
 		void Render() const;
 
-		[[nodiscard]] Transform& GetTransform();
+		[[nodiscard]] const Transform& GetLocalTransform() const;
+		[[nodiscard]] const Transform& GetWorldTransform();
+		void SetLocalTransform(const Transform& transform);
+		void SetLocalPosition(const glm::vec3& position);
+		void SetLocalRotation(const glm::vec3& rotation);
+		void SetLocalScale(const glm::vec3& scale);
+
+		void SetParent(GameObject* parent, bool keepWorldTransform);
 
 	private:
-		Transform m_Transform{};
+		Transform m_LocalTransform{};
+		Transform m_WorldTransform{};
+		bool m_DirtyWorldTransform{};
+
 		std::vector<BaseComponent*> m_Components;
+
+		GameObject* m_Parent{};
+		std::vector<GameObject*> m_Children{};
+
+		/* --- Methods --- */
+		void PropagateDirtyTransform();
+		void RebuildLocalTransform();
+		void RebuildWorldTransform();
+
+		void AddChild(GameObject* child);
+		void RemoveChild(GameObject* child);
 	};
 
 	template <typename T>
