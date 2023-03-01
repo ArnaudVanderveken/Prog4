@@ -21,7 +21,7 @@ void dae::RenderComponent::FixedUpdate()
 
 void dae::RenderComponent::Render() const
 {
-	Renderer::GetInstance().RenderTexture(*m_TexturePtr, m_pGameObject->GetTransform().position.x, m_pGameObject->GetTransform().position.y);
+	Renderer::GetInstance().RenderTexture(*m_TexturePtr, m_pGameObject->GetWorldTransform().position.x, m_pGameObject->GetWorldTransform().position.y);
 }
 
 void dae::RenderComponent::SetTexture(const std::string& filename)

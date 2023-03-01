@@ -69,6 +69,9 @@
     <ClInclude Include="FPSCounterComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="ParentingTestComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -117,6 +120,9 @@
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="FPSCounterComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ParentingTestComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>

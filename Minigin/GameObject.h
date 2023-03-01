@@ -36,7 +36,7 @@ namespace dae
 	private:
 		Transform m_LocalTransform{};
 		Transform m_WorldTransform{};
-		bool m_DirtyWorldTransform{};
+		bool m_DirtyWorldTransform{ true };
 
 		std::vector<BaseComponent*> m_Components;
 

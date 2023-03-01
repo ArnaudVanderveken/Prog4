@@ -76,8 +76,11 @@ void dae::GameObject::SetParent(GameObject* parent, bool keepWorldTransform)
 		RebuildWorldTransform();
 
 	// Update parent
-	m_Parent->RemoveChild(this);
+	if (m_Parent)
+		m_Parent->RemoveChild(this);
+
 	m_Parent = parent;
+
 	if (m_Parent)
 		m_Parent->AddChild(this);
 
@@ -106,7 +109,10 @@ void dae::GameObject::RebuildLocalTransform()
 
 void dae::GameObject::RebuildWorldTransform()
 {
-	m_WorldTransform = m_Parent->GetWorldTransform() + m_LocalTransform;
+	if (m_Parent)
+		m_WorldTransform = m_Parent->GetWorldTransform() + m_LocalTransform;
+	else
+		m_WorldTransform = m_LocalTransform;
 	m_DirtyWorldTransform = false;
 }
 
