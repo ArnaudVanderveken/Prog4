@@ -17,10 +17,12 @@ namespace dae
 		void FixedUpdate() override;
 		void Render() const override;
 
+		void SetDirection(int dir);
+
 	private:
-		float m_XMin{ 200.0f };
-		float m_XMax{ 400.0f };
-		float m_Speed{ 100.0f };
+		float m_Angle{};
+		float m_Radius{ 50.f };
+		float m_Speed{ 3.14159278359596f };
 		int m_Direction{ 1 };
 	};
 }
