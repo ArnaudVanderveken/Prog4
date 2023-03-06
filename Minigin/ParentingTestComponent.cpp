@@ -10,18 +10,11 @@ dae::ParentingTestComponent::ParentingTestComponent(GameObject* owner)
 
 void dae::ParentingTestComponent::Update()
 {
-	/*auto newPos = m_pGameObject->GetLocalTransform().position;
-	newPos.x += float(m_Direction) * m_Speed * Time::GetInstance().GetElapsedTime();
-	m_pGameObject->SetLocalPosition(newPos);
-
-	if (newPos.x >= m_XMax && m_Direction == 1)
-		m_Direction = -1;
-	else if (newPos.x < m_XMin && m_Direction == -1)
-		m_Direction = 1;*/
-
 	m_Angle += float(m_Direction) * m_Speed * Time::GetInstance().GetElapsedTime();
+	constexpr auto fullTurn = float(M_PI * 2);
+	if (m_Angle > fullTurn)
+		m_Angle -= fullTurn;
 	m_pGameObject->SetLocalPosition({ cosf(m_Angle) * m_Radius, -sinf(m_Angle) * m_Radius, 0.f });
-	
 }
 
 void dae::ParentingTestComponent::FixedUpdate()

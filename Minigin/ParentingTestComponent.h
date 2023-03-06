@@ -1,6 +1,9 @@
 #pragma once
 #include "BaseComponent.h"
 
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 namespace dae
 {
 	class ParentingTestComponent : public dae::BaseComponent
@@ -22,7 +25,7 @@ namespace dae
 	private:
 		float m_Angle{};
 		float m_Radius{ 50.f };
-		float m_Speed{ 3.14159278359596f };
+		float m_Speed{ float(M_PI) };
 		int m_Direction{ 1 };
 	};
 }
