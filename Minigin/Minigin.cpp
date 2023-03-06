@@ -111,9 +111,6 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		sceneManager.Update();
 		renderer.Render();
 
-		const auto ttnf = time.GetTimeToNextFrame();
-		std::cout << time.GetElapsedTime() << ttnf << std::endl;
-
-		std::this_thread::sleep_for(std::chrono::duration_cast<milliseconds>(ttnf));
+		std::this_thread::sleep_for(time.GetTimeToNextFrame());
 	}
 }
