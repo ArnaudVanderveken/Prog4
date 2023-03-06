@@ -1,19 +1,13 @@
 #include "Time.h"
 
-using std::chrono::high_resolution_clock, std::chrono::milliseconds, std::chrono::duration;
-
-dae::Time::Time()
-{
-	m_StartTime = high_resolution_clock::now();
-	m_LastTime = m_StartTime;
-}
+using namespace std::chrono;
 
 void dae::Time::Update()
 {
-	m_CurrentTime = high_resolution_clock::now();
-	m_DeltaTime = duration<float>(m_CurrentTime - m_LastTime).count();
-	m_LastTime = m_CurrentTime;
-	m_TotalTime = duration<float>(m_CurrentTime - m_StartTime).count();
+	m_LastFrameBeginTime = m_FrameBeginTime;
+	m_FrameBeginTime = high_resolution_clock::now();
+	m_DeltaTime = duration<float>(m_FrameBeginTime - m_LastFrameBeginTime).count();
+	m_TotalTime = duration<float>(m_FrameBeginTime - m_StartTime).count();
 }
 
 float dae::Time::GetElapsedTime() const
@@ -26,15 +20,10 @@ float dae::Time::GetTotalTime() const
 	return m_TotalTime;
 }
 
-float dae::Time::GetTimeToNextFrame() const
+std::chrono::duration<float> dae::Time::GetTimeToNextFrame()
 {
-	float f = m_MsPerFrame / 1000 - m_DeltaTime;
-	return f;
-}
-
-float dae::Time::GetMsPerFrame() const
-{
-	return m_MsPerFrame;
+	m_CurrentTime = high_resolution_clock::now();
+	return duration<float>(m_TimePerFrame - duration<float>(m_CurrentTime - m_FrameBeginTime).count());
 }
 
 float dae::Time::GetFixedTimeStep() const
@@ -42,4 +31,9 @@ float dae::Time::GetFixedTimeStep() const
 	return m_FixedTimeStep;
 }
 
+dae::Time::Time()
+{
+	m_StartTime = high_resolution_clock::now();
+	m_FrameBeginTime = high_resolution_clock::now();
+}
 

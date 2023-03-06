@@ -12,20 +12,24 @@ namespace dae
 
 		[[nodiscard]] float GetElapsedTime() const;
 		[[nodiscard]] float GetTotalTime() const;
-		[[nodiscard]] float GetTimeToNextFrame() const;
-		[[nodiscard]] float GetMsPerFrame() const;
+		[[nodiscard]] std::chrono::duration<float> GetTimeToNextFrame();
 		[[nodiscard]] float GetFixedTimeStep() const;
 
 	private:
 		friend class Singleton<Time>;
 		Time();
 
-		const float m_MsPerFrame{ 1000.0f / 60.0f };
-		const float m_FixedTimeStep{ 0.02f };
+		float m_FixedTimeStep{ 0.002f };
+		float m_TimePerFrame{ 1.f / 144.f }; //0.0069444444444444
 
-		std::chrono::steady_clock::time_point m_CurrentTime{}, m_LastTime{}, m_StartTime{};
-		float m_TotalTime{};
 		float m_DeltaTime{};
+		float m_TotalTime{};
+
+		std::chrono::steady_clock::time_point m_StartTime{};
+		std::chrono::steady_clock::time_point m_FrameBeginTime{};
+		std::chrono::steady_clock::time_point m_LastFrameBeginTime{};
+		std::chrono::steady_clock::time_point m_CurrentTime{};
+
 	};
 }
 

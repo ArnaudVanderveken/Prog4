@@ -92,7 +92,6 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	const auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
 
-	// todo: this update loop could use some work.
 	bool doContinue = true;
 	float lag = 0.0f;
 	const float fixedTimeSteps = time.GetFixedTimeStep();
@@ -112,6 +111,9 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		sceneManager.Update();
 		renderer.Render();
 
-		std::this_thread::sleep_for(std::chrono::duration<float>(time.GetTimeToNextFrame()));
+		const auto ttnf = time.GetTimeToNextFrame();
+		std::cout << time.GetElapsedTime() << ttnf << std::endl;
+
+		std::this_thread::sleep_for(std::chrono::duration_cast<milliseconds>(ttnf));
 	}
 }

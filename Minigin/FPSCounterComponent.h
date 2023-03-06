@@ -24,6 +24,7 @@ namespace dae
 		char m_FpsText[16]{};
 		const float m_Delay{ .5f };
 		float m_Timer{};
+		unsigned short m_FrameCounter{};
 	};
 }
 
