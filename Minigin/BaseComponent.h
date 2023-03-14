@@ -18,6 +18,8 @@ namespace dae
 		virtual void FixedUpdate() = 0;
 		virtual void Render() const = 0;
 
+		virtual void OnGUI() = 0;
+
 		void SetActive(bool newActive);
 
 	protected:

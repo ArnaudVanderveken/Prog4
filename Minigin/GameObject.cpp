@@ -32,6 +32,12 @@ void dae::GameObject::Render() const
 		component->Render();
 }
 
+void dae::GameObject::OnGUI() const
+{
+	for (const auto& component : m_Components)
+		component->OnGUI();
+}
+
 const dae::Transform& dae::GameObject::GetLocalTransform() const
 {
 	return m_LocalTransform;
