@@ -24,6 +24,10 @@ void dae::RenderComponent::Render() const
 	Renderer::GetInstance().RenderTexture(*m_TexturePtr, m_pGameObject->GetWorldTransform().position.x, m_pGameObject->GetWorldTransform().position.y);
 }
 
+void dae::RenderComponent::OnGUI()
+{
+}
+
 void dae::RenderComponent::SetTexture(const std::string& filename)
 {
 	m_TexturePtr = ResourceManager::GetInstance().LoadTexture(filename);

@@ -25,6 +25,10 @@ void dae::ParentingTestComponent::Render() const
 {
 }
 
+void dae::ParentingTestComponent::OnGUI()
+{
+}
+
 void dae::ParentingTestComponent::SetDirection(int dir)
 {
 	m_Direction = dir;

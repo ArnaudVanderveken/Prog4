@@ -24,6 +24,8 @@ namespace dae
 		void FixedUpdate() const;
 		void Render() const;
 
+		void OnGUI() const;
+
 		[[nodiscard]] const Transform& GetLocalTransform() const;
 		[[nodiscard]] const Transform& GetWorldTransform();
 		void SetLocalTransform(const Transform& transform);

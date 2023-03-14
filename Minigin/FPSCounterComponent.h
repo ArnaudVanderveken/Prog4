@@ -20,6 +20,8 @@ namespace dae
 		void FixedUpdate() override;
 		void Render() const override;
 
+		void OnGUI() override;
+
 	private:
 		char m_FpsText[16]{};
 		const float m_Delay{ .5f };

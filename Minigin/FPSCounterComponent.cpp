@@ -37,3 +37,7 @@ void dae::FPSCounterComponent::FixedUpdate()
 void dae::FPSCounterComponent::Render() const
 {
 }
+
+void dae::FPSCounterComponent::OnGUI()
+{
+}

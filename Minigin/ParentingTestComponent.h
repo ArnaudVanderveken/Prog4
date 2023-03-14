@@ -20,6 +20,8 @@ namespace dae
 		void FixedUpdate() override;
 		void Render() const override;
 
+		void OnGUI() override;
+
 		void SetDirection(int dir);
 
 	private:

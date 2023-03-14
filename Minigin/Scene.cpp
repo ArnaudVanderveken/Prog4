@@ -42,7 +42,7 @@ void Scene::Render() const
 		object->Render();
 }
 
-void Scene::OnGui() const
+void Scene::OnGUI() const
 {
 	for (const auto& object : m_objects)
 		object->OnGUI();
