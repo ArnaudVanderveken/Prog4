@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Components">
       <UniqueIdentifier>{0e83699b-1d6a-44d4-a2d4-a911a2fb2fff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ImGUI">
+      <UniqueIdentifier>{0fa3811c-7f92-4fd2-8296-bf6c0ba45ce3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ImGUI">
+      <UniqueIdentifier>{26d3b587-1f97-4648-8c96-33cbf45f8bf4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -72,6 +78,30 @@
     <ClInclude Include="ParentingTestComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Header Files\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Header Files\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_opengl2.h">
+      <Filter>Header Files\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_sdl2.h">
+      <Filter>Header Files\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Header Files\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>Header Files\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>Header Files\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>Header Files\ImGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -124,6 +154,27 @@
     </ClCompile>
     <ClCompile Include="ParentingTestComponent.cpp">
       <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Source Files\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>Source Files\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Source Files\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_opengl2.cpp">
+      <Filter>Source Files\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_sdl2.cpp">
+      <Filter>Source Files\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_tables.cpp">
+      <Filter>Source Files\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>Source Files\ImGUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
