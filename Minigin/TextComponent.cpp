@@ -19,9 +19,6 @@ dae::TextComponent::TextComponent(const std::string& text, const SDL_Color& colo
 
 void dae::TextComponent::Update()
 {
-	if (!m_IsActive)
-		return;
-
 	if (!m_NeedsToUpdate)
 		return;
 
