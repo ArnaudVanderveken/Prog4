@@ -9,9 +9,8 @@
 #include "RenderComponent.h"
 #include "Texture2D.h"
 
-dae::TextComponent::TextComponent(const std::string& text, const SDL_Color& color, std::shared_ptr<dae::Font> font, dae::GameObject* owner)
-	: BaseComponent{ owner }
-	, m_NeedsToUpdate{ true }
+dae::TextComponent::TextComponent(const std::string& text, const SDL_Color& color, std::shared_ptr<dae::Font> font)
+	: m_NeedsToUpdate{ true }
 	, m_Text{ text }
 	, m_FontPtr{ font }
 	, m_Color{ color }
@@ -40,7 +39,7 @@ void dae::TextComponent::Update()
 
 	const auto newTexture = std::make_shared<Texture2D>(texture);
 
-	if (const auto renderComp = m_pGameObject->GetComponent<RenderComponent>())
+	if (const auto renderComp = GetOwner()->GetComponent<RenderComponent>())
 		renderComp->SetTexture(newTexture);
 
 	m_NeedsToUpdate = false;

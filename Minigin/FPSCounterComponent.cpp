@@ -3,14 +3,9 @@
 #include "GameObject.h"
 #include "TextComponent.h"
 #include "Time.h"
-#include <iostream>
 
 #include <string>
 
-dae::FPSCounterComponent::FPSCounterComponent(dae::GameObject* attachedObj)
-	: BaseComponent(attachedObj)
-{
-}
 
 void dae::FPSCounterComponent::Update()
 {
@@ -22,7 +17,7 @@ void dae::FPSCounterComponent::Update()
 	{
 		const float fps{ static_cast<float>(m_FrameCounter) / m_Timer };
 		sprintf_s(m_FpsText, "%.2f", fps);
-		if (const auto text = m_pGameObject->GetComponent<TextComponent>())
+		if (const auto text = GetOwner()->GetComponent<TextComponent>())
 			text->SetText(std::string("FPS: ") + m_FpsText);
 
 		m_Timer = 0.f;

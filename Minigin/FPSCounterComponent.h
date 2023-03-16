@@ -9,7 +9,7 @@ namespace dae
 	class FPSCounterComponent final : public BaseComponent
 	{
 	public:
-		FPSCounterComponent(GameObject* attachedObj);
+		FPSCounterComponent() noexcept = default;
 		~FPSCounterComponent() override = default;
 		FPSCounterComponent(const FPSCounterComponent& other) = delete;
 		FPSCounterComponent& operator=(const FPSCounterComponent& other) noexcept = delete;

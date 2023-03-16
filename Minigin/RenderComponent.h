@@ -11,7 +11,7 @@ namespace dae
 	class RenderComponent final : public BaseComponent
 	{
 	public:
-		RenderComponent(const std::string& fileName, GameObject* owner);
+		RenderComponent(const std::string& fileName);
 		~RenderComponent() override = default;
 		RenderComponent(const RenderComponent& other) = delete;
 		RenderComponent& operator=(const RenderComponent& other) noexcept = delete;

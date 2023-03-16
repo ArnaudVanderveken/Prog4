@@ -3,10 +3,6 @@
 #include "GameObject.h"
 #include "Time.h"
 
-dae::ParentingTestComponent::ParentingTestComponent(GameObject* owner)
-	: BaseComponent(owner)
-{
-}
 
 void dae::ParentingTestComponent::Update()
 {
@@ -14,7 +10,7 @@ void dae::ParentingTestComponent::Update()
 	constexpr auto fullTurn = float(M_PI * 2);
 	if (m_Angle > fullTurn)
 		m_Angle -= fullTurn;
-	m_pGameObject->SetLocalPosition({ cosf(m_Angle) * m_Radius, -sinf(m_Angle) * m_Radius, 0.f });
+	GetOwner()->SetLocalPosition({ cosf(m_Angle) * m_Radius, -sinf(m_Angle) * m_Radius, 0.f });
 }
 
 void dae::ParentingTestComponent::FixedUpdate()

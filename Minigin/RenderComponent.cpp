@@ -4,8 +4,7 @@
 #include "GameObject.h"
 #include "Renderer.h"
 
-dae::RenderComponent::RenderComponent(const std::string& fileName, GameObject* owner)
-	: BaseComponent{ owner }
+dae::RenderComponent::RenderComponent(const std::string& fileName)
 {
 	if (!fileName.empty())
 		m_TexturePtr = ResourceManager::GetInstance().LoadTexture(fileName);
@@ -21,7 +20,7 @@ void dae::RenderComponent::FixedUpdate()
 
 void dae::RenderComponent::Render() const
 {
-	Renderer::GetInstance().RenderTexture(*m_TexturePtr, m_pGameObject->GetWorldTransform().position.x, m_pGameObject->GetWorldTransform().position.y);
+	Renderer::GetInstance().RenderTexture(*m_TexturePtr, GetOwner()->GetWorldTransform().position.x, GetOwner()->GetWorldTransform().position.y);
 }
 
 void dae::RenderComponent::OnGUI()

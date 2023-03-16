@@ -18,13 +18,16 @@ namespace dae
 
 		void AddComponent(BaseComponent* component);
 		template<typename T> T* GetComponent() const;
-		template<typename T> void RemoveComponent();
 		
 		void Update() const;
 		void FixedUpdate() const;
 		void Render() const;
 
 		void OnGUI() const;
+
+		// Destroy objects
+		void MarkForDelete();
+		[[nodiscard]] bool IsMarkedForDelete() const;
 
 		[[nodiscard]] const Transform& GetLocalTransform() const;
 		[[nodiscard]] const Transform& GetWorldTransform();
@@ -36,6 +39,8 @@ namespace dae
 		void SetParent(GameObject* parent, bool keepWorldTransform);
 
 	private:
+		bool m_MarkedForDelete{};
+
 		Transform m_LocalTransform{};
 		Transform m_WorldTransform{};
 		bool m_DirtyWorldTransform{ true };
@@ -64,25 +69,6 @@ namespace dae
 		return nullptr;
 	}
 
-	template <typename T>
-	inline void GameObject::RemoveComponent()
-	{
-		for (auto baseComp : m_Components)
-		{
-			T* component = dynamic_cast<T*>(baseComp);
-			if (component)
-			{
-				delete component;
-				component = nullptr;
-
-				//Remove from vector
-				component = m_Components.back();
-				m_Components.pop_back();
-
-				return;
-			}
-		}
-	}
 }
 
 

@@ -5,8 +5,10 @@ namespace dae
 	class GameObject;
 	class BaseComponent
 	{
+		friend class GameObject;
+
 	public:
-		explicit BaseComponent(dae::GameObject* parentGameObject) noexcept;
+		explicit BaseComponent() noexcept = default;
 		virtual ~BaseComponent() = default;
 
 		BaseComponent(const BaseComponent& other) noexcept = delete;
@@ -21,11 +23,15 @@ namespace dae
 		virtual void OnGUI() = 0;
 
 		void SetActive(bool newActive);
+		[[nodiscard]] bool IsActive() const;
 
-	protected:
-		dae::GameObject* m_pGameObject{};
+		[[nodiscard]] GameObject* GetOwner() const;
+
+	private:
+		void SetOwner(GameObject* owner);
+		GameObject* m_pOwner{};
+
 		bool m_IsActive{ true };
-		
 	};
 }
 

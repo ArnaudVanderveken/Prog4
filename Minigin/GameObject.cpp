@@ -11,31 +11,48 @@ dae::GameObject::~GameObject()
 
 void dae::GameObject::AddComponent(BaseComponent* component)
 {
+	component->SetOwner(this);
 	m_Components.emplace_back(component);
 }
 
 void dae::GameObject::Update() const
 {
 	for (const auto& component : m_Components)
-		component->Update();
+		if (component->IsActive())
+			component->Update();
 }
 
 void dae::GameObject::FixedUpdate() const
 {
 	for (const auto& component : m_Components)
-		component->FixedUpdate();
+		if (component->IsActive())
+			component->FixedUpdate();
 }
 
 void dae::GameObject::Render() const
 {
 	for (const auto& component : m_Components)
-		component->Render();
+		if (component->IsActive())
+			component->Render();
 }
 
 void dae::GameObject::OnGUI() const
 {
 	for (const auto& component : m_Components)
-		component->OnGUI();
+		if (component->IsActive())
+			component->OnGUI();
+}
+
+void dae::GameObject::MarkForDelete()
+{
+	m_MarkedForDelete = true;
+	for (const auto& child : m_Children)
+		child->MarkForDelete();
+}
+
+bool dae::GameObject::IsMarkedForDelete() const
+{
+	return m_MarkedForDelete;
 }
 
 const dae::Transform& dae::GameObject::GetLocalTransform() const

@@ -9,7 +9,7 @@ namespace dae
 	class ParentingTestComponent : public dae::BaseComponent
 	{
 	public:
-		ParentingTestComponent(GameObject* owner);
+		ParentingTestComponent() noexcept = default;
 		~ParentingTestComponent() override = default;
 		ParentingTestComponent(const ParentingTestComponent& other) = delete;
 		ParentingTestComponent& operator=(const ParentingTestComponent& other) noexcept = delete;
