@@ -18,7 +18,9 @@ namespace dae
 
 		void AddComponent(BaseComponent* component);
 		template<typename T> T* GetComponent() const;
-		
+
+		void Init() const;
+
 		void Update() const;
 		void FixedUpdate() const;
 		void Render() const;

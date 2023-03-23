@@ -92,6 +92,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	const auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
 
+	sceneManager.Init();
+
 	bool doContinue = true;
 	float lag = 0.0f;
 	const float fixedTimeSteps = time.GetFixedTimeStep();

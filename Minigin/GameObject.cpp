@@ -15,6 +15,12 @@ void dae::GameObject::AddComponent(BaseComponent* component)
 	m_Components.emplace_back(component);
 }
 
+void dae::GameObject::Init() const
+{
+	for (const auto& component : m_Components)
+		component->Init();
+}
+
 void dae::GameObject::Update() const
 {
 	for (const auto& component : m_Components)

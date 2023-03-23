@@ -16,11 +16,13 @@ namespace dae
 		BaseComponent(BaseComponent&& other) noexcept = delete;
 		BaseComponent& operator=(BaseComponent&& other) noexcept = delete;
 
-		virtual void Update() = 0;
-		virtual void FixedUpdate() = 0;
-		virtual void Render() const = 0;
+		virtual void Init() {}
 
-		virtual void OnGUI() = 0;
+		virtual void Update() = 0;
+		virtual void FixedUpdate() {}
+		virtual void Render() const {}
+
+		virtual void OnGUI() {}
 
 		void SetActive(bool newActive);
 		[[nodiscard]] bool IsActive() const;
