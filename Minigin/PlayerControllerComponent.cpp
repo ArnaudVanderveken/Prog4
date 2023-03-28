@@ -47,24 +47,24 @@ void dae::PlayerControllerComponent::SetSpeed(float speed)
 
 void dae::PlayerControllerComponent::RegisterControllerActions() const
 {
-	InputManager::GetInstance().RegisterAction(std::make_shared<MoveUp>(GetOwner()), InputAction::ActionType::Pressed, Controller::ButtonID::DPadUp, m_ControllerIndex);
-	InputManager::GetInstance().RegisterAction(std::make_shared<MoveDown>(GetOwner()), InputAction::ActionType::Pressed, Controller::ButtonID::DPadDown, m_ControllerIndex);
-	InputManager::GetInstance().RegisterAction(std::make_shared<MoveLeft>(GetOwner()), InputAction::ActionType::Pressed, Controller::ButtonID::DPadLeft, m_ControllerIndex);
-	InputManager::GetInstance().RegisterAction(std::make_shared<MoveRight>(GetOwner()), InputAction::ActionType::Pressed, Controller::ButtonID::DPadRight, m_ControllerIndex);
+	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Up), InputAction::ActionType::Pressed, Controller::ButtonID::DPadUp, m_ControllerIndex);
+	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Down), InputAction::ActionType::Pressed, Controller::ButtonID::DPadDown, m_ControllerIndex);
+	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Left), InputAction::ActionType::Pressed, Controller::ButtonID::DPadLeft, m_ControllerIndex);
+	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Right), InputAction::ActionType::Pressed, Controller::ButtonID::DPadRight, m_ControllerIndex);
 }
 
 void dae::PlayerControllerComponent::RegisterKeyboardActions() const
 {
-	InputManager::GetInstance().RegisterAction(std::make_shared<MoveUp>(GetOwner()), InputAction::ActionType::Pressed, SDL_SCANCODE_W);
-	InputManager::GetInstance().RegisterAction(std::make_shared<MoveDown>(GetOwner()), InputAction::ActionType::Pressed, SDL_SCANCODE_S);
-	InputManager::GetInstance().RegisterAction(std::make_shared<MoveLeft>(GetOwner()), InputAction::ActionType::Pressed, SDL_SCANCODE_A);
-	InputManager::GetInstance().RegisterAction(std::make_shared<MoveRight>(GetOwner()), InputAction::ActionType::Pressed, SDL_SCANCODE_D);
+	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Up), InputAction::ActionType::Pressed, SDL_SCANCODE_W);
+	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Down), InputAction::ActionType::Pressed, SDL_SCANCODE_S);
+	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Left), InputAction::ActionType::Pressed, SDL_SCANCODE_A);
+	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Right), InputAction::ActionType::Pressed, SDL_SCANCODE_D);
 }
 
 void dae::PlayerControllerComponent::RegisterCombinedActions() const
 {
-	InputManager::GetInstance().RegisterAction(std::make_shared<MoveUp>(GetOwner()), InputAction::ActionType::Pressed, Controller::ButtonID::DPadUp, m_ControllerIndex, SDL_SCANCODE_W);
-	InputManager::GetInstance().RegisterAction(std::make_shared<MoveDown>(GetOwner()), InputAction::ActionType::Pressed, Controller::ButtonID::DPadDown, m_ControllerIndex, SDL_SCANCODE_S);
-	InputManager::GetInstance().RegisterAction(std::make_shared<MoveLeft>(GetOwner()), InputAction::ActionType::Pressed, Controller::ButtonID::DPadLeft, m_ControllerIndex, SDL_SCANCODE_A);
-	InputManager::GetInstance().RegisterAction(std::make_shared<MoveRight>(GetOwner()), InputAction::ActionType::Pressed, Controller::ButtonID::DPadRight, m_ControllerIndex, SDL_SCANCODE_D);
+	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Up), InputAction::ActionType::Pressed, Controller::ButtonID::DPadUp, m_ControllerIndex, SDL_SCANCODE_W);
+	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Down), InputAction::ActionType::Pressed, Controller::ButtonID::DPadDown, m_ControllerIndex, SDL_SCANCODE_S);
+	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Left), InputAction::ActionType::Pressed, Controller::ButtonID::DPadLeft, m_ControllerIndex, SDL_SCANCODE_A);
+	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Right), InputAction::ActionType::Pressed, Controller::ButtonID::DPadRight, m_ControllerIndex, SDL_SCANCODE_D);
 }

@@ -13,42 +13,27 @@ dae::GameObject* dae::Command::GetActor() const
 	return m_pActor;
 }
 
-dae::MoveUp::MoveUp(GameObject* actor)
+dae::Move::Move(GameObject* actor, Direction direction)
 	: Command(actor)
+	, m_Direction(direction)
 {
 }
 
-void dae::MoveUp::Execute()
+void dae::Move::Execute()
 {
-	GetActor()->GetComponent<PlayerControllerComponent>()->AddMovementInput(0.f, -1.f);
-}
-
-dae::MoveDown::MoveDown(GameObject* actor)
-	: Command(actor)
-{
-}
-
-void dae::MoveDown::Execute()
-{
-	GetActor()->GetComponent<PlayerControllerComponent>()->AddMovementInput(0.f, 1.f);
-}
-
-dae::MoveLeft::MoveLeft(GameObject* actor)
-	: Command(actor)
-{
-}
-
-void dae::MoveLeft::Execute()
-{
-	GetActor()->GetComponent<PlayerControllerComponent>()->AddMovementInput(-1.f, 0.f);
-}
-
-dae::MoveRight::MoveRight(GameObject* actor)
-	: Command(actor)
-{
-}
-
-void dae::MoveRight::Execute()
-{
-	GetActor()->GetComponent<PlayerControllerComponent>()->AddMovementInput(1.f, 0.f);
+	switch (m_Direction)
+	{
+	case Direction::Up:
+		GetActor()->GetComponent<PlayerControllerComponent>()->AddMovementInput(0.f, -1.f);
+		break;
+	case Direction::Down:
+		GetActor()->GetComponent<PlayerControllerComponent>()->AddMovementInput(0.f, 1.f);
+		break;
+	case Direction::Left:
+		GetActor()->GetComponent<PlayerControllerComponent>()->AddMovementInput(-1.f, 0.f);
+		break;
+	case Direction::Right:
+		GetActor()->GetComponent<PlayerControllerComponent>()->AddMovementInput(1.f, 0.f);
+		break;
+	}
 }

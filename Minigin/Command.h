@@ -21,41 +21,24 @@ namespace dae
 
 	private:
 		GameObject* m_pActor;
-		
 	};
 
-	class MoveUp : public Command
+	class Move : public Command
 	{
 	public:
-		explicit MoveUp(GameObject* actor);
-		~MoveUp() override = default;
-		void Execute() override;
-	};
+		enum class Direction
+		{
+			Up,
+			Down,
+			Left,
+			Right
+		};
 
-	class MoveDown : public Command
-	{
-	public:
-		explicit MoveDown(GameObject* actor);
-		~MoveDown() override = default;
+		explicit Move(GameObject* actor, Direction direction);
+		~Move() override = default;
 		void Execute() override;
-	};
 
-	class MoveLeft : public Command
-	{
-	public:
-		explicit MoveLeft(GameObject* actor);
-		~MoveLeft() override = default;
-		void Execute() override;
+	private:
+		Direction m_Direction;
 	};
-
-	class MoveRight : public Command
-	{
-	public:
-		explicit MoveRight(GameObject* actor);
-		~MoveRight() override = default;
-		void Execute() override;
-	};
-
 }
-
-
