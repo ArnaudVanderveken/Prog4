@@ -37,3 +37,13 @@ void dae::Move::Execute()
 		break;
 	}
 }
+
+dae::DieCommand::DieCommand(GameObject* actor)
+	: Command(actor)
+{
+}
+
+void dae::DieCommand::Execute()
+{
+	GetActor()->GetComponent<PlayerControllerComponent>()->Die();
+}

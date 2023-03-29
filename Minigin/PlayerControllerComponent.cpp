@@ -8,6 +8,7 @@ dae::PlayerControllerComponent::PlayerControllerComponent(int controllerIndex, b
 	: m_ControllerIndex(controllerIndex)
 	, m_UseKeyboard(useKeyboard)
 {
+	m_PlayerIndex = GetNextPlayerIndex();
 }
 
 void dae::PlayerControllerComponent::Init()
@@ -34,6 +35,11 @@ void dae::PlayerControllerComponent::Update()
 	m_Movement = glm::vec2{};
 }
 
+int dae::PlayerControllerComponent::GetPlayerIndex() const
+{
+	return m_PlayerIndex;
+}
+
 void dae::PlayerControllerComponent::AddMovementInput(float h, float v)
 {
 	m_Movement.x += h;
@@ -45,12 +51,22 @@ void dae::PlayerControllerComponent::SetSpeed(float speed)
 	m_Speed = speed;
 }
 
-void dae::PlayerControllerComponent::Die()
+void dae::PlayerControllerComponent::Die() const
 {
+	Event e{};
+	e.type = Event::EventType::PlayerDied;
+	e.playerIndex = m_PlayerIndex;
+
+	Notify(e);
 }
 
 void dae::PlayerControllerComponent::ScorePoints()
 {
+}
+
+int dae::PlayerControllerComponent::GetNextPlayerIndex()
+{
+	return s_NextAvailablePlayerIndex++;
 }
 
 void dae::PlayerControllerComponent::RegisterControllerActions() const
@@ -59,6 +75,8 @@ void dae::PlayerControllerComponent::RegisterControllerActions() const
 	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Down), InputAction::ActionType::Pressed, Controller::ButtonID::DPadDown, m_ControllerIndex);
 	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Left), InputAction::ActionType::Pressed, Controller::ButtonID::DPadLeft, m_ControllerIndex);
 	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Right), InputAction::ActionType::Pressed, Controller::ButtonID::DPadRight, m_ControllerIndex);
+
+	InputManager::GetInstance().RegisterAction(std::make_shared<DieCommand>(GetOwner()), InputAction::ActionType::Down, Controller::ButtonID::FaceButtonDown, m_ControllerIndex);
 }
 
 void dae::PlayerControllerComponent::RegisterKeyboardActions() const
@@ -67,6 +85,8 @@ void dae::PlayerControllerComponent::RegisterKeyboardActions() const
 	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Down), InputAction::ActionType::Pressed, SDL_SCANCODE_S);
 	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Left), InputAction::ActionType::Pressed, SDL_SCANCODE_A);
 	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Right), InputAction::ActionType::Pressed, SDL_SCANCODE_D);
+
+	InputManager::GetInstance().RegisterAction(std::make_shared<DieCommand>(GetOwner()), InputAction::ActionType::Down, SDL_SCANCODE_Q);
 }
 
 void dae::PlayerControllerComponent::RegisterCombinedActions() const
@@ -74,5 +94,7 @@ void dae::PlayerControllerComponent::RegisterCombinedActions() const
 	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Up), InputAction::ActionType::Pressed, Controller::ButtonID::DPadUp, m_ControllerIndex, SDL_SCANCODE_W);
 	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Down), InputAction::ActionType::Pressed, Controller::ButtonID::DPadDown, m_ControllerIndex, SDL_SCANCODE_S);
 	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Left), InputAction::ActionType::Pressed, Controller::ButtonID::DPadLeft, m_ControllerIndex, SDL_SCANCODE_A);
+	InputManager::GetInstance().RegisterAction(std::make_shared<DieCommand>(GetOwner()), InputAction::ActionType::Down, Controller::ButtonID::FaceButtonDown, m_ControllerIndex, SDL_SCANCODE_Q);
+
 	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Right), InputAction::ActionType::Pressed, Controller::ButtonID::DPadRight, m_ControllerIndex, SDL_SCANCODE_D);
 }

@@ -41,4 +41,12 @@ namespace dae
 	private:
 		Direction m_Direction;
 	};
+
+	class DieCommand : public Command
+	{
+	public:
+		explicit DieCommand(GameObject* actor);
+		~DieCommand() override = default;
+		void Execute() override;
+	};
 }
