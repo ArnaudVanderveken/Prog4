@@ -45,6 +45,14 @@ void dae::PlayerControllerComponent::SetSpeed(float speed)
 	m_Speed = speed;
 }
 
+void dae::PlayerControllerComponent::Die()
+{
+}
+
+void dae::PlayerControllerComponent::ScorePoints()
+{
+}
+
 void dae::PlayerControllerComponent::RegisterControllerActions() const
 {
 	InputManager::GetInstance().RegisterAction(std::make_shared<Move>(GetOwner(), Move::Direction::Up), InputAction::ActionType::Pressed, Controller::ButtonID::DPadUp, m_ControllerIndex);

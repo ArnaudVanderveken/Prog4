@@ -21,8 +21,10 @@ namespace dae
 		void Update() override;
 
 		void AddMovementInput(float h, float v);
-
 		void SetSpeed(float speed);
+
+		void Die();
+		void ScorePoints();
 
 	protected:
 	private:
