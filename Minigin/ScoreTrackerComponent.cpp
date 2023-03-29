@@ -26,5 +26,13 @@ void dae::ScoreTrackerComponent::OnNotify(const Event& e)
 		m_Score += e.points;
 		if (m_pTextComponent)
 			m_pTextComponent->SetText(std::string("Score: ") + std::to_string(m_Score));
+
+		if (m_Score >= m_MinScoreWin)
+		{
+			Event e2{};
+			e2.type = Event::EventType::AchievementWon;
+
+			Notify(e2);
+		}
 	}
 }

@@ -207,6 +207,7 @@ xcopy $(SolutionDir)steam_appid.txt $(OutputPath) /R /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AchievementManager.h" />
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Controller.h" />
@@ -243,6 +244,7 @@ xcopy $(SolutionDir)steam_appid.txt $(OutputPath) /R /Y</Command>
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AchievementManager.cpp" />
     <ClCompile Include="BaseComponent.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Controller.cpp" />

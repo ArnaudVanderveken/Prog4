@@ -1,12 +1,14 @@
 #pragma once
+
 #include "BaseComponent.h"
 #include "Observer.h"
+#include "Subject.h"
 
 
 namespace dae
 {
 	class TextComponent;
-	class ScoreTrackerComponent : public BaseComponent, public Observer
+	class ScoreTrackerComponent : public BaseComponent, public Observer, public Subject
 	{
 	public:
 		explicit ScoreTrackerComponent(int trackedPlayerIndex) noexcept;
@@ -27,6 +29,8 @@ namespace dae
 
 		int m_TrackedPlayerIndex{};
 		int m_Score{};
+
+		const int m_MinScoreWin{ 500 };
 
 		TextComponent* m_pTextComponent{};
 

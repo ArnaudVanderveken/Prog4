@@ -6,7 +6,8 @@ struct Event final
 	enum class EventType
 	{
 		PlayerDied,
-		PointScored
+		PointScored,
+		AchievementWon
 	};
 
 	EventType type;
