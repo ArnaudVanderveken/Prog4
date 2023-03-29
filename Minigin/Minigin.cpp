@@ -1,6 +1,6 @@
 #include <stdexcept>
-#define WIN32_LEAN_AND_MEAN 
 
+#define WIN32_LEAN_AND_MEAN 
 #include <windows.h>
 
 #include <chrono>
@@ -10,6 +10,10 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include "Minigin.h"
+
+
+#include <steam_api.h>
+
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
@@ -112,6 +116,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 		sceneManager.Update();
 		renderer.Render();
+
+		SteamAPI_RunCallbacks();
 
 		std::this_thread::sleep_for(std::chrono::duration_cast<milliseconds>(time.GetTimeToNextFrame()));
 	}
