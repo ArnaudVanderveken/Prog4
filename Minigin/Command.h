@@ -49,4 +49,12 @@ namespace dae
 		~DieCommand() override = default;
 		void Execute() override;
 	};
+
+	class ScoreCommand : public Command
+	{
+	public:
+		explicit ScoreCommand(GameObject* actor);
+		~ScoreCommand() override = default;
+		void Execute() override;
+	};
 }

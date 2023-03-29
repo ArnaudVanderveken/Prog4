@@ -27,7 +27,7 @@ namespace dae
 		void SetSpeed(float speed);
 
 		void Die() const;
-		void ScorePoints();
+		void ScorePoints() const;
 
 	protected:
 	private:

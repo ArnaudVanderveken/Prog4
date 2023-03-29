@@ -47,3 +47,13 @@ void dae::DieCommand::Execute()
 {
 	GetActor()->GetComponent<PlayerControllerComponent>()->Die();
 }
+
+dae::ScoreCommand::ScoreCommand(GameObject* actor)
+	: Command(actor)
+{
+}
+
+void dae::ScoreCommand::Execute()
+{
+	GetActor()->GetComponent<PlayerControllerComponent>()->ScorePoints();
+}

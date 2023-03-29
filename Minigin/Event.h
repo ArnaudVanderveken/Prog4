@@ -5,10 +5,12 @@ struct Event final
 {
 	enum class EventType
 	{
-		PlayerDied
+		PlayerDied,
+		PointScored
 	};
 
 	EventType type;
 	int playerIndex;
+	int points;
 };
 
