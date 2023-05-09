@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 #include "InputManager.h"
-#include "Time.h"
+#include "TimeManager.h"
 
 dae::PlayerControllerComponent::PlayerControllerComponent(int controllerIndex, bool useKeyboard) noexcept
 	: m_ControllerIndex(controllerIndex)
@@ -29,7 +29,7 @@ void dae::PlayerControllerComponent::Update()
 	if (abs(m_Movement.x) > 0.f || abs(m_Movement.y) > 0.f)
 	{
 		const auto position = GetOwner()->GetLocalTransform().position;
-		const glm::vec3 offset = normalize(glm::vec3{ m_Movement.x, m_Movement.y, 0 }) * m_Speed * Time::GetInstance().GetElapsedTime();
+		const glm::vec3 offset = normalize(glm::vec3{ m_Movement.x, m_Movement.y, 0 }) * m_Speed * TimeManager::GetInstance().GetElapsedTime();
 		GetOwner()->SetLocalPosition(position + offset);
 	}
 	m_Movement = glm::vec2{};

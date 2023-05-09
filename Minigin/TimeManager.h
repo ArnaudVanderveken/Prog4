@@ -5,7 +5,7 @@
 
 namespace dae
 {
-	class Time final : public dae::Singleton<Time>
+	class TimeManager final : public dae::Singleton<TimeManager>
 	{
 	public:
 		void Update();
@@ -16,8 +16,8 @@ namespace dae
 		[[nodiscard]] float GetFixedTimeStep() const;
 
 	private:
-		friend class Singleton<Time>;
-		Time();
+		friend class Singleton<TimeManager>;
+		TimeManager();
 
 		float m_FixedTimeStep{ 0.002f };
 		float m_TimePerFrame{ 1.f / 144.f }; //0.0069444444444444

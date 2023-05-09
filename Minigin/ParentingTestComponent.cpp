@@ -1,12 +1,12 @@
 #include "ParentingTestComponent.h"
 
 #include "GameObject.h"
-#include "Time.h"
+#include "TimeManager.h"
 
 
 void dae::ParentingTestComponent::Update()
 {
-	m_Angle += float(m_Direction) * m_Speed * Time::GetInstance().GetElapsedTime();
+	m_Angle += float(m_Direction) * m_Speed * TimeManager::GetInstance().GetElapsedTime();
 	constexpr auto fullTurn = float(M_PI * 2);
 	if (m_Angle > fullTurn)
 		m_Angle -= fullTurn;

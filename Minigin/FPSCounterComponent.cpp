@@ -2,14 +2,14 @@
 
 #include "GameObject.h"
 #include "TextComponent.h"
-#include "Time.h"
+#include "TimeManager.h"
 
 #include <string>
 
 
 void dae::FPSCounterComponent::Update()
 {
-	const float deltaTime = Time::GetInstance().GetElapsedTime();
+	const float deltaTime = TimeManager::GetInstance().GetElapsedTime();
 	m_Timer += deltaTime;
 	++m_FrameCounter;
 
