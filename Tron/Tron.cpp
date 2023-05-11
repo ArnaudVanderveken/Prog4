@@ -28,14 +28,7 @@ void load()
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<dae::GameObject>();
-	go->AddComponent(new dae::RenderComponent("background.tga"));
-	scene.Add(go);
-
-	go = std::make_shared<dae::GameObject>();
-	go->AddComponent(new dae::RenderComponent("logo.tga"));
-	go->SetLocalPosition({ 216, 180, 0 });
-	scene.Add(go);
+	std::shared_ptr<dae::GameObject> go;
 
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	go = std::make_shared<dae::GameObject>();
@@ -54,14 +47,14 @@ void load()
 
 	// Red Tank
 	const auto redTank = std::make_shared<dae::GameObject>();
-	redTank->AddComponent(new dae::RenderComponent("RedTank.png"));
+	redTank->AddComponent(new dae::RenderComponent("Sprites/RedTank.png"));
 	redTank->AddComponent(new dae::PlayerControllerComponent(-1, true));
 	redTank->SetLocalPosition({ 200, 300, 0 });
 	scene.Add(redTank);
 
 	// Blue Tank
 	const auto blueTank = std::make_shared<dae::GameObject>();
-	blueTank->AddComponent(new dae::RenderComponent("BlueTank.png"));
+	blueTank->AddComponent(new dae::RenderComponent("Sprites/BlueTank.png"));
 	blueTank->AddComponent(new dae::PlayerControllerComponent(0, false));
 	if (auto component = blueTank->GetComponent<dae::PlayerControllerComponent>())
 		component->SetSpeed(100.f);

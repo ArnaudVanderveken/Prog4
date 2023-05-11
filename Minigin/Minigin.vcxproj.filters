@@ -25,6 +25,9 @@
     <Filter Include="Other Managers">
       <UniqueIdentifier>{322b1234-0ac4-4f66-a93f-8041a643d13c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SoundSystems">
+      <UniqueIdentifier>{f2023cc4-aa4a-4c73-8cba-d5b5112a95cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseComponent.h">
@@ -125,6 +128,15 @@
     <ClInclude Include="TimeManager.h">
       <Filter>Other Managers</Filter>
     </ClInclude>
+    <ClInclude Include="SoundSystem.h">
+      <Filter>SoundSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="ServiceLocator.h">
+      <Filter>Other Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioClip.h">
+      <Filter>SoundSystems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseComponent.cpp">
@@ -214,6 +226,15 @@
     </ClCompile>
     <ClCompile Include="TimeManager.cpp">
       <Filter>Other Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSystem.cpp">
+      <Filter>SoundSystems</Filter>
+    </ClCompile>
+    <ClCompile Include="ServiceLocator.cpp">
+      <Filter>Other Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioClip.cpp">
+      <Filter>SoundSystems</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
