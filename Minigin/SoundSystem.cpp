@@ -23,10 +23,10 @@ public:
 	void RunEventQueue();
 
 private:
-	std::vector<AudioClip*> m_pClips;
+	std::vector<std::pair<std::string, AudioClip*>> m_pClips;
 	std::queue<AudioClip*> m_SoundsToPlay;
 
-	std::thread m_Thread;
+	std::jthread m_Thread;
 	std::mutex m_Mutex;
 	std::condition_variable m_CV;
 	std::atomic<bool> m_StopThread;
@@ -48,30 +48,35 @@ SoundSystem::SoundSystemImpl::SoundSystemImpl()
 		return;
 	}
 
-	m_Thread = std::thread(&SoundSystemImpl::RunEventQueue, this);
+	m_Thread = std::jthread(&SoundSystemImpl::RunEventQueue, this);
 }
 
 SoundSystem::SoundSystemImpl::~SoundSystemImpl()
 {
-	for (const auto clip : m_pClips)
-		delete clip;
-
 	Mix_CloseAudio();
 	m_StopThread.store(true);
 	m_CV.notify_all();
-	m_Thread.join();
+
+	for (const auto clip : m_pClips)
+		delete clip.second;
 }
 
 void SoundSystem::SoundSystemImpl::Play(int clipId)
 {
-	std::lock_guard<std::mutex> lock(m_Mutex);
-	m_SoundsToPlay.push(m_pClips[clipId]);
+	std::lock_guard lock(m_Mutex);
+	m_SoundsToPlay.emplace(m_pClips[clipId].second);
 	m_CV.notify_all();
 }
 
 int SoundSystem::SoundSystemImpl::AddClip(const std::string& clipFilePath)
 {
-	m_pClips.push_back(new AudioClip{ clipFilePath });
+	for (int i{}; i < m_pClips.size(); ++i)
+	{
+		if (m_pClips[i].first == clipFilePath)
+			return i;
+	}
+
+	m_pClips.emplace_back(std::pair{ clipFilePath, new AudioClip{ clipFilePath } });
 	return int(m_pClips.size()) - 1;
 }
 

@@ -1,5 +1,10 @@
 #include "ServiceLocator.h"
 
+ServiceLocator::~ServiceLocator()
+{
+	delete m_pSoundSystem;
+}
+
 void ServiceLocator::RegisterSoundSystem(SoundSystem* soundSystem)
 {
 	// delete old service
@@ -13,5 +18,8 @@ void ServiceLocator::RegisterSoundSystem(SoundSystem* soundSystem)
 
 SoundSystem* ServiceLocator::GetSoundSystem()
 {
+	if (m_pSoundSystem)
+		return m_pSoundSystem;
+
 	return m_pDefaultSoundSystem.get();
 }

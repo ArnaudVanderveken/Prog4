@@ -153,7 +153,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Minigin\LifeTrackerComponent.cpp" />
+    <ClCompile Include="..\Minigin\PlayerControllerComponent.cpp" />
+    <ClCompile Include="..\Minigin\ScoreTrackerComponent.cpp" />
     <ClCompile Include="Tron.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Minigin\LifeTrackerComponent.h" />
+    <ClInclude Include="..\Minigin\PlayerControllerComponent.h" />
+    <ClInclude Include="..\Minigin\ScoreTrackerComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

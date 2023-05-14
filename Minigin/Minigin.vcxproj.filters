@@ -39,9 +39,6 @@
     <ClInclude Include="ParentingTestComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerControllerComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="RenderComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -71,12 +68,6 @@
     </ClInclude>
     <ClInclude Include="imstb_truetype.h">
       <Filter>ImGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreTrackerComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="LifeTrackerComponent.h">
-      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Input</Filter>
@@ -148,9 +139,6 @@
     <ClCompile Include="ParentingTestComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerControllerComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="RenderComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -177,12 +165,6 @@
     </ClCompile>
     <ClCompile Include="imgui_widgets.cpp">
       <Filter>ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="LifeTrackerComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreTrackerComponent.cpp">
-      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Command.cpp">
       <Filter>Input</Filter>

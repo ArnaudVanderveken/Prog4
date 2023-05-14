@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 #include "InputManager.h"
+#include "ServiceLocator.h"
 #include "TimeManager.h"
 
 dae::PlayerControllerComponent::PlayerControllerComponent(int controllerIndex, bool useKeyboard) noexcept
@@ -9,6 +10,7 @@ dae::PlayerControllerComponent::PlayerControllerComponent(int controllerIndex, b
 	, m_UseKeyboard(useKeyboard)
 {
 	m_PlayerIndex = GetNextPlayerIndex();
+	m_DeathClipID = ServiceLocator::GetSoundSystem()->AddClip("../Data/Sounds/Shoot.mp3");
 }
 
 void dae::PlayerControllerComponent::Init()
@@ -56,6 +58,8 @@ void dae::PlayerControllerComponent::Die() const
 	Event e{};
 	e.type = Event::EventType::PlayerDied;
 	e.playerIndex = m_PlayerIndex;
+
+	ServiceLocator::GetSoundSystem()->Play(m_DeathClipID);
 
 	Notify(e);
 }

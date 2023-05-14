@@ -15,6 +15,7 @@
 #include "ResourceManager.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "ServiceLocator.h"
 
 #include "FPSCounterComponent.h"
 #include "GameObject.h"
@@ -26,6 +27,9 @@
 
 void load()
 {
+	// Sound System
+	ServiceLocator::RegisterSoundSystem(new SoundSystem());
+
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
 
 	std::shared_ptr<dae::GameObject> go;
