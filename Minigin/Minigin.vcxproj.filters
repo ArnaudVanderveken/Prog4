@@ -69,9 +69,6 @@
     <ClInclude Include="imstb_truetype.h">
       <Filter>ImGUI</Filter>
     </ClInclude>
-    <ClInclude Include="Command.h">
-      <Filter>Input</Filter>
-    </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Input</Filter>
     </ClInclude>
@@ -128,6 +125,9 @@
     <ClInclude Include="AudioClip.h">
       <Filter>SoundSystems</Filter>
     </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseComponent.cpp">
@@ -165,9 +165,6 @@
     </ClCompile>
     <ClCompile Include="imgui_widgets.cpp">
       <Filter>ImGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Command.cpp">
-      <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Input</Filter>

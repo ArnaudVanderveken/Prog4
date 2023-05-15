@@ -2,14 +2,17 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Tron.cpp" />
-    <ClCompile Include="..\Minigin\LifeTrackerComponent.cpp">
+    <ClCompile Include="LifeTrackerComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\Minigin\ScoreTrackerComponent.cpp">
+    <ClCompile Include="PlayerControllerComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\Minigin\PlayerControllerComponent.cpp">
+    <ClCompile Include="ScoreTrackerComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCommand.cpp">
+      <Filter>Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -19,16 +22,22 @@
     <Filter Include="Prefabs">
       <UniqueIdentifier>{e6cd2100-335a-4e88-a67b-d27d7f9ead9a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{27458714-031f-437f-a5a7-60119436f765}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Minigin\LifeTrackerComponent.h">
+    <ClInclude Include="LifeTrackerComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\Minigin\ScoreTrackerComponent.h">
+    <ClInclude Include="PlayerControllerComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\Minigin\PlayerControllerComponent.h">
+    <ClInclude Include="ScoreTrackerComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCommand.h">
+      <Filter>Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
