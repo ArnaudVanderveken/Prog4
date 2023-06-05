@@ -154,6 +154,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameCommand.cpp" />
+    <ClCompile Include="LevelComponent.cpp" />
     <ClCompile Include="LifeTrackerComponent.cpp" />
     <ClCompile Include="PlayerControllerComponent.cpp" />
     <ClCompile Include="ScoreTrackerComponent.cpp" />
@@ -161,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommand.h" />
+    <ClInclude Include="LevelComponent.h" />
     <ClInclude Include="LifeTrackerComponent.h" />
     <ClInclude Include="PlayerControllerComponent.h" />
     <ClInclude Include="ScoreTrackerComponent.h" />

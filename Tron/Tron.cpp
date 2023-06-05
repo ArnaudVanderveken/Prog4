@@ -19,6 +19,7 @@
 
 #include "FPSCounterComponent.h"
 #include "GameObject.h"
+#include "LevelComponent.h"
 #include "LifeTrackerComponent.h" 
 #include "RenderComponent.h"
 #include "ScoreTrackerComponent.h"
@@ -33,6 +34,10 @@ void load()
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
 
 	std::shared_ptr<dae::GameObject> go;
+
+	go = std::make_shared<dae::GameObject>();
+	go->AddComponent(new dae::LevelComponent("../Data/Level3.txt"));
+	scene.Add(go);
 
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	go = std::make_shared<dae::GameObject>();
