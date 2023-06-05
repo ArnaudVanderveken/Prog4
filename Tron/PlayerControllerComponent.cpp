@@ -56,23 +56,13 @@ void dae::PlayerControllerComponent::SetSpeed(float speed)
 
 void dae::PlayerControllerComponent::Die() const
 {
-	Event e{};
-	e.type = Event::EventType::PlayerDied;
-	e.playerIndex = m_PlayerIndex;
-
 	ServiceLocator::GetSoundSystem()->Play(m_DeathClipID);
-
-	Notify(e);
+	playerDied.Notify(m_PlayerIndex);
 }
 
 void dae::PlayerControllerComponent::ScorePoints() const
 {
-	Event e{};
-	e.type = Event::EventType::PointScored;
-	e.playerIndex = m_PlayerIndex;
-	e.points = 100;
-
-	Notify(e);
+	pointsScored.Notify(m_PlayerIndex, 100);
 }
 
 int dae::PlayerControllerComponent::GetNextPlayerIndex()

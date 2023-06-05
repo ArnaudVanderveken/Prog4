@@ -2,7 +2,6 @@
 
 ServiceLocator::~ServiceLocator()
 {
-	delete m_pSoundSystem;
 }
 
 void ServiceLocator::RegisterSoundSystem(SoundSystem* soundSystem)
@@ -22,4 +21,9 @@ SoundSystem* ServiceLocator::GetSoundSystem()
 		return m_pSoundSystem;
 
 	return m_pDefaultSoundSystem.get();
+}
+
+void ServiceLocator::Cleanup()
+{
+	delete m_pSoundSystem;
 }

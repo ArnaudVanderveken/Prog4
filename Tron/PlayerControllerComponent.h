@@ -7,7 +7,7 @@
 
 namespace dae
 {
-	class PlayerControllerComponent : public BaseComponent, public Subject
+	class PlayerControllerComponent : public BaseComponent
 	{
 	public:
 		PlayerControllerComponent(int controllerIndex, bool useKeyboard) noexcept;
@@ -29,9 +29,12 @@ namespace dae
 		void Die() const;
 		void ScorePoints() const;
 
-	protected:
+		Subject<int> playerDied;
+		Subject<int, int> pointsScored;
+
 	private:
 		/* DATA MEMBERS */
+
 		inline static int s_NextAvailablePlayerIndex{};
 
 		int m_PlayerIndex;

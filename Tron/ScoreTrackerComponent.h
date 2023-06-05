@@ -6,7 +6,7 @@
 namespace dae
 {
 	class TextComponent;
-	class ScoreTrackerComponent : public BaseComponent, public Observer
+	class ScoreTrackerComponent : public BaseComponent, public Observer<int, int>
 	{
 	public:
 		explicit ScoreTrackerComponent(int trackedPlayerIndex) noexcept;
@@ -20,7 +20,7 @@ namespace dae
 		void Init() override;
 		void Update() override;
 
-		void OnNotify(const Event& e) override;
+		void HandleEvent(int playerIndex, int points) override;
 
 	private:
 		/* DATA MEMBERS */

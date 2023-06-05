@@ -19,15 +19,12 @@ void dae::LifeTrackerComponent::Update()
 {
 }
 
-void dae::LifeTrackerComponent::OnNotify(const Event& e)
+void dae::LifeTrackerComponent::HandleEvent(int playerIndex)
 {
-	if (e.type == Event::EventType::PlayerDied && e.playerIndex == m_TrackedPlayerIndex)
+	if (playerIndex == m_TrackedPlayerIndex && m_Lives > 0)
 	{
-		if (m_Lives > 0)
-		{
-			--m_Lives;
-			if (m_pTextComponent)
-				m_pTextComponent->SetText(std::string("Lives: ") + std::to_string(m_Lives));
-		}
+		--m_Lives;
+		if (m_pTextComponent)
+			m_pTextComponent->SetText(std::string("Lives: ") + std::to_string(m_Lives));
 	}
 }

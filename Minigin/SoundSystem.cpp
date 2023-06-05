@@ -11,7 +11,7 @@ class SoundSystem::SoundSystemImpl
 {
 public:
 	SoundSystemImpl();
-	~SoundSystemImpl();
+	virtual ~SoundSystemImpl();
 	SoundSystemImpl(const SoundSystemImpl& other) = delete;
 	SoundSystemImpl& operator=(const SoundSystemImpl& other) = delete;
 	SoundSystemImpl(SoundSystemImpl&& other) noexcept = delete;
@@ -23,7 +23,7 @@ public:
 	void RunEventQueue();
 
 private:
-	std::vector<std::pair<std::string, AudioClip*>> m_pClips;
+	std::vector<std::pair<std::string, std::unique_ptr<AudioClip>>> m_pClips;
 	std::queue<AudioClip*> m_SoundsToPlay;
 
 	std::jthread m_Thread;
@@ -56,28 +56,26 @@ SoundSystem::SoundSystemImpl::~SoundSystemImpl()
 	Mix_CloseAudio();
 	m_StopThread.store(true);
 	m_CV.notify_all();
-
-	for (const auto clip : m_pClips)
-		delete clip.second;
 }
 
 void SoundSystem::SoundSystemImpl::Play(int clipId)
 {
-	std::lock_guard lock(m_Mutex);
-	m_SoundsToPlay.emplace(m_pClips[clipId].second);
+	std::unique_lock lock(m_Mutex);
+	m_SoundsToPlay.emplace(m_pClips[clipId].second.get());
+	lock.unlock();
 	m_CV.notify_all();
 }
 
 int SoundSystem::SoundSystemImpl::AddClip(const std::string& clipFilePath)
 {
-	for (int i{}; i < m_pClips.size(); ++i)
+	for (size_t i{}; i < m_pClips.size(); ++i)
 	{
 		if (m_pClips[i].first == clipFilePath)
-			return i;
+			return static_cast<int>(i);
 	}
 
-	m_pClips.emplace_back(std::pair{ clipFilePath, new AudioClip{ clipFilePath } });
-	return int(m_pClips.size()) - 1;
+	m_pClips.emplace_back(clipFilePath, std::make_unique<AudioClip>(clipFilePath));
+	return static_cast<int>(m_pClips.size()) - 1;
 }
 
 void SoundSystem::SoundSystemImpl::RunEventQueue()
@@ -92,12 +90,17 @@ void SoundSystem::SoundSystemImpl::RunEventQueue()
 		if (m_StopThread.load())
 			break;
 
-		// Play the sound
+		// Get sound to play
 		const auto clip = m_SoundsToPlay.front();
-		clip->Play();
 
 		// Remove the sound from the queue
 		m_SoundsToPlay.pop();
+
+		// Release lock
+		lock.unlock();
+
+		//Play sound
+		clip->Play();
 	}
 }
 
@@ -125,11 +128,11 @@ int SoundSystem::AddClip(const std::string& clipFilePath)
 void Logged_SoundSystem::Play(int clipId)
 {
 	cout << "Playing Sound: \tId: " << clipId << endl;
-	m_pSoundSystem->Play(clipId);
+	SoundSystem::Play(clipId);
 }
 
 int Logged_SoundSystem::AddClip(const std::string& clipFilePath)
 {
 	cout << "Loading Clip..." << endl;
-	return m_pSoundSystem->AddClip(clipFilePath);
+	return SoundSystem::AddClip(clipFilePath);
 }

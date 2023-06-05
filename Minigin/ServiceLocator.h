@@ -17,6 +17,8 @@ public:
 	static void RegisterSoundSystem(SoundSystem* soundSystem);
 	static SoundSystem* GetSoundSystem();
 
+	static void Cleanup();
+
 private:
 	inline static SoundSystem* m_pSoundSystem{};
 	inline static std::unique_ptr<SoundSystem> m_pDefaultSoundSystem{ std::make_unique<NULL_SoundSystem>() };

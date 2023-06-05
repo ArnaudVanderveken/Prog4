@@ -21,7 +21,7 @@ public:
 	virtual void Play(int clipId);
 	virtual int AddClip(const std::string& clipFilePath);
 
-private:
+protected:
 	class SoundSystemImpl;
 	SoundSystemImpl* m_pSoundSystem;
 
@@ -47,7 +47,7 @@ public:
 class Logged_SoundSystem final : public SoundSystem
 {
 public:
-	Logged_SoundSystem() : m_pSoundSystem{ std::make_unique<SoundSystem>() } {}
+	Logged_SoundSystem() = default;
 	~Logged_SoundSystem() override = default;
 
 	Logged_SoundSystem(const Logged_SoundSystem& other) = delete;
@@ -57,9 +57,6 @@ public:
 
 	void Play(int clipId) override;
 	int AddClip(const std::string& clipFilePath) override;
-
-private:
-	std::unique_ptr<SoundSystem> m_pSoundSystem;
 };
 
 

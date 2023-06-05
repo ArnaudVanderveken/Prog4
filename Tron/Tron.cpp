@@ -71,7 +71,7 @@ void load()
 	go->AddComponent(new dae::TextComponent("DefaultText...", SDL_Color(0, 255, 0), font));
 	auto playerControllerComponent = redTank->GetComponent<dae::PlayerControllerComponent>();
 	go->AddComponent(new dae::LifeTrackerComponent(playerControllerComponent->GetPlayerIndex()));
-	playerControllerComponent->AddObserver(go->GetComponent<dae::LifeTrackerComponent>());
+	playerControllerComponent->playerDied.AddObserver(go->GetComponent<dae::LifeTrackerComponent>());
 	go->SetLocalPosition({ 5, 300, 0 });
 	scene.Add(go);
 
@@ -80,7 +80,7 @@ void load()
 	go->AddComponent(new dae::RenderComponent(""));
 	go->AddComponent(new dae::TextComponent("DefaultText...", SDL_Color(0, 255, 0), font));
 	go->AddComponent(new dae::ScoreTrackerComponent(playerControllerComponent->GetPlayerIndex()));
-	playerControllerComponent->AddObserver(go->GetComponent<dae::ScoreTrackerComponent>());
+	playerControllerComponent->pointsScored.AddObserver(go->GetComponent<dae::ScoreTrackerComponent>());
 	go->SetLocalPosition({ 5, 320, 0 });
 	scene.Add(go);
 
@@ -90,7 +90,7 @@ void load()
 	go->AddComponent(new dae::TextComponent("DefaultText...", SDL_Color(0, 255, 0), font));
 	playerControllerComponent = blueTank->GetComponent<dae::PlayerControllerComponent>();
 	go->AddComponent(new dae::LifeTrackerComponent(playerControllerComponent->GetPlayerIndex()));
-	playerControllerComponent->AddObserver(go->GetComponent<dae::LifeTrackerComponent>());
+	playerControllerComponent->playerDied.AddObserver(go->GetComponent<dae::LifeTrackerComponent>());
 	go->SetLocalPosition({ 5, 400, 0 });
 	scene.Add(go);
 
@@ -99,7 +99,7 @@ void load()
 	go->AddComponent(new dae::RenderComponent(""));
 	go->AddComponent(new dae::TextComponent("DefaultText...", SDL_Color(0, 255, 0), font));
 	go->AddComponent(new dae::ScoreTrackerComponent(playerControllerComponent->GetPlayerIndex()));
-	playerControllerComponent->AddObserver(go->GetComponent<dae::ScoreTrackerComponent>());
+	playerControllerComponent->pointsScored.AddObserver(go->GetComponent<dae::ScoreTrackerComponent>());
 	go->SetLocalPosition({ 5, 420, 0 });
 	scene.Add(go);
 

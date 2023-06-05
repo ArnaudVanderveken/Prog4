@@ -19,11 +19,11 @@ void dae::ScoreTrackerComponent::Update()
 {
 }
 
-void dae::ScoreTrackerComponent::OnNotify(const Event& e)
+void dae::ScoreTrackerComponent::HandleEvent(int playerIndex, int points)
 {
-	if (e.type == Event::EventType::PointScored && e.playerIndex == m_TrackedPlayerIndex)
+	if (playerIndex == m_TrackedPlayerIndex)
 	{
-		m_Score += e.points;
+		m_Score += points;
 		if (m_pTextComponent)
 			m_pTextComponent->SetText(std::string("Score: ") + std::to_string(m_Score));
 	}
