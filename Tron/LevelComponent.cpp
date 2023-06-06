@@ -31,6 +31,26 @@ dae::LevelComponent::LevelComponent(const std::string& filename) noexcept
 
 }
 
+const glm::vec2& LevelComponent::GetPlayer1Start() const
+{
+	return m_Player1Start;
+}
+
+const glm::vec2& LevelComponent::GetPlayer2Start() const
+{
+	return m_Player2Start;
+}
+
+const std::vector<glm::vec2>& LevelComponent::GetNormalEnemiesStarts() const
+{
+	return m_NormalEnemyStarts;
+}
+
+const std::vector<glm::vec2>& LevelComponent::GetRecognizersStarts() const
+{
+	return m_RecognizerEnemyStarts;
+}
+
 void LevelComponent::Update()
 {
 }

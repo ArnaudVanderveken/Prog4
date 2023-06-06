@@ -23,6 +23,11 @@ namespace dae
 		LevelComponent& operator=(const LevelComponent& other) noexcept = delete;
 		LevelComponent& operator=(LevelComponent&& other) noexcept = delete;
 
+		[[nodiscard]] const glm::vec2& GetPlayer1Start() const;
+		[[nodiscard]] const glm::vec2& GetPlayer2Start() const;
+		[[nodiscard]] const std::vector<glm::vec2>& GetNormalEnemiesStarts() const;
+		[[nodiscard]] const std::vector<glm::vec2>& GetRecognizersStarts() const;
+
 	protected:
 		void Update() override;
 		void Render() const override;
