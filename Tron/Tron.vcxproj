@@ -161,17 +161,21 @@
   <ItemGroup>
     <ClCompile Include="GameCommand.cpp" />
     <ClCompile Include="LevelComponent.cpp" />
+    <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="LifeTrackerComponent.cpp" />
     <ClCompile Include="PlayerControllerComponent.cpp" />
     <ClCompile Include="ScoreTrackerComponent.cpp" />
+    <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="Tron.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCommand.h" />
     <ClInclude Include="LevelComponent.h" />
+    <ClInclude Include="LevelManager.h" />
     <ClInclude Include="LifeTrackerComponent.h" />
     <ClInclude Include="PlayerControllerComponent.h" />
     <ClInclude Include="ScoreTrackerComponent.h" />
+    <ClInclude Include="ServiceLocator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

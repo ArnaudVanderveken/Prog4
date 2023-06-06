@@ -16,8 +16,6 @@
 #include "ResourceManager.h"
 #include "TimeManager.h"
 
-#include "ServiceLocator.h"
-
 SDL_Window* g_window{};
 
 void PrintSDLVersion()
@@ -77,7 +75,6 @@ dae::Minigin::Minigin(const std::string &dataPath)
 
 dae::Minigin::~Minigin()
 {
-	ServiceLocator::Cleanup();
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;

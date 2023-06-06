@@ -51,6 +51,21 @@ const std::vector<glm::vec2>& LevelComponent::GetRecognizersStarts() const
 	return m_RecognizerEnemyStarts;
 }
 
+void LevelComponent::QueryLevelForMovement(const glm::vec2& xyPos, glm::vec2& movement) const
+{
+	// Prioritize main movement direction.
+	if (abs(movement.x) >= abs(movement.y))
+	{
+		QueryLevelForMovementX(xyPos, movement.x);
+		QueryLevelForMovementY(xyPos, movement.y);
+	}
+	else
+	{
+		QueryLevelForMovementY(xyPos, movement.y);
+		QueryLevelForMovementX(xyPos, movement.x);
+	}
+}
+
 void LevelComponent::Update()
 {
 }
@@ -201,4 +216,36 @@ void LevelComponent::LoadLevelFromFileBin(const std::string& filename)
 			m_RecognizerEnemyStarts[i].y = static_cast<float>(enemyStart[1]);
 		}
 	}
+}
+
+bool LevelComponent::IsWalkableAtPixel(const glm::vec2& pixelPos) const
+{
+	const auto relativePos = pixelPos - glm::vec2{ GetOwner()->GetWorldTransform().position.x, GetOwner()->GetWorldTransform().position.y };
+	const auto tileX = static_cast<uint8_t>(std::round(relativePos.x)) / SPRITE_SIZE;
+	const auto tileY = static_cast<uint8_t>(std::round(relativePos.y)) / SPRITE_SIZE;
+	return m_LevelLayout[tileY * LEVEL_COLS + tileX]; // only tiles of type 0 are non walkable.
+}
+
+void LevelComponent::QueryLevelForMovementX(const glm::vec2& xyPos, float& dx) const
+{
+	if (IsWalkableAtPixel({ xyPos.x + dx, xyPos.y }))
+		return;
+
+	const float tileOffset{ xyPos.x - static_cast<float>(SPRITE_SIZE * (static_cast<uint16_t>(xyPos.x) % SPRITE_SIZE)) };
+	if (dx > 0.0f)
+		dx = SPRITE_SIZE - tileOffset; // distance to the right border of the tile
+	else
+		dx = SPRITE_SIZE; // distance to the left border of the tile
+}
+
+void LevelComponent::QueryLevelForMovementY(const glm::vec2& xyPos, float& dy) const
+{
+	if (IsWalkableAtPixel({ xyPos.y + dy, xyPos.y }))
+		return;
+
+	const float tileOffset{ xyPos.y - static_cast<float>(SPRITE_SIZE * (static_cast<uint16_t>(xyPos.y) % SPRITE_SIZE)) };
+	if (dy > 0.0f)
+		dy = SPRITE_SIZE - tileOffset; // distance to the right border of the tile
+	else
+		dy = SPRITE_SIZE; // distance to the left border of the tile
 }

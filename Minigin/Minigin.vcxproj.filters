@@ -118,9 +118,6 @@
     <ClInclude Include="SoundSystem.h">
       <Filter>SoundSystems</Filter>
     </ClInclude>
-    <ClInclude Include="ServiceLocator.h">
-      <Filter>Other Managers</Filter>
-    </ClInclude>
     <ClInclude Include="AudioClip.h">
       <Filter>SoundSystems</Filter>
     </ClInclude>
@@ -207,9 +204,6 @@
     </ClCompile>
     <ClCompile Include="SoundSystem.cpp">
       <Filter>SoundSystems</Filter>
-    </ClCompile>
-    <ClCompile Include="ServiceLocator.cpp">
-      <Filter>Other Managers</Filter>
     </ClCompile>
     <ClCompile Include="AudioClip.cpp">
       <Filter>SoundSystems</Filter>

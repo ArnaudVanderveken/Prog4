@@ -29,7 +29,7 @@
 void load()
 {
 	// Sound System
-	ServiceLocator::RegisterSoundSystem(new SoundSystem());
+	ServiceLocator::RegisterSoundSystem(std::make_shared<SoundSystem>());
 
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
 
@@ -37,16 +37,17 @@ void load()
 
 	go = std::make_shared<dae::GameObject>();
 	go->AddComponent(new dae::LevelComponent("../Data/Level1.bin"));
+	go->SetLocalPosition({ 88, 0, 0 });
 	scene.Add(go);
 
-	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	/*auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	go = std::make_shared<dae::GameObject>();
 	go->AddComponent(new dae::RenderComponent(""));
 	go->AddComponent(new dae::TextComponent("Programming 4 Assignment", SDL_Color(255, 255, 255), font));
 	go->SetLocalPosition({ 80, 20, 0 });
-	scene.Add(go);
+	scene.Add(go);*/
 
-	font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
+	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
 	go = std::make_shared<dae::GameObject>();
 	go->AddComponent(new dae::RenderComponent(""));
 	go->AddComponent(new dae::TextComponent("DefaultText...", SDL_Color(0, 255, 0), font));

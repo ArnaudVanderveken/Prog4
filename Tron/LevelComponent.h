@@ -28,6 +28,8 @@ namespace dae
 		[[nodiscard]] const std::vector<glm::vec2>& GetNormalEnemiesStarts() const;
 		[[nodiscard]] const std::vector<glm::vec2>& GetRecognizersStarts() const;
 
+		void QueryLevelForMovement(const glm::vec2& xyPos, glm::vec2& movement) const;
+
 	protected:
 		void Update() override;
 		void Render() const override;
@@ -53,6 +55,10 @@ namespace dae
 
 		void LoadLevelFromFile(const std::string& filename);
 		void LoadLevelFromFileBin(const std::string& filename);
+
+		[[nodiscard]] bool IsWalkableAtPixel(const glm::vec2& pixelPos) const;
+		void QueryLevelForMovementX(const glm::vec2& xyPos, float& dx) const;
+		void QueryLevelForMovementY(const glm::vec2& xyPos, float& dy) const;
 
 	};
 }
