@@ -12,19 +12,20 @@
 
 #include "Minigin.h"
 
-#include "ResourceManager.h"
-#include "SceneManager.h"
-#include "Scene.h"
-#include "ServiceLocator.h"
-
 #include "FPSCounterComponent.h"
 #include "GameObject.h"
 #include "LevelComponent.h"
-#include "LifeTrackerComponent.h" 
-#include "RenderComponent.h"
-#include "ScoreTrackerComponent.h"
-#include "TextComponent.h"
+#include "LevelManager.h"
+#include "LifeTrackerComponent.h"
 #include "PlayerControllerComponent.h"
+#include "RenderComponent.h"
+#include "ResourceManager.h"
+#include "SceneManager.h"
+#include "Scene.h"
+#include "ScoreTrackerComponent.h"
+#include "ServiceLocator.h"
+#include "TextComponent.h"
+
 
 void load()
 {
@@ -35,10 +36,12 @@ void load()
 
 	std::shared_ptr<dae::GameObject> go;
 
-	go = std::make_shared<dae::GameObject>();
+	const auto levelManager = std::make_unique<dae::LevelManager>(scene);
+
+	/*go = std::make_shared<dae::GameObject>();
 	go->AddComponent(new dae::LevelComponent("../Data/Level1.bin"));
 	go->SetLocalPosition({ 88, 0, 0 });
-	scene.Add(go);
+	scene.Add(go);*/
 
 	/*auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	go = std::make_shared<dae::GameObject>();
