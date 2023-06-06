@@ -34,6 +34,7 @@ namespace dae
 		static constexpr uint8_t SPRITE_SIZE{ 8 };
 		static constexpr uint8_t LEVEL_COLS{ 58 };
 		static constexpr uint8_t LEVEL_ROWS{ 54 };
+		static constexpr uint8_t BIN_TILES_PER_BYTE{ 4 };
 		static constexpr size_t LEVEL_TOTAL_TILES{ static_cast<size_t>(LEVEL_COLS) * LEVEL_ROWS };
 
 		std::array<uint8_t, LEVEL_TOTAL_TILES> m_LevelLayout{};
@@ -46,6 +47,7 @@ namespace dae
 		/* PRIVATE METHODS */
 
 		void LoadLevelFromFile(const std::string& filename);
+		void LoadLevelFromFileBin(const std::string& filename);
 
 	};
 }

@@ -1,6 +1,8 @@
 #include "LevelComponent.h"
+
 #include <fstream>
 #include <iostream>
+#include <regex>
 #include <sstream>
 
 #include "GameObject.h"
@@ -12,7 +14,15 @@ using namespace dae;
 
 dae::LevelComponent::LevelComponent(const std::string& filename) noexcept
 {
-	LoadLevelFromFile(filename);
+	const std::regex txtRegex(R"(\.\./Data/[a-zA-Z0-9]+\.txt)");
+	const std::regex binRegex(R"(\.\./Data/[a-zA-Z0-9]+\.bin)");
+	
+	if (std::regex_match(filename, binRegex))
+		LoadLevelFromFileBin(filename);
+	else if (std::regex_match(filename, txtRegex))
+		LoadLevelFromFile(filename);
+	else
+		cerr << "[WARNING] Invalid file extension in file " << filename << " in " << __FILE__ << ":" << __LINE__ << "." << endl;
 
 	m_Textures[0] = ResourceManager::GetInstance().LoadTexture("Level/wall.png");
 	m_Textures[1] = ResourceManager::GetInstance().LoadTexture("Level/void.png");
@@ -61,6 +71,8 @@ void dae::LevelComponent::LoadLevelFromFile(const std::string& filename)
 		m_Player1Start.x = std::stof(token);
 		lineStream >> token;
 		m_Player1Start.y = std::stof(token);
+		lineStream.str("");
+		lineStream.clear();
 
 		// P2 start pos
 		std::getline(file, line);
@@ -69,6 +81,8 @@ void dae::LevelComponent::LoadLevelFromFile(const std::string& filename)
 		m_Player2Start.x = std::stof(token);
 		lineStream >> token;
 		m_Player2Start.y = std::stof(token);
+		lineStream.str("");
+		lineStream.clear();
 
 		// Enemies count + start pos
 		std::getline(file, line);
@@ -83,6 +97,8 @@ void dae::LevelComponent::LoadLevelFromFile(const std::string& filename)
 			lineStream >> token;
 			m_NormalEnemyStarts[i].y = std::stof(token);
 		}
+		lineStream.str("");
+		lineStream.clear();
 
 		// Recognizer count + start pos
 		std::getline(file, line);
@@ -102,6 +118,67 @@ void dae::LevelComponent::LoadLevelFromFile(const std::string& filename)
 	}
 	else
 	{
-		cerr << "[ERROR] Unable to open file " << filename << " in " << __FILE__ << ":" << __LINE__ << endl;
+		cerr << "[ERROR] Unable to open file " << filename << " in " << __FILE__ << ":" << __LINE__ << "." << endl;
+	}
+}
+
+void LevelComponent::LoadLevelFromFileBin(const std::string& filename)
+{
+	ifstream file(filename, std::ios::binary);
+	if (file.is_open())
+	{
+		// Level Layout
+		constexpr size_t BIN_BYTES{ LEVEL_TOTAL_TILES / BIN_TILES_PER_BYTE };
+		uint8_t data[BIN_BYTES];
+		file.read(reinterpret_cast<char*>(&data), BIN_BYTES);
+
+		constexpr uint8_t MASK{ 0b00000011 };
+		for (size_t i{}; i < BIN_BYTES; ++i)
+		{
+			auto var = data[i];
+			m_LevelLayout[4 * i + 3] = var & MASK;
+			var = var >> 2;
+			m_LevelLayout[4 * i + 2] = var & MASK;
+			var = var >> 2;
+			m_LevelLayout[4 * i + 1] = var & MASK;
+			var = var >> 2;
+			m_LevelLayout[4 * i] = var & MASK;
+		}
+
+		// Player 1 start pos
+		uint16_t p1Start[2];
+		file.read(reinterpret_cast<char*>(&p1Start), sizeof p1Start);
+		m_Player1Start.x = static_cast<float>(p1Start[0]);
+		m_Player1Start.y = static_cast<float>(p1Start[1]);
+
+		// Player 2 start pos
+		uint16_t p2Start[2];
+		file.read(reinterpret_cast<char*>(&p2Start), sizeof p2Start);
+		m_Player2Start.x = static_cast<float>(p2Start[0]);
+		m_Player2Start.y = static_cast<float>(p2Start[1]);
+
+		// Normal enemies count and start pos
+		uint8_t normalEnemiesCount;
+		file.read(reinterpret_cast<char*>(&normalEnemiesCount), sizeof normalEnemiesCount);
+		m_NormalEnemyStarts.resize(normalEnemiesCount);
+		for (uint8_t i{}; i < normalEnemiesCount; ++i)
+		{
+			uint16_t enemyStart[2];
+			file.read(reinterpret_cast<char*>(&enemyStart), sizeof enemyStart);
+			m_NormalEnemyStarts[i].x = static_cast<float>(enemyStart[0]);
+			m_NormalEnemyStarts[i].y = static_cast<float>(enemyStart[1]);
+		}
+
+		// Recognizer count and start pos
+		uint8_t recognizerEnemiesCount;
+		file.read(reinterpret_cast<char*>(&recognizerEnemiesCount), sizeof recognizerEnemiesCount);
+		m_RecognizerEnemyStarts.resize(recognizerEnemiesCount);
+		for (uint8_t i{}; i < recognizerEnemiesCount; ++i)
+		{
+			uint16_t enemyStart[2];
+			file.read(reinterpret_cast<char*>(&enemyStart), sizeof enemyStart);
+			m_RecognizerEnemyStarts[i].x = static_cast<float>(enemyStart[0]);
+			m_RecognizerEnemyStarts[i].y = static_cast<float>(enemyStart[1]);
+		}
 	}
 }

@@ -36,7 +36,7 @@ void load()
 	std::shared_ptr<dae::GameObject> go;
 
 	go = std::make_shared<dae::GameObject>();
-	go->AddComponent(new dae::LevelComponent("../Data/Level3.txt"));
+	go->AddComponent(new dae::LevelComponent("../Data/Level1.bin"));
 	scene.Add(go);
 
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
