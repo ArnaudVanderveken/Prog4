@@ -36,7 +36,7 @@ void load()
 
 	std::shared_ptr<dae::GameObject> go;
 
-	const auto levelManager = std::make_unique<dae::LevelManager>(scene);
+	ServiceLocator::RegisterLevelManager(std::make_shared<dae::LevelManager>(scene));
 
 	/*go = std::make_shared<dae::GameObject>();
 	go->AddComponent(new dae::LevelComponent("../Data/Level1.bin"));
@@ -58,20 +58,24 @@ void load()
 	go->SetLocalPosition({ 5, 5, 0 });
 	scene.Add(go);
 
+	const glm::vec2 levelOffset = ServiceLocator::GetLevelManager()->GetCurrentSceneComponent()->GetOwner()->GetWorldTransform().position;
+
 	// Red Tank
 	const auto redTank = std::make_shared<dae::GameObject>();
-	redTank->AddComponent(new dae::RenderComponent("Sprites/RedTank.png"));
+	redTank->AddComponent(new dae::RenderComponent("Sprites/RedTank.png", {0.5f, 0.5f}));
 	redTank->AddComponent(new dae::PlayerControllerComponent(-1, true));
-	redTank->SetLocalPosition({ 200, 300, 0 });
+	const auto p1Start = ServiceLocator::GetLevelManager()->GetCurrentSceneComponent()->GetPlayer1Start() + levelOffset;
+	redTank->SetLocalPosition({ p1Start.x, p1Start.y, 0 });
 	scene.Add(redTank);
 
 	// Blue Tank
 	const auto blueTank = std::make_shared<dae::GameObject>();
-	blueTank->AddComponent(new dae::RenderComponent("Sprites/BlueTank.png"));
+	blueTank->AddComponent(new dae::RenderComponent("Sprites/BlueTank.png", { 0.5f, 0.5f }));
 	blueTank->AddComponent(new dae::PlayerControllerComponent(0, false));
 	if (auto component = blueTank->GetComponent<dae::PlayerControllerComponent>())
 		component->SetSpeed(100.f);
-	blueTank->SetLocalPosition({ 400, 300, 0 });
+	const auto p2Start = ServiceLocator::GetLevelManager()->GetCurrentSceneComponent()->GetPlayer2Start() + levelOffset;
+	blueTank->SetLocalPosition({ p2Start.x, p2Start.y, 0 });
 	scene.Add(blueTank);
 
 	// RT Life counter

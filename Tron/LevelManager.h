@@ -25,8 +25,8 @@ namespace dae
 
 		Scene& m_Scene;
 
-		std::vector<std::shared_ptr<GameObject>> m_LevelObjects;
-		std::vector<LevelComponent*> m_LevelComponents;
+		std::vector<std::shared_ptr<GameObject>> m_LevelObjects{};
+		std::vector<LevelComponent*> m_LevelComponents{};
 
 		uint8_t m_CurrentLevel{};
 

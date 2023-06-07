@@ -2,6 +2,8 @@
 #include <SDL.h>
 #include "Singleton.h"
 
+#include <glm/glm.hpp>
+
 namespace dae
 {
 	class Texture2D;
@@ -20,6 +22,7 @@ namespace dae
 
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
+		void RenderTexture(const Texture2D& texture, float x, float y, const glm::vec2& offset, float angle) const;
 
 		SDL_Renderer* GetSDLRenderer() const;
 

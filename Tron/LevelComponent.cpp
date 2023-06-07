@@ -28,7 +28,6 @@ dae::LevelComponent::LevelComponent(const std::string& filename) noexcept
 	m_Textures[1] = ResourceManager::GetInstance().LoadTexture("Level/void.png");
 	m_Textures[2] = ResourceManager::GetInstance().LoadTexture("Level/path.png");
 	m_Textures[3] = ResourceManager::GetInstance().LoadTexture("Level/teleport.png");
-
 }
 
 const glm::vec2& LevelComponent::GetPlayer1Start() const
@@ -228,24 +227,32 @@ bool LevelComponent::IsWalkableAtPixel(const glm::vec2& pixelPos) const
 
 void LevelComponent::QueryLevelForMovementX(const glm::vec2& xyPos, float& dx) const
 {
-	if (IsWalkableAtPixel({ xyPos.x + dx, xyPos.y }))
+	const float borderX{ xyPos.x + dx > 0.0f ? TANK_EXTENT : -TANK_EXTENT };
+	if (IsWalkableAtPixel({ borderX + dx, xyPos.y + TANK_EXTENT })
+		&& IsWalkableAtPixel({ borderX + dx, xyPos.y - TANK_EXTENT })
+		&& IsWalkableAtPixel({ borderX + dx, xyPos.y + TANK_EXTENT / 2.0f })
+		&& IsWalkableAtPixel({ borderX + dx, xyPos.y - TANK_EXTENT / 2.0f }))
 		return;
 
-	const float tileOffset{ xyPos.x - static_cast<float>(SPRITE_SIZE * (static_cast<uint16_t>(xyPos.x) % SPRITE_SIZE)) };
+	const float tileOffset{ borderX - static_cast<float>(SPRITE_SIZE * (static_cast<uint16_t>(borderX) % SPRITE_SIZE)) };
 	if (dx > 0.0f)
 		dx = SPRITE_SIZE - tileOffset; // distance to the right border of the tile
 	else
-		dx = SPRITE_SIZE; // distance to the left border of the tile
+		dx = tileOffset; // distance to the left border of the tile
 }
 
 void LevelComponent::QueryLevelForMovementY(const glm::vec2& xyPos, float& dy) const
 {
-	if (IsWalkableAtPixel({ xyPos.y + dy, xyPos.y }))
+	const float borderY{ xyPos.y + dy > 0.0f ? TANK_EXTENT : -TANK_EXTENT };
+	if (IsWalkableAtPixel({ xyPos.x + TANK_EXTENT, borderY + dy })
+		&& IsWalkableAtPixel({ xyPos.x - TANK_EXTENT, borderY + dy })
+		&& IsWalkableAtPixel({ xyPos.x + TANK_EXTENT / 2.0f, borderY + dy })
+		&& IsWalkableAtPixel({ xyPos.x - TANK_EXTENT / 2.0f, borderY + dy }))
 		return;
 
-	const float tileOffset{ xyPos.y - static_cast<float>(SPRITE_SIZE * (static_cast<uint16_t>(xyPos.y) % SPRITE_SIZE)) };
+	const float tileOffset{ borderY - static_cast<float>(SPRITE_SIZE * (static_cast<uint16_t>(borderY) % SPRITE_SIZE)) };
 	if (dy > 0.0f)
-		dy = SPRITE_SIZE - tileOffset; // distance to the right border of the tile
+		dy = SPRITE_SIZE - tileOffset; // distance to the bottom border of the tile
 	else
-		dy = SPRITE_SIZE; // distance to the left border of the tile
+		dy = tileOffset; // distance to the top border of the tile
 }

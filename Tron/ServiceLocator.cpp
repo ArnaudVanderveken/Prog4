@@ -3,9 +3,9 @@
 #include <utility>
 
 
-void ServiceLocator::RegisterSoundSystem(std::shared_ptr<SoundSystem> soundSystem)
+void ServiceLocator::RegisterSoundSystem(const std::shared_ptr<SoundSystem>& soundSystem)
 {
-		m_pSoundSystem = std::move(soundSystem);
+		m_pSoundSystem = soundSystem;
 }
 
 SoundSystem* ServiceLocator::GetSoundSystem()
@@ -14,4 +14,14 @@ SoundSystem* ServiceLocator::GetSoundSystem()
 		return m_pSoundSystem.get();
 
 	return m_pDefaultSoundSystem.get();
+}
+
+void ServiceLocator::RegisterLevelManager(const std::shared_ptr<dae::LevelManager>& levelManager)
+{
+	m_pLevelManager = levelManager;
+}
+
+dae::LevelManager* ServiceLocator::GetLevelManager()
+{
+	return m_pLevelManager.get();
 }

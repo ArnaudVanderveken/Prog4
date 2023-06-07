@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include <glm/glm.hpp>
 
 namespace dae
 {
@@ -11,7 +12,7 @@ namespace dae
 	class RenderComponent final : public BaseComponent
 	{
 	public:
-		RenderComponent(const std::string& fileName);
+		RenderComponent(const std::string& fileName, const glm::vec2& offset = {}, float angle = 0.0f);
 		~RenderComponent() override = default;
 		RenderComponent(const RenderComponent& other) = delete;
 		RenderComponent& operator=(const RenderComponent& other) noexcept = delete;
@@ -25,10 +26,16 @@ namespace dae
 		void OnGUI() override;
 
 		void SetTexture(const std::string& filename);
-		void SetTexture(std::shared_ptr<Texture2D> texture);
+		void SetTexture(const std::shared_ptr<Texture2D>& texture);
+
+		void SetOffset(const glm::vec2& offset);
+		void SetAngle(float angle);
 
 	private:
 		std::shared_ptr<Texture2D> m_TexturePtr{};
+
+		glm::vec2 m_Offset;
+		float m_Angle;
 	};
 }
 
