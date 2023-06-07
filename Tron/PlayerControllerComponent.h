@@ -7,10 +7,11 @@
 
 namespace dae
 {
+	class RenderComponent;
 	class PlayerControllerComponent final : public BaseComponent
 	{
 	public:
-		PlayerControllerComponent(int controllerIndex, bool useKeyboard) noexcept;
+		PlayerControllerComponent(int controllerIndex, bool useKeyboard, RenderComponent* renderComponent) noexcept;
 		~PlayerControllerComponent() override = default;
 
 		PlayerControllerComponent(const PlayerControllerComponent& other) = delete;
@@ -46,6 +47,9 @@ namespace dae
 
 		int m_ControllerIndex{};
 		bool m_UseKeyboard{};
+
+		RenderComponent* m_pRenderComponent{};
+		//uint8_t m_Orientation{};
 
 		/* PRIVATE METHODS */
 

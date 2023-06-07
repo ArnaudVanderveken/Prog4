@@ -4,13 +4,15 @@
 #include "GameObject.h"
 #include "InputManager.h"
 #include "LevelComponent.h"
+#include "RenderComponent.h"
 #include "Renderer.h"
 #include "ServiceLocator.h"
 #include "TimeManager.h"
 
-dae::PlayerControllerComponent::PlayerControllerComponent(int controllerIndex, bool useKeyboard) noexcept
+dae::PlayerControllerComponent::PlayerControllerComponent(int controllerIndex, bool useKeyboard, RenderComponent* renderComponent) noexcept
 	: m_ControllerIndex(controllerIndex)
 	, m_UseKeyboard(useKeyboard)
+	, m_pRenderComponent(renderComponent)
 {
 	m_PlayerIndex = GetNextPlayerIndex();
 	m_DeathClipID = ServiceLocator::GetSoundSystem()->AddClip("../Data/Sounds/Shoot.mp3");
@@ -37,9 +39,27 @@ void dae::PlayerControllerComponent::Update()
 		glm::vec2 offset = normalize(glm::vec2{ m_Movement.x, m_Movement.y }) * m_Speed * TimeManager::GetInstance().GetElapsedTime();
 		ServiceLocator::GetLevelManager()->GetCurrentSceneComponent()->QueryLevelForMovement(GetOwner()->GetLocalTransform().position, offset);
 		GetOwner()->SetLocalPosition(position + glm::vec3{offset, 0});
+
+		if (m_pRenderComponent)
+		{
+			if (abs(m_Movement.x) > abs(m_Movement.y))
+			{
+				if (m_Movement.x >= 0.0f)
+					m_pRenderComponent->SetAngle(0.0f);
+				else
+					m_pRenderComponent->SetAngle(180.0f);
+			}
+			else
+			{
+				if (m_Movement.y >= 0.0f)
+					m_pRenderComponent->SetAngle(90.0f);
+				else
+					m_pRenderComponent->SetAngle(270.0f);
+			}
+		}
 	}
+
 	m_Movement = glm::vec2{};
-	cout << GetOwner()->GetWorldTransform().position.x << " " << GetOwner()->GetWorldTransform().position.y << endl;
 }
 
 int dae::PlayerControllerComponent::GetPlayerIndex() const

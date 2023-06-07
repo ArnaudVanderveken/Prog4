@@ -62,16 +62,18 @@ void load()
 
 	// Red Tank
 	const auto redTank = std::make_shared<dae::GameObject>();
-	redTank->AddComponent(new dae::RenderComponent("Sprites/RedTank.png", {0.5f, 0.5f}));
-	redTank->AddComponent(new dae::PlayerControllerComponent(-1, true));
+	auto comp = new dae::RenderComponent("Sprites/RedTank.png", { 0.5f, 0.5f });
+	redTank->AddComponent(comp);
+	redTank->AddComponent(new dae::PlayerControllerComponent(-1, true, comp));
 	const auto p1Start = ServiceLocator::GetLevelManager()->GetCurrentSceneComponent()->GetPlayer1Start() + levelOffset;
 	redTank->SetLocalPosition({ p1Start.x, p1Start.y, 0 });
 	scene.Add(redTank);
 
 	// Blue Tank
 	const auto blueTank = std::make_shared<dae::GameObject>();
-	blueTank->AddComponent(new dae::RenderComponent("Sprites/BlueTank.png", { 0.5f, 0.5f }));
-	blueTank->AddComponent(new dae::PlayerControllerComponent(0, false));
+	comp = new dae::RenderComponent("Sprites/BlueTank.png", { 0.5f, 0.5f });
+	blueTank->AddComponent(comp);
+	blueTank->AddComponent(new dae::PlayerControllerComponent(0, false, comp));
 	if (auto component = blueTank->GetComponent<dae::PlayerControllerComponent>())
 		component->SetSpeed(100.f);
 	const auto p2Start = ServiceLocator::GetLevelManager()->GetCurrentSceneComponent()->GetPlayer2Start() + levelOffset;

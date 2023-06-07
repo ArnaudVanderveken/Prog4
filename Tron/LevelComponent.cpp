@@ -224,8 +224,8 @@ void LevelComponent::LoadLevelFromFileBin(const std::string& filename)
 
 bool LevelComponent::IsWalkableAtPixel(const glm::vec2& pixelPos) const
 {
-	const auto tileX = static_cast<uint8_t>(std::round(pixelPos.x)) / SPRITE_SIZE;
-	const auto tileY = static_cast<uint8_t>(std::round(pixelPos.y)) / SPRITE_SIZE;
+	const auto tileX = static_cast<size_t>(std::round(pixelPos.x)) / SPRITE_SIZE;
+	const auto tileY = static_cast<size_t>(std::round(pixelPos.y)) / SPRITE_SIZE;
 	return m_LevelLayout[tileY * LEVEL_COLS + tileX]; // only tiles of type 0 are non walkable.
 }
 
