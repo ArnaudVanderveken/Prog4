@@ -44,6 +44,7 @@ namespace dae
 		static constexpr uint8_t BIN_TILES_PER_BYTE{ 4 };
 		static constexpr size_t LEVEL_TOTAL_TILES{ static_cast<size_t>(LEVEL_COLS) * LEVEL_ROWS };
 		static constexpr float TANK_EXTENT{ 15.0f };
+		static constexpr float OFFSET_THRESHOLD{ 0.1f };
 
 		std::array<uint8_t, LEVEL_TOTAL_TILES> m_LevelLayout{};
 		glm::vec2 m_Player1Start{};

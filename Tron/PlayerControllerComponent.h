@@ -7,7 +7,7 @@
 
 namespace dae
 {
-	class PlayerControllerComponent : public BaseComponent
+	class PlayerControllerComponent final : public BaseComponent
 	{
 	public:
 		PlayerControllerComponent(int controllerIndex, bool useKeyboard) noexcept;
@@ -17,9 +17,6 @@ namespace dae
 		PlayerControllerComponent& operator=(const PlayerControllerComponent& other) noexcept = delete;
 		PlayerControllerComponent(PlayerControllerComponent&& other) = delete;
 		PlayerControllerComponent& operator=(PlayerControllerComponent&& other) noexcept = delete;
-
-		void Init() override;
-		void Update() override;
 
 		[[nodiscard]] int GetPlayerIndex() const;
 
@@ -31,6 +28,10 @@ namespace dae
 
 		Subject<int> playerDied;
 		Subject<int, int> pointsScored;
+
+	protected:
+		void Init() override;
+		void Update() override;
 
 	private:
 		/* DATA MEMBERS */

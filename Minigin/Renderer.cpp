@@ -88,7 +88,7 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 
 void dae::Renderer::RenderTexture(const Texture2D& texture, float x, float y, const glm::vec2& offset, float angle) const
 {
-	const glm::vec2 textureOffset{ static_cast<int>(offset.x) * texture.GetSize().x, static_cast<int>(offset.x) * texture.GetSize().y };
+	const glm::vec2 textureOffset{ offset.x * static_cast<float>(texture.GetSize().x), offset.y * static_cast<float>(texture.GetSize().y) };
 	SDL_Rect dst{ static_cast<int>(x - textureOffset.x), static_cast<int>(y - textureOffset.y), 0, 0 };
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
 	SDL_RenderCopyEx(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, angle, nullptr, SDL_FLIP_NONE);

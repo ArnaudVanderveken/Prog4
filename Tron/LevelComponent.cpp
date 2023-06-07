@@ -52,16 +52,21 @@ const std::vector<glm::vec2>& LevelComponent::GetRecognizersStarts() const
 
 void LevelComponent::QueryLevelForMovement(const glm::vec2& xyPos, glm::vec2& movement) const
 {
+	const glm::vec2 relativePos{xyPos.x - GetOwner()->GetWorldTransform().position.x, xyPos.y - GetOwner()->GetWorldTransform().position.y };
 	// Prioritize main movement direction.
 	if (abs(movement.x) >= abs(movement.y))
 	{
-		QueryLevelForMovementX(xyPos, movement.x);
-		QueryLevelForMovementY(xyPos, movement.y);
+		if (abs(movement.x) > 0.0f)
+			QueryLevelForMovementX(relativePos, movement.x);
+		if (abs(movement.y) > 0.0f)
+			QueryLevelForMovementY(relativePos, movement.y);
 	}
 	else
 	{
-		QueryLevelForMovementY(xyPos, movement.y);
-		QueryLevelForMovementX(xyPos, movement.x);
+		if (abs(movement.y) > 0.0f)
+			QueryLevelForMovementY(relativePos, movement.y);
+		if (abs(movement.x) > 0.0f)
+			QueryLevelForMovementX(relativePos, movement.x);
 	}
 }
 
@@ -219,40 +224,31 @@ void LevelComponent::LoadLevelFromFileBin(const std::string& filename)
 
 bool LevelComponent::IsWalkableAtPixel(const glm::vec2& pixelPos) const
 {
-	const auto relativePos = pixelPos - glm::vec2{ GetOwner()->GetWorldTransform().position.x, GetOwner()->GetWorldTransform().position.y };
-	const auto tileX = static_cast<uint8_t>(std::round(relativePos.x)) / SPRITE_SIZE;
-	const auto tileY = static_cast<uint8_t>(std::round(relativePos.y)) / SPRITE_SIZE;
+	const auto tileX = static_cast<uint8_t>(std::round(pixelPos.x)) / SPRITE_SIZE;
+	const auto tileY = static_cast<uint8_t>(std::round(pixelPos.y)) / SPRITE_SIZE;
 	return m_LevelLayout[tileY * LEVEL_COLS + tileX]; // only tiles of type 0 are non walkable.
 }
 
 void LevelComponent::QueryLevelForMovementX(const glm::vec2& xyPos, float& dx) const
 {
-	const float borderX{ xyPos.x + dx > 0.0f ? TANK_EXTENT : -TANK_EXTENT };
+	const float borderX{ xyPos.x + (dx > 0.0f ? TANK_EXTENT : -TANK_EXTENT) };
 	if (IsWalkableAtPixel({ borderX + dx, xyPos.y + TANK_EXTENT })
 		&& IsWalkableAtPixel({ borderX + dx, xyPos.y - TANK_EXTENT })
 		&& IsWalkableAtPixel({ borderX + dx, xyPos.y + TANK_EXTENT / 2.0f })
 		&& IsWalkableAtPixel({ borderX + dx, xyPos.y - TANK_EXTENT / 2.0f }))
 		return;
 
-	const float tileOffset{ borderX - static_cast<float>(SPRITE_SIZE * (static_cast<uint16_t>(borderX) % SPRITE_SIZE)) };
-	if (dx > 0.0f)
-		dx = SPRITE_SIZE - tileOffset; // distance to the right border of the tile
-	else
-		dx = tileOffset; // distance to the left border of the tile
+	dx = 0.0f;
 }
 
 void LevelComponent::QueryLevelForMovementY(const glm::vec2& xyPos, float& dy) const
 {
-	const float borderY{ xyPos.y + dy > 0.0f ? TANK_EXTENT : -TANK_EXTENT };
+	const float borderY{ xyPos.y + (dy > 0.0f ? TANK_EXTENT : -TANK_EXTENT) };
 	if (IsWalkableAtPixel({ xyPos.x + TANK_EXTENT, borderY + dy })
 		&& IsWalkableAtPixel({ xyPos.x - TANK_EXTENT, borderY + dy })
 		&& IsWalkableAtPixel({ xyPos.x + TANK_EXTENT / 2.0f, borderY + dy })
 		&& IsWalkableAtPixel({ xyPos.x - TANK_EXTENT / 2.0f, borderY + dy }))
 		return;
 
-	const float tileOffset{ borderY - static_cast<float>(SPRITE_SIZE * (static_cast<uint16_t>(borderY) % SPRITE_SIZE)) };
-	if (dy > 0.0f)
-		dy = SPRITE_SIZE - tileOffset; // distance to the bottom border of the tile
-	else
-		dy = tileOffset; // distance to the top border of the tile
+	dy = 0.0f;
 }

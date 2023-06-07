@@ -3,6 +3,8 @@
 #include "GameCommand.h"
 #include "GameObject.h"
 #include "InputManager.h"
+#include "LevelComponent.h"
+#include "Renderer.h"
 #include "ServiceLocator.h"
 #include "TimeManager.h"
 
@@ -31,11 +33,13 @@ void dae::PlayerControllerComponent::Update()
 {
 	if (abs(m_Movement.x) > 0.f || abs(m_Movement.y) > 0.f)
 	{
-		const auto position = GetOwner()->GetLocalTransform().position;
-		const glm::vec3 offset = normalize(glm::vec3{ m_Movement.x, m_Movement.y, 0 }) * m_Speed * TimeManager::GetInstance().GetElapsedTime();
-		GetOwner()->SetLocalPosition(position + offset);
+		const auto position = GetOwner()->GetWorldTransform().position;
+		glm::vec2 offset = normalize(glm::vec2{ m_Movement.x, m_Movement.y }) * m_Speed * TimeManager::GetInstance().GetElapsedTime();
+		ServiceLocator::GetLevelManager()->GetCurrentSceneComponent()->QueryLevelForMovement(GetOwner()->GetLocalTransform().position, offset);
+		GetOwner()->SetLocalPosition(position + glm::vec3{offset, 0});
 	}
 	m_Movement = glm::vec2{};
+	cout << GetOwner()->GetWorldTransform().position.x << " " << GetOwner()->GetWorldTransform().position.y << endl;
 }
 
 int dae::PlayerControllerComponent::GetPlayerIndex() const
