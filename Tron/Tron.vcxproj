@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="GameCommand.cpp" />
     <ClCompile Include="LevelComponent.cpp" />
     <ClCompile Include="LevelManager.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="Tron.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BulletManager.h" />
     <ClInclude Include="GameCommand.h" />
     <ClInclude Include="LevelComponent.h" />
     <ClInclude Include="LevelManager.h" />
