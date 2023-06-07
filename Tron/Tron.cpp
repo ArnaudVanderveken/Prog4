@@ -38,18 +38,6 @@ void load()
 
 	ServiceLocator::RegisterLevelManager(std::make_shared<dae::LevelManager>(scene));
 
-	/*go = std::make_shared<dae::GameObject>();
-	go->AddComponent(new dae::LevelComponent("../Data/Level1.bin"));
-	go->SetLocalPosition({ 88, 0, 0 });
-	scene.Add(go);*/
-
-	/*auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	go = std::make_shared<dae::GameObject>();
-	go->AddComponent(new dae::RenderComponent(""));
-	go->AddComponent(new dae::TextComponent("Programming 4 Assignment", SDL_Color(255, 255, 255), font));
-	go->SetLocalPosition({ 80, 20, 0 });
-	scene.Add(go);*/
-
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
 	go = std::make_shared<dae::GameObject>();
 	go->AddComponent(new dae::RenderComponent(""));
