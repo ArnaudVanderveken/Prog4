@@ -36,15 +36,12 @@ void dae::BulletManager::SpawnBullet(const glm::vec2& position, BulletComponent:
 	m_BulletComponents[i]->SetType(type);
 	m_BulletComponents[i]->Reset();
 
-	//m_Scene.Add(m_BulletObjects[i]);
 	m_BulletObjects[i]->SetActive(true);
 	m_ActiveBullets[i] = true;
 }
 
 void dae::BulletManager::RemoveBullet(uint16_t bulletIndex)
 {
-	//m_Scene.Remove(m_BulletObjects[bulletIndex]);
-	//m_BulletObjects[bulletIndex]->MarkForDelete();
 	m_BulletObjects[bulletIndex]->SetActive(false);
 	m_ActiveBullets[bulletIndex] = false;
 }
