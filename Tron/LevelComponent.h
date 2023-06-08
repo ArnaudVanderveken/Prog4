@@ -29,6 +29,7 @@ namespace dae
 		[[nodiscard]] const std::vector<glm::vec2>& GetRecognizersStarts() const;
 
 		void QueryLevelForMovement(const glm::vec2& xyPos, glm::vec2& movement) const;
+		[[nodiscard]] bool CheckBulletCollision(const glm::vec2& xyPos) const;
 
 	protected:
 		void Update() override;

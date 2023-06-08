@@ -13,6 +13,7 @@ namespace dae
 	{
 	public:
 		RenderComponent(const std::string& fileName, const glm::vec2& offset = {}, float angle = 0.0f);
+		RenderComponent(const std::shared_ptr<Texture2D>& texture, const glm::vec2& offset = {}, float angle = 0.0f);
 		~RenderComponent() override = default;
 		RenderComponent(const RenderComponent& other) = delete;
 		RenderComponent& operator=(const RenderComponent& other) noexcept = delete;

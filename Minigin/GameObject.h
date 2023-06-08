@@ -9,7 +9,7 @@ namespace dae
 	class GameObject final
 	{
 	public:
-		GameObject() = default;
+		GameObject(bool startActive = true);
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -40,8 +40,11 @@ namespace dae
 
 		void SetParent(GameObject* parent, bool keepWorldTransform);
 
+		void SetActive(bool active);
+
 	private:
 		bool m_MarkedForDelete{};
+		bool m_IsActive{};
 
 		Transform m_LocalTransform{};
 		Transform m_WorldTransform{};

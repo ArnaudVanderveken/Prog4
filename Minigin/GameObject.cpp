@@ -3,6 +3,11 @@
 #include "BaseComponent.h"
 
 
+dae::GameObject::GameObject(bool startActive)
+	: m_IsActive(startActive)
+{
+}
+
 dae::GameObject::~GameObject()
 {
 	for (const auto& component : m_Components)
@@ -23,30 +28,34 @@ void dae::GameObject::Init() const
 
 void dae::GameObject::Update() const
 {
-	for (const auto& component : m_Components)
-		if (component->IsActive())
-			component->Update();
+	if (m_IsActive)
+		for (const auto& component : m_Components)
+			if (component->IsActive())
+				component->Update();
 }
 
 void dae::GameObject::FixedUpdate() const
 {
-	for (const auto& component : m_Components)
-		if (component->IsActive())
-			component->FixedUpdate();
+	if (m_IsActive)
+		for (const auto& component : m_Components)
+			if (component->IsActive())
+				component->FixedUpdate();
 }
 
 void dae::GameObject::Render() const
 {
-	for (const auto& component : m_Components)
-		if (component->IsActive())
-			component->Render();
+	if (m_IsActive)
+		for (const auto& component : m_Components)
+			if (component->IsActive())
+				component->Render();
 }
 
 void dae::GameObject::OnGUI() const
 {
-	for (const auto& component : m_Components)
-		if (component->IsActive())
-			component->OnGUI();
+	if (m_IsActive)
+		for (const auto& component : m_Components)
+			if (component->IsActive())
+				component->OnGUI();
 }
 
 void dae::GameObject::MarkForDelete()
@@ -117,6 +126,11 @@ void dae::GameObject::SetParent(GameObject* parent, bool keepWorldTransform)
 		RebuildLocalTransform();
 	else
 		m_DirtyWorldTransform = true; //Preserve local transform, world transform will be rebuilt on next GetWorldTransform.
+}
+
+void dae::GameObject::SetActive(bool active)
+{
+	m_IsActive = active;
 }
 
 void dae::GameObject::PropagateDirtyTransform()

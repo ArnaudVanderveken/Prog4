@@ -23,7 +23,10 @@
     <ClCompile Include="LevelManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="BulletManager.cpp" />
+    <ClCompile Include="BulletManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
@@ -61,6 +64,9 @@
     <ClInclude Include="LevelManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="BulletManager.h" />
+    <ClInclude Include="BulletManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletComponent.h" />
   </ItemGroup>
 </Project>

@@ -25,3 +25,13 @@ dae::LevelManager* ServiceLocator::GetLevelManager()
 {
 	return m_pLevelManager.get();
 }
+
+void ServiceLocator::RegisterBulletManager(const std::shared_ptr<dae::BulletManager>& bulletManager)
+{
+	m_pBulletManager = bulletManager;
+}
+
+dae::BulletManager* ServiceLocator::GetBulletManager()
+{
+	return m_pBulletManager.get();
+}

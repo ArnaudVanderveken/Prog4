@@ -70,6 +70,12 @@ void LevelComponent::QueryLevelForMovement(const glm::vec2& xyPos, glm::vec2& mo
 	}
 }
 
+bool LevelComponent::CheckBulletCollision(const glm::vec2& xyPos) const
+{
+	const glm::vec2 relativePos{xyPos.x - GetOwner()->GetWorldTransform().position.x, xyPos.y - GetOwner()->GetWorldTransform().position.y };
+	return IsWalkableAtPixel(relativePos);
+}
+
 void LevelComponent::Update()
 {
 }

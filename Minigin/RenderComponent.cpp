@@ -12,6 +12,13 @@ dae::RenderComponent::RenderComponent(const std::string& fileName, const glm::ve
 		m_TexturePtr = ResourceManager::GetInstance().LoadTexture(fileName);
 }
 
+dae::RenderComponent::RenderComponent(const std::shared_ptr<Texture2D>& texture, const glm::vec2& offset, float angle)
+	: m_TexturePtr(texture)
+	, m_Offset(offset)
+	, m_Angle(angle)
+{
+}
+
 void dae::RenderComponent::Update()
 {
 }
@@ -22,7 +29,6 @@ void dae::RenderComponent::FixedUpdate()
 
 void dae::RenderComponent::Render() const
 {
-	//Renderer::GetInstance().RenderTexture(*m_TexturePtr, GetOwner()->GetWorldTransform().position.x, GetOwner()->GetWorldTransform().position.y);
 	Renderer::GetInstance().RenderTexture(*m_TexturePtr, GetOwner()->GetWorldTransform().position.x, GetOwner()->GetWorldTransform().position.y, m_Offset, m_Angle);
 }
 

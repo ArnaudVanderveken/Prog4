@@ -37,6 +37,7 @@ void load()
 	std::shared_ptr<dae::GameObject> go;
 
 	ServiceLocator::RegisterLevelManager(std::make_shared<dae::LevelManager>(scene));
+	ServiceLocator::RegisterBulletManager(std::make_shared<dae::BulletManager>(scene));
 
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
 	go = std::make_shared<dae::GameObject>();
@@ -50,18 +51,22 @@ void load()
 
 	// Red Tank
 	const auto redTank = std::make_shared<dae::GameObject>();
-	auto comp = new dae::RenderComponent("Sprites/RedTank.png", { 0.5f, 0.5f });
-	redTank->AddComponent(comp);
-	redTank->AddComponent(new dae::PlayerControllerComponent(-1, true, comp));
+	auto body = new dae::RenderComponent("Sprites/RedTank.png", { 0.5f, 0.5f });
+	redTank->AddComponent(body);
+	auto gun = new dae::RenderComponent("Sprites/RedTankGun.png", { 0.5f, 0.5f });
+	redTank->AddComponent(gun);
+	redTank->AddComponent(new dae::PlayerControllerComponent(-1, true, body, gun));
 	const auto p1Start = ServiceLocator::GetLevelManager()->GetCurrentSceneComponent()->GetPlayer1Start() + levelOffset;
 	redTank->SetLocalPosition({ p1Start.x, p1Start.y, 0 });
 	scene.Add(redTank);
 
 	// Blue Tank
 	const auto blueTank = std::make_shared<dae::GameObject>();
-	comp = new dae::RenderComponent("Sprites/BlueTank.png", { 0.5f, 0.5f });
-	blueTank->AddComponent(comp);
-	blueTank->AddComponent(new dae::PlayerControllerComponent(0, false, comp));
+	body = new dae::RenderComponent("Sprites/BlueTank.png", { 0.5f, 0.5f });
+	blueTank->AddComponent(body);
+	body = new dae::RenderComponent("Sprites/BlueTankGun.png", { 0.5f, 0.5f });
+	blueTank->AddComponent(body);
+	blueTank->AddComponent(new dae::PlayerControllerComponent(0, false, body, gun));
 	if (auto component = blueTank->GetComponent<dae::PlayerControllerComponent>())
 		component->SetSpeed(100.f);
 	const auto p2Start = ServiceLocator::GetLevelManager()->GetCurrentSceneComponent()->GetPlayer2Start() + levelOffset;

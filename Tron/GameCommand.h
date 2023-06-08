@@ -39,4 +39,23 @@ namespace dae
 		~ScoreCommand() override = default;
 		void Execute() override;
 	};
+
+	class FireCommand : public Command
+	{
+	public:
+		enum class Direction
+		{
+			Up,
+			Down,
+			Left,
+			Right
+		};
+
+		explicit FireCommand(GameObject* actor, Direction direction);
+		~FireCommand() override = default;
+		void Execute() override;
+
+	private:
+		Direction m_Direction;
+	};
 }

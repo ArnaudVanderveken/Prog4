@@ -11,7 +11,7 @@ namespace dae
 	class PlayerControllerComponent final : public BaseComponent
 	{
 	public:
-		PlayerControllerComponent(int controllerIndex, bool useKeyboard, RenderComponent* renderComponent) noexcept;
+		PlayerControllerComponent(int controllerIndex, bool useKeyboard, RenderComponent* bodyRenderComponent, RenderComponent* gunRenderComponent) noexcept;
 		~PlayerControllerComponent() override = default;
 
 		PlayerControllerComponent(const PlayerControllerComponent& other) = delete;
@@ -26,6 +26,7 @@ namespace dae
 
 		void Die() const;
 		void ScorePoints() const;
+		void Fire(float h, float v);
 
 		Subject<int> playerDied;
 		Subject<int, int> pointsScored;
@@ -45,11 +46,15 @@ namespace dae
 		float m_Speed{ 50.f };
 		glm::vec2 m_Movement{};
 
+		glm::vec2 m_FireInput{};
+		static constexpr float FIRE_COOLDOWN{ 1.0f };
+		float m_Cooldown{ FIRE_COOLDOWN };
+
 		int m_ControllerIndex{};
 		bool m_UseKeyboard{};
 
-		RenderComponent* m_pRenderComponent{};
-		//uint8_t m_Orientation{};
+		RenderComponent* m_pBodyRenderComponent{};
+		RenderComponent* m_pGunRenderComponent{};
 
 		/* PRIVATE METHODS */
 
