@@ -89,7 +89,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 	auto& time = TimeManager::GetInstance();
 	const auto& renderer = Renderer::GetInstance();
-	const auto& sceneManager = SceneManager::GetInstance();
+	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
 
 	sceneManager.Init();

@@ -26,7 +26,12 @@
     <ClCompile Include="BulletManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="BulletComponent.cpp" />
+    <ClCompile Include="BulletComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
@@ -67,6 +72,11 @@
     <ClInclude Include="BulletManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="BulletComponent.h" />
+    <ClInclude Include="BulletComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

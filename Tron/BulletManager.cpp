@@ -5,9 +5,8 @@
 #include "ResourceManager.h"
 #include "Scene.h"
 
-dae::BulletManager::BulletManager(Scene& scene) noexcept
-	: m_Scene(scene)
-	, m_pPlayerBulletTexture(ResourceManager::GetInstance().LoadTexture("Sprites/BulletPlayer.png"))
+dae::BulletManager::BulletManager() noexcept
+	: m_pPlayerBulletTexture(ResourceManager::GetInstance().LoadTexture("Sprites/BulletPlayer.png"))
 	, m_pNPCBulletTexture(ResourceManager::GetInstance().LoadTexture("Sprites/BulletNPC.png"))
 {
 	m_BulletObjects.reserve(PRELOAD_COUNT);
@@ -29,7 +28,7 @@ void dae::BulletManager::SpawnBullet(const glm::vec2& position, BulletComponent:
 		++i;
 	} while (i < m_ActiveBullets.size());
 	if (i == m_ActiveBullets.size())
-		CreateNewBullet();
+		return;
 
 	m_BulletComponents[i]->SetPosition(position);
 	m_BulletComponents[i]->SetDirection(direction);
@@ -46,6 +45,20 @@ void dae::BulletManager::RemoveBullet(uint16_t bulletIndex)
 	m_ActiveBullets[bulletIndex] = false;
 }
 
+void dae::BulletManager::ResetBullets()
+{
+	for (size_t i{}; i < m_BulletObjects.size(); ++i)
+	{
+		m_BulletObjects[i]->SetActive(false);
+		m_ActiveBullets[i] = false;
+	}
+}
+
+const std::vector<std::shared_ptr<dae::GameObject>>& dae::BulletManager::GetBullets() const
+{
+	return m_BulletObjects;
+}
+
 void dae::BulletManager::CreateNewBullet()
 {
 	const auto index = static_cast<uint16_t>(m_BulletObjects.size());
@@ -55,6 +68,4 @@ void dae::BulletManager::CreateNewBullet()
 	m_RenderComponents.emplace_back(new RenderComponent(m_pNPCBulletTexture, { 0.5f, 0.5f }));
 	m_BulletObjects[index]->AddComponent(m_BulletComponents[index]);
 	m_BulletObjects[index]->AddComponent(m_RenderComponents[index]);
-
-	m_Scene.Add(m_BulletObjects[index]);
 }

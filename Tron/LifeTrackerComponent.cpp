@@ -3,10 +3,6 @@
 #include "GameObject.h"
 #include "TextComponent.h"
 
-dae::LifeTrackerComponent::LifeTrackerComponent(int trackedPlayerIndex) noexcept
-	: m_TrackedPlayerIndex(trackedPlayerIndex)
-{
-}
 
 void dae::LifeTrackerComponent::Init()
 {
@@ -19,9 +15,9 @@ void dae::LifeTrackerComponent::Update()
 {
 }
 
-void dae::LifeTrackerComponent::HandleEvent(int playerIndex)
+void dae::LifeTrackerComponent::HandleEvent()
 {
-	if (playerIndex == m_TrackedPlayerIndex && m_Lives > 0)
+	if (m_Lives > 0)
 	{
 		--m_Lives;
 		if (m_pTextComponent)

@@ -6,10 +6,10 @@
 namespace dae
 {
 	class TextComponent;
-	class ScoreTrackerComponent : public BaseComponent, public Observer<int, int>
+	class ScoreTrackerComponent : public BaseComponent, public Observer<int>
 	{
 	public:
-		explicit ScoreTrackerComponent(int trackedPlayerIndex) noexcept;
+		explicit ScoreTrackerComponent() noexcept = default;
 		~ScoreTrackerComponent() override = default;
 
 		ScoreTrackerComponent(const ScoreTrackerComponent& other) = delete;
@@ -20,12 +20,11 @@ namespace dae
 		void Init() override;
 		void Update() override;
 
-		void HandleEvent(int playerIndex, int points) override;
+		void HandleEvent(int points) override;
 
 	private:
 		/* DATA MEMBERS */
 
-		int m_TrackedPlayerIndex{};
 		int m_Score{};
 
 		TextComponent* m_pTextComponent{};

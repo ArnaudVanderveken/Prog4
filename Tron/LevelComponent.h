@@ -32,6 +32,7 @@ namespace dae
 		[[nodiscard]] bool CheckBulletCollision(const glm::vec2& xyPos) const;
 
 	protected:
+		void Init() override;
 		void Update() override;
 		void Render() const override;
 
@@ -61,6 +62,8 @@ namespace dae
 		[[nodiscard]] bool IsWalkableAtPixel(const glm::vec2& pixelPos) const;
 		void QueryLevelForMovementX(const glm::vec2& xyPos, float& dx) const;
 		void QueryLevelForMovementY(const glm::vec2& xyPos, float& dy) const;
+
+		void ApplyLevelOffset();
 
 	};
 }

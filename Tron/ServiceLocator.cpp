@@ -35,3 +35,13 @@ dae::BulletManager* ServiceLocator::GetBulletManager()
 {
 	return m_pBulletManager.get();
 }
+
+void ServiceLocator::RegisterGameManager(const std::shared_ptr<dae::GameManager>& gameManager)
+{
+	m_pGameManager = gameManager;
+}
+
+dae::GameManager* ServiceLocator::GetGameManager()
+{
+	return m_pGameManager.get();
+}

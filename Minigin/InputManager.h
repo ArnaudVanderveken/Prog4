@@ -59,6 +59,7 @@ namespace dae
 		void RegisterAction(std::shared_ptr<Command> command, InputAction::ActionType action, Controller::ButtonID button, int controllerIndex, SDL_Scancode keyboardKey);
 		void RegisterAction(std::shared_ptr<Command> command, InputAction::ActionType action, Controller::ButtonID button, int controllerIndex);
 		void RegisterAction(std::shared_ptr<Command> command, InputAction::ActionType action, SDL_Scancode keyboardKey);
+		void ClearActions();
 
 	private:
 		std::array<std::unique_ptr<Controller>, 2> m_Controllers;

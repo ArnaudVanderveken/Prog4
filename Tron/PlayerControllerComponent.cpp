@@ -21,15 +21,7 @@ dae::PlayerControllerComponent::PlayerControllerComponent(int controllerIndex, b
 
 void dae::PlayerControllerComponent::Init()
 {
-	if (m_ControllerIndex != -1)
-	{
-		if (m_UseKeyboard)
-			RegisterCombinedActions();
-		else
-			RegisterControllerActions();
-	}
-	else if (m_UseKeyboard)
-		RegisterKeyboardActions();
+	BindActions();
 }
 
 void dae::PlayerControllerComponent::Update()
@@ -75,20 +67,9 @@ void dae::PlayerControllerComponent::Update()
 
 		if (m_pGunRenderComponent)
 		{
-			if (abs(m_FireInput.x) > abs(m_FireInput.y))
-			{
-				if (m_FireInput.x >= 0.0f)
-					m_pGunRenderComponent->SetAngle(0.0f);
-				else
-					m_pGunRenderComponent->SetAngle(180.0f);
-			}
-			else
-			{
-				if (m_FireInput.y >= 0.0f)
-					m_pGunRenderComponent->SetAngle(90.0f);
-				else
-					m_pGunRenderComponent->SetAngle(270.0f);
-			}
+			const auto normalized = normalize(glm::vec2{ m_FireInput.x, m_FireInput.y });
+			const float angle = glm::degrees(glm::atan(normalized.y, normalized.x));
+			m_pGunRenderComponent->SetAngle(angle);
 		}
 	}
 
@@ -100,6 +81,19 @@ void dae::PlayerControllerComponent::Update()
 int dae::PlayerControllerComponent::GetPlayerIndex() const
 {
 	return m_PlayerIndex;
+}
+
+void dae::PlayerControllerComponent::BindActions() const
+{
+	if (m_ControllerIndex != -1)
+	{
+		if (m_UseKeyboard)
+			RegisterCombinedActions();
+		else
+			RegisterControllerActions();
+	}
+	else if (m_UseKeyboard)
+		RegisterKeyboardActions();
 }
 
 void dae::PlayerControllerComponent::AddMovementInput(float h, float v)

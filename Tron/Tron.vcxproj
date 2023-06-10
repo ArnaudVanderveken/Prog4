@@ -162,6 +162,7 @@
     <ClCompile Include="BulletComponent.cpp" />
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="GameCommand.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="LevelComponent.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="LifeTrackerComponent.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="BulletComponent.h" />
     <ClInclude Include="BulletManager.h" />
     <ClInclude Include="GameCommand.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="LevelComponent.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="LifeTrackerComponent.h" />

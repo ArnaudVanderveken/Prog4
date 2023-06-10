@@ -6,10 +6,10 @@
 namespace dae
 {
 	class TextComponent;
-	class LifeTrackerComponent final : public BaseComponent, public Observer<int>
+	class LifeTrackerComponent final : public BaseComponent, public Observer<>
 	{
 	public:
-		explicit LifeTrackerComponent(int trackedPlayerIndex) noexcept;
+		explicit LifeTrackerComponent() noexcept = default;
 		~LifeTrackerComponent() override = default;
 
 		LifeTrackerComponent(const LifeTrackerComponent& other) noexcept = delete;
@@ -20,7 +20,7 @@ namespace dae
 		void Init() override;
 		void Update() override;
 
-		void HandleEvent(int playerIndex) override;
+		void HandleEvent() override;
 
 	private:
 		/* DATA MEMBERS */

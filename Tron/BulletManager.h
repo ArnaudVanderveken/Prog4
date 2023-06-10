@@ -17,7 +17,7 @@ namespace dae
 	class BulletManager final
 	{
 	public:
-		BulletManager(Scene& pScene) noexcept;
+		BulletManager() noexcept;
 		~BulletManager() = default;
 
 		BulletManager(const BulletManager& other) noexcept = delete;
@@ -28,12 +28,14 @@ namespace dae
 		void SpawnBullet(const glm::vec2& position, BulletComponent::Type type, const glm::vec2& direction);
 		void RemoveBullet(uint16_t bulletIndex);
 
+		void ResetBullets();
+
+		[[nodiscard]] const std::vector<std::shared_ptr<GameObject>>& GetBullets() const;
+
 	private:
 		/* DATA MEMBERS */
 
-		static constexpr uint8_t PRELOAD_COUNT{ 30 };
-
-		Scene& m_Scene;
+		static constexpr uint8_t PRELOAD_COUNT{ 64 };
 
 		std::shared_ptr<Texture2D> m_pPlayerBulletTexture{};
 		std::shared_ptr<Texture2D> m_pNPCBulletTexture{};

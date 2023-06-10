@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "InputManager.h"
 #include "PlayerControllerComponent.h"
+#include "ServiceLocator.h"
 
 
 dae::Command::Command(GameObject* actor)
@@ -40,26 +41,6 @@ void dae::Move::Execute()
 	}
 }
 
-dae::DieCommand::DieCommand(GameObject* actor)
-	: Command(actor)
-{
-}
-
-void dae::DieCommand::Execute()
-{
-	GetActor()->GetComponent<PlayerControllerComponent>()->Die();
-}
-
-dae::ScoreCommand::ScoreCommand(GameObject* actor)
-	: Command(actor)
-{
-}
-
-void dae::ScoreCommand::Execute()
-{
-	GetActor()->GetComponent<PlayerControllerComponent>()->ScorePoints();
-}
-
 dae::FireCommand::FireCommand(GameObject* actor, Direction direction)
 	: Command(actor)
 	, m_Direction(direction)
@@ -83,4 +64,66 @@ void dae::FireCommand::Execute()
 		GetActor()->GetComponent<PlayerControllerComponent>()->Fire(1.f, 0.f);
 		break;
 	}
+}
+
+dae::StartCommand::StartCommand() noexcept
+	: Command(nullptr)
+{
+}
+
+void dae::StartCommand::Execute()
+{
+	ServiceLocator::GetGameManager()->SetState(GameManager::State::Level1);
+}
+
+dae::PauseCommand::PauseCommand() noexcept
+	: Command(nullptr)
+{
+}
+
+void dae::PauseCommand::Execute()
+{
+	ServiceLocator::GetGameManager()->PauseGame();
+}
+
+dae::UnpauseCommand::UnpauseCommand() noexcept
+	: Command(nullptr)
+{
+}
+
+void dae::UnpauseCommand::Execute()
+{
+	ServiceLocator::GetGameManager()->UnpauseGame();
+}
+
+dae::QuitCommand::QuitCommand() noexcept
+	: Command(nullptr)
+{
+}
+
+void dae::QuitCommand::Execute()
+{
+	SDL_Event e{};
+	e.type = SDL_QUIT;
+	SDL_PushEvent(&e);
+}
+
+dae::SkipLevelCommand::SkipLevelCommand() noexcept
+	: Command(nullptr)
+{
+}
+
+void dae::SkipLevelCommand::Execute()
+{
+	ServiceLocator::GetGameManager()->SkipLevel();
+}
+
+dae::ChangeGamemode::ChangeGamemode() noexcept
+	: Command(nullptr)
+{
+}
+
+void dae::ChangeGamemode::Execute()
+{
+	ServiceLocator::GetGameManager()->ToggleGamemode();
 }

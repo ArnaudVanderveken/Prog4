@@ -14,102 +14,155 @@
 
 #include "FPSCounterComponent.h"
 #include "GameObject.h"
+#include "GameManager.h"
 #include "LevelComponent.h"
 #include "LevelManager.h"
-#include "LifeTrackerComponent.h"
-#include "PlayerControllerComponent.h"
 #include "RenderComponent.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
 #include "Scene.h"
-#include "ScoreTrackerComponent.h"
 #include "ServiceLocator.h"
 #include "TextComponent.h"
 
 
 void load()
 {
-	// Sound System
+	using namespace dae;
+
+	// Scenes
+	auto& mainMenu = SceneManager::GetInstance().CreateScene("MainMenu");
+	auto& level1 = SceneManager::GetInstance().CreateScene("Level1");
+	auto& level2 = SceneManager::GetInstance().CreateScene("Level2");
+	auto& level3 = SceneManager::GetInstance().CreateScene("Level3");
+	auto& pauseMenu = SceneManager::GetInstance().CreateScene("PauseMenu");
+	//auto& endScreen = SceneManager::GetInstance().CreateScene("EndScreen");
+	//auto& leaderboard = SceneManager::GetInstance().CreateScene("Leaderboard");
+
+	// Register services
 	ServiceLocator::RegisterSoundSystem(std::make_shared<SoundSystem>());
+	ServiceLocator::RegisterLevelManager(std::make_shared<LevelManager>());
+	ServiceLocator::RegisterBulletManager(std::make_shared<BulletManager>());
+	ServiceLocator::RegisterGameManager(std::make_shared<GameManager>());
 
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
+	// Fonts
+	const auto Lingua12 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
+	const auto Lingua24 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 24);
+	const auto Lingua36 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 
-	std::shared_ptr<dae::GameObject> go;
+	// FPS counter
+	const auto pFPSCounter = std::make_shared<GameObject>();
+	pFPSCounter->AddComponent(new RenderComponent(""));
+	pFPSCounter->AddComponent(new TextComponent("DefaultText...", SDL_Color(0, 255, 0), Lingua12));
+	pFPSCounter->AddComponent(new FPSCounterComponent());
+	pFPSCounter->SetLocalPosition({ 5, 5, 0 });
+	level1.Add(pFPSCounter);
+	level2.Add(pFPSCounter);
+	level3.Add(pFPSCounter);
 
-	ServiceLocator::RegisterLevelManager(std::make_shared<dae::LevelManager>(scene));
-	ServiceLocator::RegisterBulletManager(std::make_shared<dae::BulletManager>(scene));
-
-	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
-	go = std::make_shared<dae::GameObject>();
-	go->AddComponent(new dae::RenderComponent(""));
-	go->AddComponent(new dae::TextComponent("DefaultText...", SDL_Color(0, 255, 0), font));
-	go->AddComponent(new dae::FPSCounterComponent());
-	go->SetLocalPosition({ 5, 5, 0 });
-	scene.Add(go);
-
-	const glm::vec2 levelOffset = ServiceLocator::GetLevelManager()->GetCurrentSceneComponent()->GetOwner()->GetWorldTransform().position;
+	// Levels
+	level1.Add(ServiceLocator::GetLevelManager()->GetLevelObject(0));
+	level2.Add(ServiceLocator::GetLevelManager()->GetLevelObject(1));
+	level3.Add(ServiceLocator::GetLevelManager()->GetLevelObject(2));
 
 	// Red Tank
-	const auto redTank = std::make_shared<dae::GameObject>();
-	auto body = new dae::RenderComponent("Sprites/RedTank.png", { 0.5f, 0.5f });
-	redTank->AddComponent(body);
-	auto gun = new dae::RenderComponent("Sprites/RedTankGun.png", { 0.5f, 0.5f });
-	redTank->AddComponent(gun);
-	redTank->AddComponent(new dae::PlayerControllerComponent(-1, true, body, gun));
-	const auto p1Start = ServiceLocator::GetLevelManager()->GetCurrentSceneComponent()->GetPlayer1Start() + levelOffset;
-	redTank->SetLocalPosition({ p1Start.x, p1Start.y, 0 });
-	scene.Add(redTank);
+	const auto& pRedTank = ServiceLocator::GetGameManager()->GetP1Tank();
+	level1.Add(pRedTank);
+	level2.Add(pRedTank);
+	level3.Add(pRedTank);
 
 	// Blue Tank
-	const auto blueTank = std::make_shared<dae::GameObject>();
-	body = new dae::RenderComponent("Sprites/BlueTank.png", { 0.5f, 0.5f });
-	blueTank->AddComponent(body);
-	body = new dae::RenderComponent("Sprites/BlueTankGun.png", { 0.5f, 0.5f });
-	blueTank->AddComponent(body);
-	blueTank->AddComponent(new dae::PlayerControllerComponent(0, false, body, gun));
-	if (auto component = blueTank->GetComponent<dae::PlayerControllerComponent>())
-		component->SetSpeed(100.f);
-	const auto p2Start = ServiceLocator::GetLevelManager()->GetCurrentSceneComponent()->GetPlayer2Start() + levelOffset;
-	blueTank->SetLocalPosition({ p2Start.x, p2Start.y, 0 });
-	scene.Add(blueTank);
+	const auto& pGreenTank = ServiceLocator::GetGameManager()->GetP2Tank();
+	level1.Add(pGreenTank);
+	level2.Add(pGreenTank);
+	level3.Add(pGreenTank);
+
+	// Enemy Tanks
+	const auto& pEnemyTanks = ServiceLocator::GetGameManager()->GetEnemyTanks();
+	for (const auto& pTank : pEnemyTanks)
+	{
+		level1.Add(pTank);
+		level2.Add(pTank);
+		level3.Add(pTank);
+	}
+
+	// Recognizer Tanks
+	const auto& pRecognizers = ServiceLocator::GetGameManager()->GetRecognizerTanks();
+	for (const auto& pTank : pRecognizers)
+	{
+		level1.Add(pTank);
+		level2.Add(pTank);
+		level3.Add(pTank);
+	}
+
+	// Bullets
+	const auto& pBullets = ServiceLocator::GetBulletManager()->GetBullets();
+	for (const auto& pBullet : pBullets)
+	{
+		level1.Add(pBullet);
+		level2.Add(pBullet);
+		level3.Add(pBullet);
+	}
 
 	// RT Life counter
-	go = std::make_shared<dae::GameObject>();
-	go->AddComponent(new dae::RenderComponent(""));
-	go->AddComponent(new dae::TextComponent("DefaultText...", SDL_Color(0, 255, 0), font));
-	auto playerControllerComponent = redTank->GetComponent<dae::PlayerControllerComponent>();
-	go->AddComponent(new dae::LifeTrackerComponent(playerControllerComponent->GetPlayerIndex()));
-	playerControllerComponent->playerDied.AddObserver(go->GetComponent<dae::LifeTrackerComponent>());
-	go->SetLocalPosition({ 5, 300, 0 });
-	scene.Add(go);
+	const auto pLifeCounter = ServiceLocator::GetGameManager()->GetLifeCounter();
+	level1.Add(pLifeCounter);
+	level2.Add(pLifeCounter);
+	level3.Add(pLifeCounter);
 
 	// RT Score counter
-	go = std::make_shared<dae::GameObject>();
-	go->AddComponent(new dae::RenderComponent(""));
-	go->AddComponent(new dae::TextComponent("DefaultText...", SDL_Color(0, 255, 0), font));
-	go->AddComponent(new dae::ScoreTrackerComponent(playerControllerComponent->GetPlayerIndex()));
-	playerControllerComponent->pointsScored.AddObserver(go->GetComponent<dae::ScoreTrackerComponent>());
-	go->SetLocalPosition({ 5, 320, 0 });
-	scene.Add(go);
+	const auto pScoreCounter = ServiceLocator::GetGameManager()->GetScoreCounter();
+	level1.Add(pScoreCounter);
+	level2.Add(pScoreCounter);
+	level3.Add(pScoreCounter);
 
-	// BT Life counter
-	go = std::make_shared<dae::GameObject>();
-	go->AddComponent(new dae::RenderComponent(""));
-	go->AddComponent(new dae::TextComponent("DefaultText...", SDL_Color(0, 255, 0), font));
-	playerControllerComponent = blueTank->GetComponent<dae::PlayerControllerComponent>();
-	go->AddComponent(new dae::LifeTrackerComponent(playerControllerComponent->GetPlayerIndex()));
-	playerControllerComponent->playerDied.AddObserver(go->GetComponent<dae::LifeTrackerComponent>());
-	go->SetLocalPosition({ 5, 400, 0 });
-	scene.Add(go);
+	// Tab to pause text
+	const auto pPauseText = std::make_shared<GameObject>();
+	pPauseText->AddComponent(new RenderComponent(""));
+	pPauseText->AddComponent(new TextComponent("Start/Tab to pause", SDL_Color(255, 255, 255), Lingua24));
+	pPauseText->SetLocalPosition({ 180, 440, 0 });
+	level1.Add(pPauseText);
+	level2.Add(pPauseText);
+	level3.Add(pPauseText);
 
-	// BT Score counter
-	go = std::make_shared<dae::GameObject>();
-	go->AddComponent(new dae::RenderComponent(""));
-	go->AddComponent(new dae::TextComponent("DefaultText...", SDL_Color(0, 255, 0), font));
-	go->AddComponent(new dae::ScoreTrackerComponent(playerControllerComponent->GetPlayerIndex()));
-	playerControllerComponent->pointsScored.AddObserver(go->GetComponent<dae::ScoreTrackerComponent>());
-	go->SetLocalPosition({ 5, 420, 0 });
-	scene.Add(go);
+	// Main menu texts
+	auto mainMenuText = std::make_shared<GameObject>();
+	mainMenuText->AddComponent(new RenderComponent(""));
+	mainMenuText->AddComponent(new TextComponent("A/Space to start", SDL_Color(0, 255, 0), Lingua36));
+	mainMenuText->SetLocalPosition({ 180, 20, 0 });
+	mainMenu.Add(mainMenuText);
+
+	mainMenuText = std::make_shared<GameObject>();
+	mainMenuText->AddComponent(new RenderComponent(""));
+	mainMenuText->AddComponent(new TextComponent("B/Escape to quit", SDL_Color(255, 0, 0), Lingua36));
+	mainMenuText->SetLocalPosition({ 180, 80, 0 });
+	mainMenu.Add(mainMenuText);
+
+	mainMenuText = std::make_shared<GameObject>();
+	mainMenuText->AddComponent(new RenderComponent(""));
+	mainMenuText->AddComponent(new TextComponent("X/Tab to change gamemode", SDL_Color(255, 255, 0), Lingua36));
+	mainMenuText->SetLocalPosition({ 100, 140, 0 });
+	mainMenu.Add(mainMenuText);
+
+	mainMenuText = std::make_shared<GameObject>();
+	mainMenuText->AddComponent(new RenderComponent(""));
+	const auto pText = new TextComponent("Single player", SDL_Color(255, 255, 255), Lingua24);
+	mainMenuText->AddComponent(pText);
+	ServiceLocator::GetGameManager()->RegisterGamemodeText(pText);
+	mainMenuText->SetLocalPosition({ 260, 180, 0 });
+	mainMenu.Add(mainMenuText);
+
+	// Pause menu texts
+	auto pauseMenuText = std::make_shared<GameObject>();
+	pauseMenuText->AddComponent(new RenderComponent(""));
+	pauseMenuText->AddComponent(new TextComponent("Start/Tab to resume", SDL_Color(0, 255, 0), Lingua36));
+	pauseMenuText->SetLocalPosition({ 180, 20, 0 });
+	pauseMenu.Add(pauseMenuText);
+
+	pauseMenuText = std::make_shared<GameObject>();
+	pauseMenuText->AddComponent(new RenderComponent(""));
+	pauseMenuText->AddComponent(new TextComponent("B/Escape to quit", SDL_Color(255, 0, 0), Lingua36));
+	pauseMenuText->SetLocalPosition({ 180, 80, 0 });
+	pauseMenu.Add(pauseMenuText);
 
 	// display controls on the console
 	std::cout << "Controls:\n\tController:\n\t\tMove: DPAD\n\t\tDie: A\n\t\tScore: B\n\tKeyboard:\n\t\tMove: WASD\n\t\tDie (+test sound): Q\n\t\tScore: E\n\nPlayer 1: Keyboard\nPlayer 2: Controller" << std::endl;

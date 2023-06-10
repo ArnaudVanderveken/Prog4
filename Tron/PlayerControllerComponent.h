@@ -21,6 +21,8 @@ namespace dae
 
 		[[nodiscard]] int GetPlayerIndex() const;
 
+		void BindActions() const;
+
 		void AddMovementInput(float h, float v);
 		void SetSpeed(float speed);
 

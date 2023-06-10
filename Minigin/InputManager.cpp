@@ -118,3 +118,8 @@ void dae::InputManager::RegisterAction(std::shared_ptr<Command> command, InputAc
 {
 	m_Actions.emplace_back(InputAction{ std::move(command), action, Controller::ButtonID::None, -1, keyboardKey });
 }
+
+void dae::InputManager::ClearActions()
+{
+	m_Actions.clear();
+}

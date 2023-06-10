@@ -76,6 +76,11 @@ bool LevelComponent::CheckBulletCollision(const glm::vec2& xyPos) const
 	return IsWalkableAtPixel(relativePos);
 }
 
+void LevelComponent::Init()
+{
+	ApplyLevelOffset();
+}
+
 void LevelComponent::Update()
 {
 }
@@ -225,6 +230,12 @@ void LevelComponent::LoadLevelFromFileBin(const std::string& filename)
 			m_RecognizerEnemyStarts[i].x = static_cast<float>(enemyStart[0]);
 			m_RecognizerEnemyStarts[i].y = static_cast<float>(enemyStart[1]);
 		}
+
+		file.close();
+	}
+	else
+	{
+		cerr << "[ERROR] Unable to open file " << filename << " in " << __FILE__ << ":" << __LINE__ << "." << endl;
 	}
 }
 
@@ -257,4 +268,15 @@ void LevelComponent::QueryLevelForMovementY(const glm::vec2& xyPos, float& dy) c
 		return;
 
 	dy = 0.0f;
+}
+
+void LevelComponent::ApplyLevelOffset()
+{
+	const glm::vec2 levelOffset = GetOwner()->GetWorldTransform().position;
+	m_Player1Start += levelOffset;
+	m_Player2Start += levelOffset;
+	for (auto& enemyStart : m_NormalEnemyStarts)
+		enemyStart += levelOffset;
+	for (auto& enemyStart : m_RecognizerEnemyStarts)
+		enemyStart += levelOffset;
 }

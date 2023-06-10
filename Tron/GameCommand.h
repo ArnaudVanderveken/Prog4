@@ -24,22 +24,6 @@ namespace dae
 		Direction m_Direction;
 	};
 
-	class DieCommand : public Command
-	{
-	public:
-		explicit DieCommand(GameObject* actor);
-		~DieCommand() override = default;
-		void Execute() override;
-	};
-
-	class ScoreCommand : public Command
-	{
-	public:
-		explicit ScoreCommand(GameObject* actor);
-		~ScoreCommand() override = default;
-		void Execute() override;
-	};
-
 	class FireCommand : public Command
 	{
 	public:
@@ -57,5 +41,59 @@ namespace dae
 
 	private:
 		Direction m_Direction;
+	};
+
+	class StartCommand : public Command
+	{
+	public:
+		StartCommand() noexcept;
+		~StartCommand() override = default;
+
+		void Execute() override;
+	};
+
+	class PauseCommand : public Command
+	{
+	public:
+		PauseCommand() noexcept;
+		~PauseCommand() override = default;
+
+		void Execute() override;
+	};
+
+	class UnpauseCommand : public Command
+	{
+	public:
+		UnpauseCommand() noexcept;
+		~UnpauseCommand() override = default;
+
+		void Execute() override;
+	};
+
+	class QuitCommand : public Command
+	{
+	public:
+		QuitCommand() noexcept;
+		~QuitCommand() override = default;
+
+		void Execute() override;
+	};
+
+	class SkipLevelCommand : public Command
+	{
+	public:
+		SkipLevelCommand() noexcept;
+		~SkipLevelCommand() override = default;
+
+		void Execute() override;
+	};
+
+	class ChangeGamemode : public Command
+	{
+	public:
+		ChangeGamemode() noexcept;
+		~ChangeGamemode() override = default;
+
+		void Execute() override;
 	};
 }

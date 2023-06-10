@@ -11,10 +11,11 @@ namespace dae
 	{
 	public:
 		Scene& CreateScene(const std::string& name);
+		void SetActiveScene(uint8_t sceneIndex);
 
-		void Init() const;
+		void Init();
 
-		void Update() const;
+		void Update();
 		void FixedUpdate() const;
 		void Render() const;
 
@@ -23,6 +24,9 @@ namespace dae
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
-		std::vector<std::shared_ptr<Scene>> m_scenes;
+		std::vector<std::shared_ptr<Scene>> m_Scenes;
+		std::shared_ptr<Scene> m_ActiveScene;
+		bool m_SceneChange{};
+		uint8_t m_NewScene{};
 	};
 }
