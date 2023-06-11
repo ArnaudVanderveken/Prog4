@@ -162,9 +162,9 @@ void dae::GameManager::ResetTanks() const
 	m_pP1Tank->SetActive(true);
 
 	// P2
-	const auto& p2Start{ ServiceLocator::GetLevelManager()->GetCurrentSceneComponent()->GetPlayer1Start() };
+	const auto& p2Start{ ServiceLocator::GetLevelManager()->GetCurrentSceneComponent()->GetPlayer2Start() };
 	m_pP2Tank->SetLocalPosition({ p2Start.x, p2Start.y, 0.0f });
-	if (m_Gamemode == GameMode::Coop)
+	if (m_Gamemode != GameMode::SinglePlayer)
 		m_pP2Tank->SetActive(true);
 
 	// Enemies
@@ -493,6 +493,8 @@ void dae::GameManager::ApplyGamemode() const
 			tank->SetRules(true, false, false);
 
 		m_pP1CollisionChecker->wasHit.AddObserver(m_pLifeCounterComponent);
+
+		m_pP2Component->SetCountAsEnemy(true);
 
 		break;
 	}

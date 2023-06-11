@@ -21,6 +21,9 @@ void dae::EnemyComponent::HandleEvent()
 
 void dae::EnemyComponent::Update()
 {
+	if (!m_IsActive)
+		return;
+
 	if (ServiceLocator::GetGameManager()->GetGamemode() == GameManager::GameMode::Coop)
 	{
 		const glm::vec2 p1Dist = ServiceLocator::GetGameManager()->GetP1Tank()->GetWorldTransform().position - GetOwner()->GetWorldTransform().position;
@@ -38,6 +41,9 @@ void dae::EnemyComponent::Update()
 
 void dae::EnemyComponent::LateUpdate()
 {
+	if (!m_IsActive)
+		return;
+
 	if (!m_IsRecognizer)
 	{
 		m_FireCooldown += TimeManager::GetInstance().GetElapsedTime();

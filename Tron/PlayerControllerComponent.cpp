@@ -9,11 +9,12 @@
 #include "ServiceLocator.h"
 #include "TimeManager.h"
 
-dae::PlayerControllerComponent::PlayerControllerComponent(int controllerIndex, bool useKeyboard, RenderComponent* bodyRenderComponent, RenderComponent* gunRenderComponent) noexcept
+dae::PlayerControllerComponent::PlayerControllerComponent(int controllerIndex, bool useKeyboard, RenderComponent* bodyRenderComponent, RenderComponent* gunRenderComponent, bool countAsEnemy) noexcept
 	: m_ControllerIndex(controllerIndex)
 	, m_UseKeyboard(useKeyboard)
 	, m_pBodyRenderComponent(bodyRenderComponent)
 	, m_pGunRenderComponent(gunRenderComponent)
+	, m_CountAsEnemy(countAsEnemy)
 {
 	m_PlayerIndex = GetNextPlayerIndex();
 	m_FireSound = ServiceLocator::GetSoundSystem()->AddClip("../Data/Sounds/Shoot.mp3");
@@ -84,6 +85,11 @@ void dae::PlayerControllerComponent::HandleEvent()
 	Die();
 }
 
+void dae::PlayerControllerComponent::SetCountAsEnemy(bool val)
+{
+	m_CountAsEnemy = val;
+}
+
 int dae::PlayerControllerComponent::GetPlayerIndex() const
 {
 	return m_PlayerIndex;
@@ -115,12 +121,14 @@ void dae::PlayerControllerComponent::SetSpeed(float speed)
 
 void dae::PlayerControllerComponent::Die() const
 {
-	playerDied.Notify(m_PlayerIndex);
-}
-
-void dae::PlayerControllerComponent::ScorePoints() const
-{
-	pointsScored.Notify(m_PlayerIndex, 100);
+	if (m_CountAsEnemy)
+	{
+		GetOwner()->SetActive(false);
+		ServiceLocator::GetGameManager()->CheckLevelCleared();
+		scorePoints.Notify(100);
+	}
+	else
+		playerDied.Notify();
 }
 
 void dae::PlayerControllerComponent::Fire(float h, float v)

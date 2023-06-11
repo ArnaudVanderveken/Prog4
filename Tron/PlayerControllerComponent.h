@@ -11,13 +11,15 @@ namespace dae
 	class PlayerControllerComponent final : public BaseComponent, public Observer<>
 	{
 	public:
-		PlayerControllerComponent(int controllerIndex, bool useKeyboard, RenderComponent* bodyRenderComponent, RenderComponent* gunRenderComponent) noexcept;
+		PlayerControllerComponent(int controllerIndex, bool useKeyboard, RenderComponent* bodyRenderComponent, RenderComponent* gunRenderComponent, bool countAsEnemy = false) noexcept;
 		~PlayerControllerComponent() override = default;
 
 		PlayerControllerComponent(const PlayerControllerComponent& other) = delete;
 		PlayerControllerComponent& operator=(const PlayerControllerComponent& other) noexcept = delete;
 		PlayerControllerComponent(PlayerControllerComponent&& other) = delete;
 		PlayerControllerComponent& operator=(PlayerControllerComponent&& other) noexcept = delete;
+
+		void SetCountAsEnemy(bool val);
 
 		[[nodiscard]] int GetPlayerIndex() const;
 
@@ -27,11 +29,10 @@ namespace dae
 		void SetSpeed(float speed);
 
 		void Die() const;
-		void ScorePoints() const;
 		void Fire(float h, float v);
 
-		Subject<int> playerDied;
-		Subject<int, int> pointsScored;
+		Subject<> playerDied;
+		Subject<int> scorePoints;
 
 		void HandleEvent() override;
 
@@ -59,6 +60,8 @@ namespace dae
 
 		RenderComponent* m_pBodyRenderComponent{};
 		RenderComponent* m_pGunRenderComponent{};
+
+		bool m_CountAsEnemy{};
 
 		/* PRIVATE METHODS */
 
