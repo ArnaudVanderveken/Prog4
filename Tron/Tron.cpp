@@ -213,13 +213,16 @@ void load()
 	leaderboardText->SetLocalPosition({ 200, 20, 0 });
 	leaderboard.Add(leaderboardText);
 
-	leaderboardText = std::make_shared<GameObject>();
-	leaderboardText->AddComponent(new RenderComponent(""));
-	const auto boardText = new TextComponent("Default text...", SDL_Color(255, 255, 255), Lingua24);
-	ServiceLocator::GetLeaderboardManager()->SetBoardTextComponent(boardText);
-	leaderboardText->AddComponent(boardText);
-	leaderboardText->SetLocalPosition({ 10, 80, 0 });
-	leaderboard.Add(leaderboardText);
+	for (uint8_t i{}; i < LeaderboardManager::LINES; ++i)
+	{
+		leaderboardText = std::make_shared<GameObject>();
+		leaderboardText->AddComponent(new RenderComponent(""));
+		const auto boardText = new TextComponent("Default text...", SDL_Color(255, 255, 255), Lingua24);
+		ServiceLocator::GetLeaderboardManager()->SetBoardTextComponent(boardText, i);
+		leaderboardText->AddComponent(boardText);
+		leaderboardText->SetLocalPosition({ 30, i * 30 + 80, 0 });
+		leaderboard.Add(leaderboardText);
+	}
 
 	leaderboardText = std::make_shared<GameObject>();
 	leaderboardText->AddComponent(new RenderComponent(""));

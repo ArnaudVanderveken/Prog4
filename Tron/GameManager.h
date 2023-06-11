@@ -66,6 +66,7 @@ namespace dae
 
 		[[nodiscard]] const std::shared_ptr<GameObject>& GetLifeCounter() const;
 		[[nodiscard]] const std::shared_ptr<GameObject>& GetScoreCounter() const;
+		[[nodiscard]] ScoreTrackerComponent* GetScoreCounterComponent() const;
 
 	private:
 		/* DATA MEMBERS */

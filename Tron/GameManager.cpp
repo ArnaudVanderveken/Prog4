@@ -249,6 +249,11 @@ const std::shared_ptr<dae::GameObject>& dae::GameManager::GetScoreCounter() cons
 	return m_pScoreCounter;
 }
 
+dae::ScoreTrackerComponent* dae::GameManager::GetScoreCounterComponent() const
+{
+	return m_pScoreCounterComponent;
+}
+
 void dae::GameManager::OnStateEnter()
 {
 	switch (m_State)
