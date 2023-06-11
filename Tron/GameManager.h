@@ -9,7 +9,9 @@ namespace dae
 	class BulletCollisionChecker;
 	class EnemyComponent;
 	class GameObject;
+	class LifeTrackerComponent;
 	class PlayerControllerComponent;
+	class ScoreTrackerComponent;
 	class TextComponent;
 	class GameManager
 	{
@@ -90,7 +92,9 @@ namespace dae
 		std::array<BulletCollisionChecker*, ENEMY_PRELOAD> m_pRecognizerTankCollisionCheckers{};
 
 		std::shared_ptr<GameObject> m_pScoreCounter{};
+		ScoreTrackerComponent* m_pScoreCounterComponent{};
 		std::shared_ptr<GameObject> m_pLifeCounter{};
+		LifeTrackerComponent* m_pLifeCounterComponent{};
 
 		TextComponent* m_pGamemodeText{};
 
