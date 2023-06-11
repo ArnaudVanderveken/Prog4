@@ -37,7 +37,7 @@ namespace dae
     private:
 	    /* DATA MEMBERS */
 
-		static constexpr float BULLET_SPEED{ 48.0f };
+		static constexpr float BULLET_SPEED{ 96.0f };
 
 		Type m_Type{};
 		glm::vec2 m_Direction{};
