@@ -307,18 +307,21 @@ void dae::GameManager::OnStateEnter()
 	case State::EndScreen:
 		ServiceLocator::GetSoundSystem()->Stop(m_BackgroundSound);
 		ServiceLocator::GetSoundSystem()->Play(m_FailSound);
+		ServiceLocator::GetLeaderboardManager()->UpdateP1Text();
+		ServiceLocator::GetLeaderboardManager()->UpdateP2Text();
 		BindEndScreenCommands();
 		SceneManager::GetInstance().SetActiveScene(5);
 		break;
 
 	case State::LeaderBoard:
 		BindLeaderBoardCommands();
+		ServiceLocator::GetLeaderboardManager()->UpdateBoardText();
 		SceneManager::GetInstance().SetActiveScene(6);
 		break;
 	}
 }
 
-void dae::GameManager::OnStateExit()
+void dae::GameManager::OnStateExit() const
 {
 	switch (m_State)
 	{
@@ -350,17 +353,17 @@ void dae::GameManager::OnStateExit()
 
 	case State::EndScreen:
 		InputManager::GetInstance().ClearActions();
-		m_pLifeCounterComponent->Reset();
-		m_pScoreCounterComponent->Reset();
 		break;
 
 	case State::LeaderBoard:
 		InputManager::GetInstance().ClearActions();
+		m_pLifeCounterComponent->Reset();
+		m_pScoreCounterComponent->Reset();
 		break;
 	}
 }
 
-void dae::GameManager::BindMainMenuCommands()
+void dae::GameManager::BindMainMenuCommands() const
 {
 	InputManager::GetInstance().RegisterAction(std::make_shared<StartCommand>(), InputAction::ActionType::Down, Controller::ButtonID::FaceButtonDown, 0, SDL_SCANCODE_SPACE);
 	InputManager::GetInstance().RegisterAction(std::make_shared<QuitCommand>(), InputAction::ActionType::Down, Controller::ButtonID::FaceButtonRight, 0, SDL_SCANCODE_ESCAPE);
@@ -368,7 +371,7 @@ void dae::GameManager::BindMainMenuCommands()
 	InputManager::GetInstance().RegisterAction(std::make_shared<MuteCommand>(), InputAction::ActionType::Down, Controller::ButtonID::LeftShoulder, 0, SDL_SCANCODE_M);
 }
 
-void dae::GameManager::BindLevelCommands()
+void dae::GameManager::BindLevelCommands() const
 {
 	InputManager::GetInstance().RegisterAction(std::make_shared<PauseCommand>(), InputAction::ActionType::Down, Controller::ButtonID::Start, 0, SDL_SCANCODE_TAB);
 	InputManager::GetInstance().RegisterAction(std::make_shared<SkipLevelCommand>(), InputAction::ActionType::Down, Controller::ButtonID::Back, 0, SDL_SCANCODE_F1);
@@ -378,26 +381,55 @@ void dae::GameManager::BindLevelCommands()
 		m_pP2Component->BindActions();
 }
 
-void dae::GameManager::BindPauseCommands()
+void dae::GameManager::BindPauseCommands() const
 {
 	InputManager::GetInstance().RegisterAction(std::make_shared<UnpauseCommand>(), InputAction::ActionType::Down, Controller::ButtonID::Start, 0, SDL_SCANCODE_TAB);
 	InputManager::GetInstance().RegisterAction(std::make_shared<QuitCommand>(), InputAction::ActionType::Down, Controller::ButtonID::FaceButtonRight, 0, SDL_SCANCODE_ESCAPE);
 	InputManager::GetInstance().RegisterAction(std::make_shared<MuteCommand>(), InputAction::ActionType::Down, Controller::ButtonID::LeftShoulder, 0, SDL_SCANCODE_M);
 }
 
-void dae::GameManager::BindEndScreenCommands()
+void dae::GameManager::BindEndScreenCommands() const
+{
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('A'), InputAction::ActionType::Down, SDL_SCANCODE_A);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('B'), InputAction::ActionType::Down, SDL_SCANCODE_B);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('C'), InputAction::ActionType::Down, SDL_SCANCODE_C);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('D'), InputAction::ActionType::Down, SDL_SCANCODE_D);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('E'), InputAction::ActionType::Down, SDL_SCANCODE_E);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('F'), InputAction::ActionType::Down, SDL_SCANCODE_F);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('G'), InputAction::ActionType::Down, SDL_SCANCODE_G);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('H'), InputAction::ActionType::Down, SDL_SCANCODE_H);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('I'), InputAction::ActionType::Down, SDL_SCANCODE_I);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('J'), InputAction::ActionType::Down, SDL_SCANCODE_J);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('K'), InputAction::ActionType::Down, SDL_SCANCODE_K);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('L'), InputAction::ActionType::Down, SDL_SCANCODE_L);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('M'), InputAction::ActionType::Down, SDL_SCANCODE_M);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('N'), InputAction::ActionType::Down, SDL_SCANCODE_N);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('O'), InputAction::ActionType::Down, SDL_SCANCODE_O);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('P'), InputAction::ActionType::Down, SDL_SCANCODE_P);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('Q'), InputAction::ActionType::Down, SDL_SCANCODE_Q);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('R'), InputAction::ActionType::Down, SDL_SCANCODE_R);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('S'), InputAction::ActionType::Down, SDL_SCANCODE_S);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('T'), InputAction::ActionType::Down, SDL_SCANCODE_T);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('U'), InputAction::ActionType::Down, SDL_SCANCODE_U);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('V'), InputAction::ActionType::Down, SDL_SCANCODE_V);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('W'), InputAction::ActionType::Down, SDL_SCANCODE_W);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('X'), InputAction::ActionType::Down, SDL_SCANCODE_X);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('Y'), InputAction::ActionType::Down, SDL_SCANCODE_Y);
+	InputManager::GetInstance().RegisterAction(std::make_shared<AppendLetterCommand>('Z'), InputAction::ActionType::Down, SDL_SCANCODE_Z);
+
+	InputManager::GetInstance().RegisterAction(std::make_shared<PopLetterCommand>(), InputAction::ActionType::Down, SDL_SCANCODE_BACKSPACE);
+	InputManager::GetInstance().RegisterAction(std::make_shared<EnterCommand>(), InputAction::ActionType::Down, SDL_SCANCODE_RETURN);
+	InputManager::GetInstance().RegisterAction(std::make_shared<MuteCommand>(), InputAction::ActionType::Down, Controller::ButtonID::LeftShoulder, 0, SDL_SCANCODE_M);
+}
+
+void dae::GameManager::BindLeaderBoardCommands() const
 {
 	InputManager::GetInstance().RegisterAction(std::make_shared<StartCommand>(), InputAction::ActionType::Down, Controller::ButtonID::FaceButtonDown, 0, SDL_SCANCODE_SPACE);
 	InputManager::GetInstance().RegisterAction(std::make_shared<QuitCommand>(), InputAction::ActionType::Down, Controller::ButtonID::FaceButtonRight, 0, SDL_SCANCODE_ESCAPE);
 	InputManager::GetInstance().RegisterAction(std::make_shared<MuteCommand>(), InputAction::ActionType::Down, Controller::ButtonID::LeftShoulder, 0, SDL_SCANCODE_M);
 }
 
-void dae::GameManager::BindLeaderBoardCommands()
-{
-	InputManager::GetInstance().RegisterAction(std::make_shared<MuteCommand>(), InputAction::ActionType::Down, Controller::ButtonID::LeftShoulder, 0, SDL_SCANCODE_M);
-}
-
-void dae::GameManager::UpdateGamemodeText()
+void dae::GameManager::UpdateGamemodeText() const
 {
 	switch (m_Gamemode)
 	{
@@ -418,7 +450,7 @@ void dae::GameManager::UpdateGamemodeText()
 	}
 }
 
-void dae::GameManager::ApplyGamemode()
+void dae::GameManager::ApplyGamemode() const
 {
 	switch (m_Gamemode)
 	{

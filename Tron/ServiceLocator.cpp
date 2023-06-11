@@ -45,3 +45,13 @@ dae::GameManager* ServiceLocator::GetGameManager()
 {
 	return m_pGameManager.get();
 }
+
+void ServiceLocator::RegisterLeaderboardManager(const std::shared_ptr<dae::LeaderboardManager>& leaderboardManager)
+{
+	m_pLeaderboardManager = leaderboardManager;
+}
+
+dae::LeaderboardManager* ServiceLocator::GetLeaderboardManager()
+{
+	return m_pLeaderboardManager.get();
+}

@@ -30,11 +30,12 @@ namespace dae
 
 		[[nodiscard]] GameObject* GetOwner() const;
 
+	protected:
+		bool m_IsActive{ true };
+
 	private:
 		void SetOwner(GameObject* owner);
 		GameObject* m_pOwner{};
-
-		bool m_IsActive{ true };
 	};
 }
 

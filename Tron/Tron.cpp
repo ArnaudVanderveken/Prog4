@@ -43,6 +43,7 @@ void load()
 	ServiceLocator::RegisterLevelManager(std::make_shared<LevelManager>());
 	ServiceLocator::RegisterBulletManager(std::make_shared<BulletManager>());
 	ServiceLocator::RegisterGameManager(std::make_shared<GameManager>());
+	ServiceLocator::RegisterLeaderboardManager(std::make_shared<LeaderboardManager>());
 
 	// Fonts
 	const auto Lingua12 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
@@ -167,15 +168,69 @@ void load()
 	// End screen texts
 	auto endScreenText = std::make_shared<GameObject>();
 	endScreenText->AddComponent(new RenderComponent(""));
-	endScreenText->AddComponent(new TextComponent("GAME OVER", SDL_Color(255, 0, 0), Lingua36));
-	endScreenText->SetLocalPosition({ 180, 20, 0 });
+	endScreenText->AddComponent(new TextComponent("GAME OVER", SDL_Color(255, 255, 0), Lingua36));
+	endScreenText->SetLocalPosition({ 210, 20, 0 });
+	endScreen.Add(endScreenText);
+
+	endScreenText = std::make_shared<GameObject>();
+	endScreenText->AddComponent(new RenderComponent(""));
+	endScreenText->AddComponent(new TextComponent("PLAYER 1:", SDL_Color(255, 0, 0), Lingua36));
+	endScreenText->SetLocalPosition({ 10, 80, 0 });
+	endScreen.Add(endScreenText);
+
+	endScreenText = std::make_shared<GameObject>();
+	endScreenText->AddComponent(new RenderComponent(""));
+	auto textComp = new TextComponent("Default text...", SDL_Color(255, 255, 255), Lingua36);
+	ServiceLocator::GetLeaderboardManager()->SetP1TextComponent(textComp);
+	endScreenText->AddComponent(textComp);
+	endScreenText->SetLocalPosition({ 180, 80, 0 });
+	endScreen.Add(endScreenText);
+
+	endScreenText = std::make_shared<GameObject>();
+	endScreenText->AddComponent(new RenderComponent(""));
+	endScreenText->AddComponent(new TextComponent("PLAYER 2:", SDL_Color(0, 0, 255), Lingua36));
+	endScreenText->SetLocalPosition({ 10, 150, 0 });
+	endScreen.Add(endScreenText);
+
+	endScreenText = std::make_shared<GameObject>();
+	endScreenText->AddComponent(new RenderComponent(""));
+	textComp = new TextComponent("Default text...", SDL_Color(255, 255, 255), Lingua36);
+	ServiceLocator::GetLeaderboardManager()->SetP2TextComponent(textComp);
+	endScreenText->AddComponent(textComp);
+	endScreenText->SetLocalPosition({ 180, 150, 0 });
+	endScreen.Add(endScreenText);
+
+	endScreenText = std::make_shared<GameObject>();
+	endScreenText->AddComponent(new RenderComponent(""));
+	endScreenText->AddComponent(new TextComponent("Enter for next", SDL_Color(0, 255, 0), Lingua24));
+	endScreenText->SetLocalPosition({ 240, 440, 0 });
 	endScreen.Add(endScreenText);
 
 	// Leaderboard texts
 	auto leaderboardText = std::make_shared<GameObject>();
 	leaderboardText->AddComponent(new RenderComponent(""));
 	leaderboardText->AddComponent(new TextComponent("LEADERBOARD", SDL_Color(255, 255, 0), Lingua36));
-	leaderboardText->SetLocalPosition({ 180, 20, 0 });
+	leaderboardText->SetLocalPosition({ 200, 20, 0 });
+	leaderboard.Add(leaderboardText);
+
+	leaderboardText = std::make_shared<GameObject>();
+	leaderboardText->AddComponent(new RenderComponent(""));
+	const auto boardText = new TextComponent("Default text...", SDL_Color(255, 255, 255), Lingua24);
+	ServiceLocator::GetLeaderboardManager()->SetBoardTextComponent(boardText);
+	leaderboardText->AddComponent(boardText);
+	leaderboardText->SetLocalPosition({ 10, 80, 0 });
+	leaderboard.Add(leaderboardText);
+
+	leaderboardText = std::make_shared<GameObject>();
+	leaderboardText->AddComponent(new RenderComponent(""));
+	leaderboardText->AddComponent(new TextComponent("A/Space to restart", SDL_Color(0, 255, 0), Lingua24));
+	leaderboardText->SetLocalPosition({ 100, 440, 0 });
+	leaderboard.Add(leaderboardText);
+
+	leaderboardText = std::make_shared<GameObject>();
+	leaderboardText->AddComponent(new RenderComponent(""));
+	leaderboardText->AddComponent(new TextComponent("B/Escape to quit", SDL_Color(255, 0, 0), Lingua24));
+	leaderboardText->SetLocalPosition({ 350, 440, 0 });
 	leaderboard.Add(leaderboardText);
 
 	// display controls on the console

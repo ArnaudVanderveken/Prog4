@@ -137,3 +137,34 @@ void dae::MuteCommand::Execute()
 {
 	ServiceLocator::GetSoundSystem()->Mute();
 }
+
+dae::AppendLetterCommand::AppendLetterCommand(char letter) noexcept
+	: Command(nullptr)
+	, m_Letter(letter)
+{
+}
+
+void dae::AppendLetterCommand::Execute()
+{
+	ServiceLocator::GetLeaderboardManager()->AppendLetter(m_Letter);
+}
+
+dae::PopLetterCommand::PopLetterCommand() noexcept
+	: Command(nullptr)
+{
+}
+
+void dae::PopLetterCommand::Execute()
+{
+	ServiceLocator::GetLeaderboardManager()->PopLetter();
+}
+
+dae::EnterCommand::EnterCommand() noexcept
+	: Command(nullptr)
+{
+}
+
+void dae::EnterCommand::Execute()
+{
+	ServiceLocator::GetLeaderboardManager()->Enter();
+}

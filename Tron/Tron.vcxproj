@@ -165,6 +165,7 @@
     <ClCompile Include="EnemyComponent.cpp" />
     <ClCompile Include="GameCommand.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="LeaderboardManager.cpp" />
     <ClCompile Include="LevelComponent.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="LifeTrackerComponent.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="GameCommand.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="LeaderboardManager.h" />
     <ClInclude Include="LevelComponent.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="LifeTrackerComponent.h" />

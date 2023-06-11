@@ -105,4 +105,34 @@ namespace dae
 
 		void Execute() override;
 	};
+
+	class AppendLetterCommand : public Command
+	{
+	public:
+		AppendLetterCommand(char letter) noexcept;
+		~AppendLetterCommand() override = default;
+
+		void Execute() override;
+
+	private:
+		char m_Letter;
+	};
+
+	class PopLetterCommand : public Command
+	{
+	public:
+		PopLetterCommand() noexcept;
+		~PopLetterCommand() override = default;
+
+		void Execute() override;
+	};
+
+	class EnterCommand : public Command
+	{
+	public:
+		EnterCommand() noexcept;
+		~EnterCommand() override = default;
+
+		void Execute() override;
+	};
 }

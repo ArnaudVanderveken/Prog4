@@ -36,6 +36,7 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="EnemyComponent.cpp" />
+    <ClCompile Include="LeaderboardManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
@@ -86,5 +87,6 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="EnemyComponent.h" />
+    <ClInclude Include="LeaderboardManager.h" />
   </ItemGroup>
 </Project>

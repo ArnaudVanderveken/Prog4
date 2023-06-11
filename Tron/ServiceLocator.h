@@ -2,6 +2,7 @@
 #include <memory>
 
 #include "BulletManager.h"
+#include "LeaderboardManager.h"
 #include "GameManager.h"
 #include "LevelManager.h"
 #include "SoundSystem.h"
@@ -29,11 +30,15 @@ public:
 	static void RegisterGameManager(const std::shared_ptr<dae::GameManager>& gameManager);
 	[[nodiscard]] static dae::GameManager* GetGameManager();
 
+	static void RegisterLeaderboardManager(const std::shared_ptr<dae::LeaderboardManager>& leaderboardManager);
+	[[nodiscard]] static dae::LeaderboardManager* GetLeaderboardManager();
+
 private:
 	inline static std::shared_ptr<SoundSystem> m_pSoundSystem{};
 	inline static std::unique_ptr<SoundSystem> m_pDefaultSoundSystem{ std::make_unique<NULL_SoundSystem>() };
 	inline static std::shared_ptr<dae::LevelManager> m_pLevelManager{};
 	inline static std::shared_ptr<dae::BulletManager> m_pBulletManager{};
 	inline static std::shared_ptr<dae::GameManager> m_pGameManager{};
+	inline static std::shared_ptr<dae::LeaderboardManager> m_pLeaderboardManager{};
 };
 

@@ -18,6 +18,8 @@ void dae::ScoreTrackerComponent::Update()
 void dae::ScoreTrackerComponent::Reset()
 {
 	m_Score = 0;
+	if (m_pTextComponent)
+		m_pTextComponent->SetText(std::string("Score: ") + std::to_string(m_Score));
 }
 
 int dae::ScoreTrackerComponent::GetScore() const

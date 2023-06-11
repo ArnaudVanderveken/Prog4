@@ -19,6 +19,8 @@ void dae::LifeTrackerComponent::Update()
 void dae::LifeTrackerComponent::Reset()
 {
 	m_Lives = m_StartLives;
+	if (m_pTextComponent)
+		m_pTextComponent->SetText(std::string("Lives: ") + std::to_string(m_StartLives));
 }
 
 void dae::LifeTrackerComponent::HandleEvent()

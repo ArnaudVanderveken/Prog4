@@ -103,15 +103,15 @@ namespace dae
 		/* PRIVATE METHODS */
 
 		void OnStateEnter();
-		void OnStateExit();
+		void OnStateExit() const;
 
-		void BindMainMenuCommands();
-		void BindLevelCommands();
-		void BindPauseCommands();
-		void BindEndScreenCommands();
-		void BindLeaderBoardCommands();
+		void BindMainMenuCommands() const;
+		void BindLevelCommands() const;
+		void BindPauseCommands() const;
+		void BindEndScreenCommands() const;
+		void BindLeaderBoardCommands() const;
 
-		void UpdateGamemodeText();
-		void ApplyGamemode();
+		void UpdateGamemodeText() const;
+		void ApplyGamemode() const;
 	};
 }
