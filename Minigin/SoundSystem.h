@@ -20,6 +20,7 @@ public:
 
 	virtual void Play(int clipId, bool looping = false);
 	virtual void Stop(int clipId);
+	virtual void Mute();
 	virtual int AddClip(const std::string& clipFilePath);
 
 protected:
@@ -42,6 +43,7 @@ public:
 
 	void Play(int, bool = false) override {}
 	void Stop(int) override {}
+	void Mute() override {}
 	int AddClip(const std::string&) override { return 0; }
 
 };
@@ -59,6 +61,7 @@ public:
 
 	void Play(int clipId, bool looping = false) override;
 	void Stop(int clipId) override;
+	void Mute() override;
 	int AddClip(const std::string& clipFilePath) override;
 };
 

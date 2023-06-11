@@ -19,6 +19,7 @@ public:
 
 	void Play(int clipId, bool looping);
 	void Stop(int clipId) const;
+	void Mute();
 	int AddClip(const std::string& clipFilePath);
 
 	void RunEventQueue();
@@ -31,6 +32,8 @@ private:
 	std::mutex m_Mutex;
 	std::condition_variable m_CV;
 	std::atomic<bool> m_StopThread;
+
+	int m_Volume{ 64 };
 };
 
 SoundSystem::SoundSystemImpl::SoundSystemImpl()
@@ -50,6 +53,7 @@ SoundSystem::SoundSystemImpl::SoundSystemImpl()
 	}
 
 	m_Thread = std::jthread(&SoundSystemImpl::RunEventQueue, this);
+	Mix_MasterVolume(m_Volume);
 }
 
 SoundSystem::SoundSystemImpl::~SoundSystemImpl()
@@ -70,6 +74,11 @@ void SoundSystem::SoundSystemImpl::Play(int clipId, bool looping)
 void SoundSystem::SoundSystemImpl::Stop(int clipId) const
 {
 	m_pClips[clipId].second->Stop();
+}
+
+void SoundSystem::SoundSystemImpl::Mute()
+{
+	m_Volume = Mix_MasterVolume(m_Volume);
 }
 
 int SoundSystem::SoundSystemImpl::AddClip(const std::string& clipFilePath)
@@ -131,6 +140,11 @@ void SoundSystem::Stop(int clipId)
 	m_pSoundSystem->Stop(clipId);
 }
 
+void SoundSystem::Mute()
+{
+	m_pSoundSystem->Mute();
+}
+
 int SoundSystem::AddClip(const std::string& clipFilePath)
 {
 	return m_pSoundSystem->AddClip(clipFilePath);
@@ -146,6 +160,12 @@ void Logged_SoundSystem::Stop(int clipId)
 {
 	cout << "Stopping Sound: \tId: " << clipId << endl;
 	SoundSystem::Stop(clipId);
+}
+
+void Logged_SoundSystem::Mute()
+{
+	cout << "Toggling mute." << endl;
+	SoundSystem::Mute();
 }
 
 int Logged_SoundSystem::AddClip(const std::string& clipFilePath)

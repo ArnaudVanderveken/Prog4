@@ -96,4 +96,13 @@ namespace dae
 
 		void Execute() override;
 	};
+
+	class MuteCommand : public Command
+	{
+	public:
+		MuteCommand() noexcept;
+		~MuteCommand() override = default;
+
+		void Execute() override;
+	};
 }

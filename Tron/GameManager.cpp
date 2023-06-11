@@ -315,12 +315,14 @@ void dae::GameManager::BindMainMenuCommands()
 	InputManager::GetInstance().RegisterAction(std::make_shared<StartCommand>(), InputAction::ActionType::Down, Controller::ButtonID::FaceButtonDown, 0, SDL_SCANCODE_SPACE);
 	InputManager::GetInstance().RegisterAction(std::make_shared<QuitCommand>(), InputAction::ActionType::Down, Controller::ButtonID::FaceButtonRight, 0, SDL_SCANCODE_ESCAPE);
 	InputManager::GetInstance().RegisterAction(std::make_shared<ChangeGamemode>(), InputAction::ActionType::Down, Controller::ButtonID::FaceButtonLeft, 0, SDL_SCANCODE_TAB);
+	InputManager::GetInstance().RegisterAction(std::make_shared<MuteCommand>(), InputAction::ActionType::Down, Controller::ButtonID::LeftShoulder, 0, SDL_SCANCODE_M);
 }
 
 void dae::GameManager::BindLevelCommands()
 {
 	InputManager::GetInstance().RegisterAction(std::make_shared<PauseCommand>(), InputAction::ActionType::Down, Controller::ButtonID::Start, 0, SDL_SCANCODE_TAB);
 	InputManager::GetInstance().RegisterAction(std::make_shared<SkipLevelCommand>(), InputAction::ActionType::Down, Controller::ButtonID::Back, 0, SDL_SCANCODE_F1);
+	InputManager::GetInstance().RegisterAction(std::make_shared<MuteCommand>(), InputAction::ActionType::Down, Controller::ButtonID::LeftShoulder, 0, SDL_SCANCODE_M);
 	m_pP1Component->BindActions();
 	if (m_Gamemode != GameMode::SinglePlayer)
 		m_pP2Component->BindActions();
@@ -330,16 +332,19 @@ void dae::GameManager::BindPauseCommands()
 {
 	InputManager::GetInstance().RegisterAction(std::make_shared<UnpauseCommand>(), InputAction::ActionType::Down, Controller::ButtonID::Start, 0, SDL_SCANCODE_TAB);
 	InputManager::GetInstance().RegisterAction(std::make_shared<QuitCommand>(), InputAction::ActionType::Down, Controller::ButtonID::FaceButtonRight, 0, SDL_SCANCODE_ESCAPE);
+	InputManager::GetInstance().RegisterAction(std::make_shared<MuteCommand>(), InputAction::ActionType::Down, Controller::ButtonID::LeftShoulder, 0, SDL_SCANCODE_M);
 }
 
 void dae::GameManager::BindEndScreenCommands()
 {
 	InputManager::GetInstance().RegisterAction(std::make_shared<StartCommand>(), InputAction::ActionType::Down, Controller::ButtonID::FaceButtonDown, 0, SDL_SCANCODE_SPACE);
 	InputManager::GetInstance().RegisterAction(std::make_shared<QuitCommand>(), InputAction::ActionType::Down, Controller::ButtonID::FaceButtonRight, 0, SDL_SCANCODE_ESCAPE);
+	InputManager::GetInstance().RegisterAction(std::make_shared<MuteCommand>(), InputAction::ActionType::Down, Controller::ButtonID::LeftShoulder, 0, SDL_SCANCODE_M);
 }
 
 void dae::GameManager::BindLeaderBoardCommands()
 {
+	InputManager::GetInstance().RegisterAction(std::make_shared<MuteCommand>(), InputAction::ActionType::Down, Controller::ButtonID::LeftShoulder, 0, SDL_SCANCODE_M);
 }
 
 void dae::GameManager::UpdateGamemodeText()

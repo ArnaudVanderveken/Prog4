@@ -127,3 +127,13 @@ void dae::ChangeGamemode::Execute()
 {
 	ServiceLocator::GetGameManager()->ToggleGamemode();
 }
+
+dae::MuteCommand::MuteCommand() noexcept
+	: Command(nullptr)
+{
+}
+
+void dae::MuteCommand::Execute()
+{
+	ServiceLocator::GetSoundSystem()->Mute();
+}
