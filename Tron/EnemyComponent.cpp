@@ -33,7 +33,6 @@ void dae::EnemyComponent::Update()
 	}
 	else
 		m_pTarget = ServiceLocator::GetGameManager()->GetP1Tank().get();
-
 	
 }
 

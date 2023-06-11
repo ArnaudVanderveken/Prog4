@@ -15,6 +15,16 @@ void dae::ScoreTrackerComponent::Update()
 {
 }
 
+void dae::ScoreTrackerComponent::Reset()
+{
+	m_Score = 0;
+}
+
+int dae::ScoreTrackerComponent::GetScore() const
+{
+	return m_Score;
+}
+
 void dae::ScoreTrackerComponent::HandleEvent(int points)
 {
 	m_Score += points;

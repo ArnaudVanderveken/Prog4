@@ -33,6 +33,8 @@ namespace dae
 		bool m_IsRecognizer{};
 		bool m_TargetInSight{};
 
+		static constexpr float m_Speed{ 50.0f };
+
 		static constexpr float FIRE_COOLDOWN{ 1.0f };
 		float m_FireCooldown{ FIRE_COOLDOWN };
 

@@ -20,6 +20,9 @@ namespace dae
 		void Init() override;
 		void Update() override;
 
+		void Reset();
+		[[nodiscard]] int GetScore() const;
+
 		void HandleEvent(int points) override;
 
 	private:

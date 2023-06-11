@@ -350,6 +350,8 @@ void dae::GameManager::OnStateExit()
 
 	case State::EndScreen:
 		InputManager::GetInstance().ClearActions();
+		m_pLifeCounterComponent->Reset();
+		m_pScoreCounterComponent->Reset();
 		break;
 
 	case State::LeaderBoard:

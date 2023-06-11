@@ -20,6 +20,8 @@ namespace dae
 		void Init() override;
 		void Update() override;
 
+		void Reset();
+
 		void HandleEvent() override;
 
 	private:

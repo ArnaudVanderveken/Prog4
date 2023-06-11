@@ -35,8 +35,8 @@ void load()
 	auto& level2 = SceneManager::GetInstance().CreateScene("Level2");
 	auto& level3 = SceneManager::GetInstance().CreateScene("Level3");
 	auto& pauseMenu = SceneManager::GetInstance().CreateScene("PauseMenu");
-	//auto& endScreen = SceneManager::GetInstance().CreateScene("EndScreen");
-	//auto& leaderboard = SceneManager::GetInstance().CreateScene("Leaderboard");
+	auto& endScreen = SceneManager::GetInstance().CreateScene("EndScreen");
+	auto& leaderboard = SceneManager::GetInstance().CreateScene("Leaderboard");
 
 	// Register services
 	ServiceLocator::RegisterSoundSystem(std::make_shared<SoundSystem>());
@@ -164,8 +164,33 @@ void load()
 	pauseMenuText->SetLocalPosition({ 180, 80, 0 });
 	pauseMenu.Add(pauseMenuText);
 
+	// End screen texts
+	auto endScreenText = std::make_shared<GameObject>();
+	endScreenText->AddComponent(new RenderComponent(""));
+	endScreenText->AddComponent(new TextComponent("GAME OVER", SDL_Color(255, 0, 0), Lingua36));
+	endScreenText->SetLocalPosition({ 180, 20, 0 });
+	endScreen.Add(endScreenText);
+
+	// Leaderboard texts
+	auto leaderboardText = std::make_shared<GameObject>();
+	leaderboardText->AddComponent(new RenderComponent(""));
+	leaderboardText->AddComponent(new TextComponent("LEADERBOARD", SDL_Color(255, 255, 0), Lingua36));
+	leaderboardText->SetLocalPosition({ 180, 20, 0 });
+	leaderboard.Add(leaderboardText);
+
 	// display controls on the console
-	std::cout << "Controls:\n\tController:\n\t\tMove: DPAD\n\t\tDie: A\n\t\tScore: B\n\tKeyboard:\n\t\tMove: WASD\n\t\tDie (+test sound): Q\n\t\tScore: E\n\nPlayer 1: Keyboard\nPlayer 2: Controller" << std::endl;
+	std::cout << "Controls:"
+				"\n\tController:"
+				"\n\t\tMove: DPAD"
+				"\n\t\tDie: A"
+				"\n\t\tScore: B"
+				"\n\tKeyboard:"
+				"\n\t\tMove: WASD"
+				"\n\t\tDie (+test sound): Q"
+				"\n\t\tScore: E"
+				"\n"
+				"\nPlayer 1: Keyboard"
+				"\nPlayer 2: Controller" << std::endl;
 }
 
 int main(int, char* []) {
