@@ -59,6 +59,11 @@ const std::vector<std::shared_ptr<dae::GameObject>>& dae::BulletManager::GetBull
 	return m_BulletObjects;
 }
 
+const std::vector<dae::BulletComponent*>& dae::BulletManager::GetBulletComponents() const
+{
+	return m_BulletComponents;
+}
+
 void dae::BulletManager::CreateNewBullet()
 {
 	const auto index = static_cast<uint16_t>(m_BulletObjects.size());

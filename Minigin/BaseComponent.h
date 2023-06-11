@@ -20,6 +20,7 @@ namespace dae
 
 		virtual void Update() = 0;
 		virtual void FixedUpdate() {}
+		virtual void LateUpdate() {}
 		virtual void Render() const {}
 
 		virtual void OnGUI() {}

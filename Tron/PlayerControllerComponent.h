@@ -8,7 +8,7 @@
 namespace dae
 {
 	class RenderComponent;
-	class PlayerControllerComponent final : public BaseComponent
+	class PlayerControllerComponent final : public BaseComponent, public Observer<>
 	{
 	public:
 		PlayerControllerComponent(int controllerIndex, bool useKeyboard, RenderComponent* bodyRenderComponent, RenderComponent* gunRenderComponent) noexcept;
@@ -32,6 +32,8 @@ namespace dae
 
 		Subject<int> playerDied;
 		Subject<int, int> pointsScored;
+
+		void HandleEvent() override;
 
 	protected:
 		void Init() override;

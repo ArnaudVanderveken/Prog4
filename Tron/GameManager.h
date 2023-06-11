@@ -6,6 +6,8 @@
 
 namespace dae
 {
+	class BulletCollisionChecker;
+	class EnemyComponent;
 	class GameObject;
 	class PlayerControllerComponent;
 	class TextComponent;
@@ -48,6 +50,8 @@ namespace dae
 
 		void SetState(State state, bool skipExit = false);
 		void ResetTanks() const;
+		void CheckLevelCleared();
+		void EndGame();
 
 		void RegisterGamemodeText(TextComponent* pTextComponent);
 
@@ -71,17 +75,26 @@ namespace dae
 
 		std::shared_ptr<GameObject> m_pP1Tank{};
 		PlayerControllerComponent* m_pP1Component{};
+		BulletCollisionChecker* m_pP1CollisionChecker{};
+
 		std::shared_ptr<GameObject> m_pP2Tank{};
 		PlayerControllerComponent* m_pP2Component{};
+		BulletCollisionChecker* m_pP2CollisionChecker{};
+
 		std::array<std::shared_ptr<GameObject>, ENEMY_PRELOAD> m_pEnemyTanks{};
+		std::array<EnemyComponent*, ENEMY_PRELOAD> m_pEnemyTankComponents{};
+		std::array<BulletCollisionChecker*, ENEMY_PRELOAD> m_pEnemyTankCollisionCheckers{};
+
 		std::array<std::shared_ptr<GameObject>, ENEMY_PRELOAD> m_pRecognizerTanks{};
+		std::array<EnemyComponent*, ENEMY_PRELOAD> m_pRecognizerTankComponents{};
+		std::array<BulletCollisionChecker*, ENEMY_PRELOAD> m_pRecognizerTankCollisionCheckers{};
 
 		std::shared_ptr<GameObject> m_pScoreCounter{};
 		std::shared_ptr<GameObject> m_pLifeCounter{};
 
 		TextComponent* m_pGamemodeText{};
 
-			/* PRIVATE METHODS */
+		/* PRIVATE METHODS */
 
 		void OnStateEnter();
 		void OnStateExit();
@@ -93,5 +106,6 @@ namespace dae
 		void BindLeaderBoardCommands();
 
 		void UpdateGamemodeText();
+		void ApplyGamemode();
 	};
 }

@@ -23,6 +23,7 @@ namespace dae
 
 		void Update() const;
 		void FixedUpdate() const;
+		void LateUpdate() const;
 		void Render() const;
 
 		void OnGUI() const;
@@ -41,6 +42,7 @@ namespace dae
 		void SetParent(GameObject* parent, bool keepWorldTransform);
 
 		void SetActive(bool active);
+		[[nodiscard]] bool IsActive() const;
 
 	private:
 		bool m_MarkedForDelete{};

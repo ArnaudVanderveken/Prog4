@@ -1,5 +1,7 @@
 #include "GameManager.h"
 
+#include "BulletCollisionChecker.h"
+#include "EnemyComponent.h"
 #include "GameCommand.h"
 #include "GameObject.h"
 #include "InputManager.h"
@@ -22,6 +24,7 @@ dae::GameManager::GameManager() noexcept
 
 	// Fonts
 	const auto lingua12 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
+	const auto lingua18 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
 	const auto lingua36 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 
 	// Red Tank (P1)
@@ -32,6 +35,9 @@ dae::GameManager::GameManager() noexcept
 	m_pP1Tank->AddComponent(gun);
 	m_pP1Component = new PlayerControllerComponent(-1, true, body, gun);
 	m_pP1Tank->AddComponent(m_pP1Component);
+	m_pP1CollisionChecker = new BulletCollisionChecker();
+	m_pP1Tank->AddComponent(m_pP1CollisionChecker);
+	m_pP1CollisionChecker->wasHit.AddObserver(m_pP1Component);
 
 	// Green Tank (P2)
 	m_pP2Tank = std::make_shared<GameObject>(false);
@@ -41,6 +47,9 @@ dae::GameManager::GameManager() noexcept
 	m_pP2Tank->AddComponent(body);
 	m_pP2Component = new PlayerControllerComponent(0, false, body, gun);
 	m_pP2Tank->AddComponent(m_pP2Component);
+	m_pP2CollisionChecker = new BulletCollisionChecker();
+	m_pP2Tank->AddComponent(m_pP2CollisionChecker);
+	m_pP2CollisionChecker->wasHit.AddObserver(m_pP2Component);
 
 	// Enemy tanks
 	for (uint8_t i{}; i < ENEMY_PRELOAD; ++i)
@@ -50,7 +59,11 @@ dae::GameManager::GameManager() noexcept
 		m_pEnemyTanks[i]->AddComponent(body);
 		gun = new RenderComponent("Sprites/BlueTankGun.png", { 0.5f, 0.5f });
 		m_pEnemyTanks[i]->AddComponent(gun);
-		//m_pP1Tank->AddComponent(new PlayerControllerComponent(-1, true, body, gun));
+		m_pEnemyTankComponents[i] = new EnemyComponent(true);
+		m_pEnemyTanks[i]->AddComponent(m_pEnemyTankComponents[i]);
+		m_pEnemyTankCollisionCheckers[i] = new BulletCollisionChecker();
+		m_pEnemyTanks[i]->AddComponent(m_pEnemyTankCollisionCheckers[i]);
+		m_pEnemyTankCollisionCheckers[i]->wasHit.AddObserver(m_pEnemyTankComponents[i]);
 	}
 
 	// Recognizers tanks
@@ -59,24 +72,28 @@ dae::GameManager::GameManager() noexcept
 		m_pRecognizerTanks[i] = std::make_shared<GameObject>(false);
 		body = new RenderComponent("Sprites/BlueTank.png", { 0.5f, 0.5f });
 		m_pRecognizerTanks[i]->AddComponent(body);
-		gun = new RenderComponent("Sprites/BlueTankGun.png", { 0.5f, 0.5f });
+		gun = new RenderComponent("Sprites/Recognizer.png", { 0.5f, 0.5f });
 		m_pRecognizerTanks[i]->AddComponent(gun);
-		//m_pP1Tank->AddComponent(new PlayerControllerComponent(-1, true, body, gun));
+		m_pRecognizerTankComponents[i] = new EnemyComponent(true);
+		m_pRecognizerTanks[i]->AddComponent(m_pRecognizerTankComponents[i]);
+		m_pRecognizerTankCollisionCheckers[i] = new BulletCollisionChecker();
+		m_pRecognizerTanks[i]->AddComponent(m_pRecognizerTankCollisionCheckers[i]);
+		m_pRecognizerTankCollisionCheckers[i]->wasHit.AddObserver(m_pRecognizerTankComponents[i]);
 	}
 
 	// Life tracker
-	m_pLifeCounter = std::make_shared<GameObject>(false);
+	m_pLifeCounter = std::make_shared<GameObject>();
 	m_pLifeCounter->AddComponent(new RenderComponent(""));
-	m_pLifeCounter->AddComponent(new TextComponent("DefaultText...", SDL_Color(255, 255, 255), lingua12));
+	m_pLifeCounter->AddComponent(new TextComponent("DefaultText...", SDL_Color(255, 255, 255), lingua18));
 	m_pLifeCounter->AddComponent(new LifeTrackerComponent());
 	m_pLifeCounter->SetLocalPosition({ 5, 100, 0 });
 
 	// Score tracker
-	m_pScoreCounter = std::make_shared<GameObject>(false);
+	m_pScoreCounter = std::make_shared<GameObject>();
 	m_pScoreCounter->AddComponent(new RenderComponent(""));
-	m_pScoreCounter->AddComponent(new TextComponent("DefaultText...", SDL_Color(255, 255, 255), lingua12));
+	m_pScoreCounter->AddComponent(new TextComponent("DefaultText...", SDL_Color(255, 255, 255), lingua18));
 	m_pScoreCounter->AddComponent(new ScoreTrackerComponent());
-	m_pScoreCounter->SetLocalPosition({ 5, 120, 0 });
+	m_pScoreCounter->SetLocalPosition({ 5, 140, 0 });
 
 	// Bind Main menu commands
 	SetState(State::MainMenu, true);
@@ -164,6 +181,27 @@ void dae::GameManager::ResetTanks() const
 	}
 	for (; i < ENEMY_PRELOAD; ++i)
 		m_pRecognizerTanks[i]->SetActive(false);
+}
+
+void dae::GameManager::CheckLevelCleared()
+{
+	for (const auto& tank : m_pEnemyTanks)
+		if (tank->IsActive())
+			return;
+
+	for (const auto& tank : m_pRecognizerTanks)
+		if (tank->IsActive())
+			return;
+
+	if (m_Gamemode == GameMode::Versus && m_pP2Tank->IsActive())
+		return;
+
+	SkipLevel();
+}
+
+void dae::GameManager::EndGame()
+{
+	SetState(State::EndScreen);
 }
 
 void dae::GameManager::RegisterGamemodeText(TextComponent* pTextComponent)
@@ -278,6 +316,7 @@ void dae::GameManager::OnStateExit()
 	case State::MainMenu:
 		ServiceLocator::GetSoundSystem()->Stop(m_MainMenuSound);
 		ServiceLocator::GetSoundSystem()->Play(m_BackgroundSound, true);
+		ApplyGamemode();
 		InputManager::GetInstance().ClearActions();
 		break;
 
@@ -364,6 +403,25 @@ void dae::GameManager::UpdateGamemodeText()
 		break;
 
 	default:
+		break;
+	}
+}
+
+void dae::GameManager::ApplyGamemode()
+{
+	switch (m_Gamemode)
+	{
+	case GameMode::SinglePlayer:
+		m_pP1CollisionChecker->SetRules(false, false, true);
+		m_pP2CollisionChecker->SetRules(false, false, false);
+		for (const auto& tank : m_pEnemyTankCollisionCheckers)
+			tank->SetRules(true, false, false);
+		for (const auto& tank : m_pRecognizerTankCollisionCheckers)
+			tank->SetRules(true, false, false);
+		break;
+	case GameMode::Coop:
+		break;
+	case GameMode::Versus:
 		break;
 	}
 }

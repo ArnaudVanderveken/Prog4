@@ -43,6 +43,18 @@ void Scene::Update()
 		std::erase(m_Objects, object);
 	
 	m_TrashBin.clear();
+
+	for (const auto& object : m_Objects)
+		object->LateUpdate();
+
+	for (const auto& object : m_Objects)
+		if (object->IsMarkedForDelete())
+			m_TrashBin.emplace_back(object);
+
+	for (const auto& object : m_TrashBin)
+		std::erase(m_Objects, object);
+
+	m_TrashBin.clear();
 }
 
 void Scene::FixedUpdate() const

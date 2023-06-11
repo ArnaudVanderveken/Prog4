@@ -24,6 +24,7 @@ namespace dae
 	    BulletComponent& operator=(BulletComponent&& other) noexcept = delete;
 
     	[[nodiscard]] Type GetType() const;
+		[[nodiscard]] uint16_t GetIndex() const;
 
 		void SetDirection(const glm::vec2& direction);
 		void SetPosition(const glm::vec2& position) const;

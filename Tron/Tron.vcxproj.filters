@@ -32,6 +32,10 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="BulletCollisionChecker.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Components">
@@ -78,5 +82,9 @@
     <ClInclude Include="GameManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
+    <ClInclude Include="BulletCollisionChecker.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyComponent.h" />
   </ItemGroup>
 </Project>

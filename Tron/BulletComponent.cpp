@@ -17,6 +17,11 @@ dae::BulletComponent::Type dae::BulletComponent::GetType() const
 	return m_Type;
 }
 
+uint16_t dae::BulletComponent::GetIndex() const
+{
+	return m_BulletIndex;
+}
+
 void dae::BulletComponent::SetDirection(const glm::vec2& direction)
 {
 	m_Direction = direction;

@@ -31,6 +31,7 @@ namespace dae
 		void ResetBullets();
 
 		[[nodiscard]] const std::vector<std::shared_ptr<GameObject>>& GetBullets() const;
+		[[nodiscard]] const std::vector<BulletComponent*>& GetBulletComponents() const;
 
 	private:
 		/* DATA MEMBERS */

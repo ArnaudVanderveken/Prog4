@@ -79,6 +79,11 @@ void dae::PlayerControllerComponent::Update()
 	m_FireInput = glm::vec2{};
 }
 
+void dae::PlayerControllerComponent::HandleEvent()
+{
+	Die();
+}
+
 int dae::PlayerControllerComponent::GetPlayerIndex() const
 {
 	return m_PlayerIndex;

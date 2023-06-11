@@ -42,6 +42,14 @@ void dae::GameObject::FixedUpdate() const
 				component->FixedUpdate();
 }
 
+void dae::GameObject::LateUpdate() const
+{
+	if (m_IsActive)
+		for (const auto& component : m_Components)
+			if (component->IsActive())
+				component->LateUpdate();
+}
+
 void dae::GameObject::Render() const
 {
 	if (m_IsActive)
@@ -131,6 +139,11 @@ void dae::GameObject::SetParent(GameObject* parent, bool keepWorldTransform)
 void dae::GameObject::SetActive(bool active)
 {
 	m_IsActive = active;
+}
+
+bool dae::GameObject::IsActive() const
+{
+	return m_IsActive;
 }
 
 void dae::GameObject::PropagateDirtyTransform()

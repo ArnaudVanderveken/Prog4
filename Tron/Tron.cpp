@@ -119,7 +119,7 @@ void load()
 	const auto pPauseText = std::make_shared<GameObject>();
 	pPauseText->AddComponent(new RenderComponent(""));
 	pPauseText->AddComponent(new TextComponent("Start/Tab to pause", SDL_Color(255, 255, 255), Lingua24));
-	pPauseText->SetLocalPosition({ 180, 440, 0 });
+	pPauseText->SetLocalPosition({ 200, 440, 0 });
 	level1.Add(pPauseText);
 	level2.Add(pPauseText);
 	level3.Add(pPauseText);
