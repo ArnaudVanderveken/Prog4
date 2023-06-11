@@ -22,10 +22,10 @@ AudioClip::~AudioClip()
 		Mix_FreeChunk(m_pChunk);
 }
 
-void AudioClip::Play() const
+void AudioClip::Play(bool looping) const
 {
 	if (m_pChunk)
-		Mix_PlayChannel(-1, m_pChunk, 0);
+		Mix_PlayChannel(-1, m_pChunk, looping ? -1 : 0);
 }
 
 void AudioClip::SetVolume(int volume) const

@@ -13,7 +13,7 @@ public:
 	AudioClip(AudioClip&& other) noexcept = delete;
 	AudioClip& operator=(AudioClip&& other) noexcept = delete;
 
-	void Play() const;
+	void Play(bool looping) const;
 	void SetVolume(int volume) const;
 	int GetVolume() const;
 

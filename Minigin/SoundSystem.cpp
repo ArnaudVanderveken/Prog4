@@ -17,14 +17,14 @@ public:
 	SoundSystemImpl(SoundSystemImpl&& other) noexcept = delete;
 	SoundSystemImpl& operator=(SoundSystemImpl&& other) noexcept = delete;
 
-	void Play(int clipId);
+	void Play(int clipId, bool looping);
 	int AddClip(const std::string& clipFilePath);
 
 	void RunEventQueue();
 
 private:
 	std::vector<std::pair<std::string, std::unique_ptr<AudioClip>>> m_pClips;
-	std::queue<AudioClip*> m_SoundsToPlay;
+	std::queue<std::pair<AudioClip*, bool>> m_SoundsToPlay;
 
 	std::jthread m_Thread;
 	std::mutex m_Mutex;
@@ -58,10 +58,10 @@ SoundSystem::SoundSystemImpl::~SoundSystemImpl()
 	m_CV.notify_all();
 }
 
-void SoundSystem::SoundSystemImpl::Play(int clipId)
+void SoundSystem::SoundSystemImpl::Play(int clipId, bool looping)
 {
 	std::unique_lock lock(m_Mutex);
-	m_SoundsToPlay.emplace(m_pClips[clipId].second.get());
+	m_SoundsToPlay.emplace(m_pClips[clipId].second.get(), looping);
 	lock.unlock();
 	m_CV.notify_all();
 }
@@ -100,7 +100,7 @@ void SoundSystem::SoundSystemImpl::RunEventQueue()
 		lock.unlock();
 
 		//Play sound
-		clip->Play();
+		clip.first->Play(clip.second);
 	}
 }
 
@@ -115,9 +115,9 @@ SoundSystem::~SoundSystem()
 	delete m_pSoundSystem;
 }
 
-void SoundSystem::Play(int clipId)
+void SoundSystem::Play(int clipId, bool looping)
 {
-	m_pSoundSystem->Play(clipId);
+	m_pSoundSystem->Play(clipId, looping);
 }
 
 int SoundSystem::AddClip(const std::string& clipFilePath)
@@ -125,10 +125,10 @@ int SoundSystem::AddClip(const std::string& clipFilePath)
 	return m_pSoundSystem->AddClip(clipFilePath);
 }
 
-void Logged_SoundSystem::Play(int clipId)
+void Logged_SoundSystem::Play(int clipId, bool looping)
 {
 	cout << "Playing Sound: \tId: " << clipId << endl;
-	SoundSystem::Play(clipId);
+	SoundSystem::Play(clipId, looping);
 }
 
 int Logged_SoundSystem::AddClip(const std::string& clipFilePath)

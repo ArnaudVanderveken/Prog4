@@ -18,7 +18,7 @@ public:
 	SoundSystem(SoundSystem&& other) noexcept = delete;
 	SoundSystem& operator=(SoundSystem&& other) noexcept = delete;
 
-	virtual void Play(int clipId);
+	virtual void Play(int clipId, bool looping = false);
 	virtual int AddClip(const std::string& clipFilePath);
 
 protected:
@@ -39,8 +39,8 @@ public:
 	NULL_SoundSystem& operator=(NULL_SoundSystem&& other) noexcept = delete;
 
 
-	void Play(int) override {}
-	int AddClip(const std::string& /*clipFilePath*/) override { return 0; }
+	void Play(int, bool = false) override {}
+	int AddClip(const std::string&) override { return 0; }
 
 };
 
@@ -55,7 +55,7 @@ public:
 	Logged_SoundSystem(Logged_SoundSystem&& other) noexcept = delete;
 	Logged_SoundSystem& operator=(Logged_SoundSystem&& other) noexcept = delete;
 
-	void Play(int clipId) override;
+	void Play(int clipId, bool looping = false) override;
 	int AddClip(const std::string& clipFilePath) override;
 };
 
