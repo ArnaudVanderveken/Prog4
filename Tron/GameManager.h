@@ -45,6 +45,8 @@ namespace dae
 		GameManager& operator=(const GameManager& other) noexcept = delete;
 		GameManager& operator=(GameManager&& other) noexcept = delete;
 
+		[[nodiscard]] GameMode GetGamemode() const;
+
 		void ToggleGamemode();
 		void PauseGame();
 		void UnpauseGame();

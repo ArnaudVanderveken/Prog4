@@ -49,7 +49,7 @@ dae::GameManager::GameManager() noexcept
 	m_pP1Tank->AddComponent(body);
 	auto gun = new RenderComponent("Sprites/RedTankGun.png", { 0.5f, 0.5f });
 	m_pP1Tank->AddComponent(gun);
-	m_pP1Component = new PlayerControllerComponent(-1, true, body, gun);
+	m_pP1Component = new PlayerControllerComponent(1, true, body, gun);
 	m_pP1Tank->AddComponent(m_pP1Component);
 	m_pP1CollisionChecker = new BulletCollisionChecker();
 	m_pP1Tank->AddComponent(m_pP1CollisionChecker);
@@ -101,6 +101,11 @@ dae::GameManager::GameManager() noexcept
 
 	// Bind Main menu commands
 	SetState(State::MainMenu, true);
+}
+
+dae::GameManager::GameMode dae::GameManager::GetGamemode() const
+{
+	return m_Gamemode;
 }
 
 void dae::GameManager::ToggleGamemode()
@@ -422,7 +427,11 @@ void dae::GameManager::ApplyGamemode()
 			tank->SetRules(true, false, false);
 		for (const auto& tank : m_pRecognizerTankCollisionCheckers)
 			tank->SetRules(true, false, false);
+
+		m_pP1CollisionChecker->wasHit.AddObserver(m_pLifeCounterComponent);
+
 		break;
+
 	case GameMode::Coop:
 		m_pP1CollisionChecker->SetRules(false, false, true);
 		m_pP2CollisionChecker->SetRules(false, false, true);
@@ -430,7 +439,12 @@ void dae::GameManager::ApplyGamemode()
 			tank->SetRules(true, true, false);
 		for (const auto& tank : m_pRecognizerTankCollisionCheckers)
 			tank->SetRules(true, true, false);
+
+		m_pP1CollisionChecker->wasHit.AddObserver(m_pLifeCounterComponent);
+		m_pP2CollisionChecker->wasHit.AddObserver(m_pLifeCounterComponent);
+
 		break;
+
 	case GameMode::Versus:
 		m_pP1CollisionChecker->SetRules(false, true, true);	
 		m_pP2CollisionChecker->SetRules(true, false, false);
@@ -438,6 +452,9 @@ void dae::GameManager::ApplyGamemode()
 			tank->SetRules(true, false, false);
 		for (const auto& tank : m_pRecognizerTankCollisionCheckers)
 			tank->SetRules(true, false, false);
+
+		m_pP1CollisionChecker->wasHit.AddObserver(m_pLifeCounterComponent);
+
 		break;
 	}
 }

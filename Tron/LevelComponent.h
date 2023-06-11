@@ -31,6 +31,8 @@ namespace dae
 		void QueryLevelForMovement(const glm::vec2& xyPos, glm::vec2& movement) const;
 		[[nodiscard]] bool CheckBulletCollision(const glm::vec2& xyPos) const;
 
+		[[nodiscard]] bool IsWalkableAtPixel(const glm::vec2& pixelPos) const;
+
 	protected:
 		void Init() override;
 		void Update() override;
@@ -59,7 +61,6 @@ namespace dae
 		void LoadLevelFromFile(const std::string& filename);
 		void LoadLevelFromFileBin(const std::string& filename);
 
-		[[nodiscard]] bool IsWalkableAtPixel(const glm::vec2& pixelPos) const;
 		void QueryLevelForMovementX(const glm::vec2& xyPos, float& dx) const;
 		void QueryLevelForMovementY(const glm::vec2& xyPos, float& dy) const;
 

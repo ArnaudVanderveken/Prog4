@@ -17,6 +17,9 @@ void dae::BulletCollisionChecker::LateUpdate()
 
 	for (const auto& bullet : bullets)
 	{
+		if (!bullet->GetOwner()->IsActive())
+			continue;
+
 		const glm::vec2 bulletPos = bullet->GetOwner()->GetWorldTransform().position;
 		if ((bullet->GetType() == BulletComponent::Type::Player1 && m_IsHitByP1
 			|| bullet->GetType() == BulletComponent::Type::Player2 && m_IsHitByP2

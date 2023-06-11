@@ -2,6 +2,8 @@
 #include "BaseComponent.h"
 #include "Subject.h"
 
+#include <glm/glm.hpp>
+
 namespace dae
 {
     class EnemyComponent final : public BaseComponent, public Observer<>
@@ -21,15 +23,24 @@ namespace dae
 
     protected:
 		void Update() override;
+		void LateUpdate() override;
 
     private:
 	    /* DATA MEMBERS */
 
+		GameObject* m_pTarget{};
+
 		bool m_IsRecognizer{};
+		bool m_TargetInSight{};
+
+		static constexpr float FIRE_COOLDOWN{ 1.0f };
+		float m_FireCooldown{ FIRE_COOLDOWN };
+
+		int m_FireSound;
 
 	    /* PRIVATE METHODS */
 
-
+		bool CheckIsInSight(const glm::vec3& pos);
 
     };
 }

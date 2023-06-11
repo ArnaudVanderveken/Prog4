@@ -33,7 +33,8 @@ private:
 	std::condition_variable m_CV;
 	std::atomic<bool> m_StopThread;
 
-	int m_Volume{ 64 };
+	int m_Volume{};
+	const int m_StartVolume{ 64 };
 };
 
 SoundSystem::SoundSystemImpl::SoundSystemImpl()
@@ -53,7 +54,7 @@ SoundSystem::SoundSystemImpl::SoundSystemImpl()
 	}
 
 	m_Thread = std::jthread(&SoundSystemImpl::RunEventQueue, this);
-	Mix_MasterVolume(m_Volume);
+	Mix_MasterVolume(m_StartVolume);
 }
 
 SoundSystem::SoundSystemImpl::~SoundSystemImpl()

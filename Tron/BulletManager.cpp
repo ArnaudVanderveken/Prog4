@@ -12,46 +12,41 @@ dae::BulletManager::BulletManager() noexcept
 	m_BulletObjects.reserve(PRELOAD_COUNT);
 	m_BulletComponents.reserve(PRELOAD_COUNT);
 	m_RenderComponents.reserve(PRELOAD_COUNT);
-	m_ActiveBullets.reserve(PRELOAD_COUNT);
 
 	for (uint8_t i{}; i < PRELOAD_COUNT; ++i)
 		CreateNewBullet();
 }
 
-void dae::BulletManager::SpawnBullet(const glm::vec2& position, BulletComponent::Type type, const glm::vec2& direction)
+void dae::BulletManager::SpawnBullet(const glm::vec2& position, BulletComponent::Type type, const glm::vec2& direction) const
 {
 	size_t i{};
 	do 
 	{
-		if (!m_ActiveBullets[i])
+		if (!m_BulletObjects[i]->IsActive())
 			break;
 		++i;
-	} while (i < m_ActiveBullets.size());
-	if (i == m_ActiveBullets.size())
+	} while (i < m_BulletObjects.size());
+	if (i == m_BulletObjects.size())
 		return;
 
 	m_BulletComponents[i]->SetPosition(position);
 	m_BulletComponents[i]->SetDirection(direction);
 	m_BulletComponents[i]->SetType(type);
+	m_RenderComponents[i]->SetTexture(type == BulletComponent::Type::Enemy ? m_pNPCBulletTexture : m_pPlayerBulletTexture);
 	m_BulletComponents[i]->Reset();
 
 	m_BulletObjects[i]->SetActive(true);
-	m_ActiveBullets[i] = true;
 }
 
-void dae::BulletManager::RemoveBullet(uint16_t bulletIndex)
+void dae::BulletManager::RemoveBullet(uint16_t bulletIndex) const
 {
 	m_BulletObjects[bulletIndex]->SetActive(false);
-	m_ActiveBullets[bulletIndex] = false;
 }
 
-void dae::BulletManager::ResetBullets()
+void dae::BulletManager::ResetBullets() const
 {
 	for (size_t i{}; i < m_BulletObjects.size(); ++i)
-	{
 		m_BulletObjects[i]->SetActive(false);
-		m_ActiveBullets[i] = false;
-	}
 }
 
 const std::vector<std::shared_ptr<dae::GameObject>>& dae::BulletManager::GetBullets() const
@@ -67,7 +62,6 @@ const std::vector<dae::BulletComponent*>& dae::BulletManager::GetBulletComponent
 void dae::BulletManager::CreateNewBullet()
 {
 	const auto index = static_cast<uint16_t>(m_BulletObjects.size());
-	m_ActiveBullets.emplace_back(false);
 	m_BulletObjects.emplace_back(std::make_shared<GameObject>(false));
 	m_BulletComponents.emplace_back(new BulletComponent(index));
 	m_RenderComponents.emplace_back(new RenderComponent(m_pNPCBulletTexture, { 0.5f, 0.5f }));

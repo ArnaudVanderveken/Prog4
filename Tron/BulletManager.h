@@ -25,10 +25,10 @@ namespace dae
 		BulletManager& operator=(const BulletManager& other) noexcept = delete;
 		BulletManager& operator=(BulletManager&& other) noexcept = delete;
 
-		void SpawnBullet(const glm::vec2& position, BulletComponent::Type type, const glm::vec2& direction);
-		void RemoveBullet(uint16_t bulletIndex);
+		void SpawnBullet(const glm::vec2& position, BulletComponent::Type type, const glm::vec2& direction) const;
+		void RemoveBullet(uint16_t bulletIndex) const;
 
-		void ResetBullets();
+		void ResetBullets() const;
 
 		[[nodiscard]] const std::vector<std::shared_ptr<GameObject>>& GetBullets() const;
 		[[nodiscard]] const std::vector<BulletComponent*>& GetBulletComponents() const;
@@ -44,7 +44,6 @@ namespace dae
 		std::vector<std::shared_ptr<GameObject>> m_BulletObjects{};
 		std::vector<BulletComponent*> m_BulletComponents{};
 		std::vector<RenderComponent*> m_RenderComponents{};
-		std::vector<bool> m_ActiveBullets{};
 
 		/* PRIVATE METHODS */
 
