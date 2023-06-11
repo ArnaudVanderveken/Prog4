@@ -13,12 +13,14 @@ public:
 	AudioClip(AudioClip&& other) noexcept = delete;
 	AudioClip& operator=(AudioClip&& other) noexcept = delete;
 
-	void Play(bool looping) const;
+	void Play(bool looping);
+	void Stop() const;
 	void SetVolume(int volume) const;
 	int GetVolume() const;
 
 private:
 	std::string m_FilePath;
 	Mix_Chunk* m_pChunk;
+	int m_Channel{};
 };
 

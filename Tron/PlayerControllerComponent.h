@@ -43,7 +43,7 @@ namespace dae
 		inline static int s_NextAvailablePlayerIndex{};
 
 		int m_PlayerIndex;
-		int m_DeathClipID;
+		int m_FireSound;
 
 		float m_Speed{ 50.f };
 		glm::vec2 m_Movement{};

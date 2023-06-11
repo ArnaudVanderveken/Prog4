@@ -16,7 +16,7 @@ dae::PlayerControllerComponent::PlayerControllerComponent(int controllerIndex, b
 	, m_pGunRenderComponent(gunRenderComponent)
 {
 	m_PlayerIndex = GetNextPlayerIndex();
-	m_DeathClipID = ServiceLocator::GetSoundSystem()->AddClip("../Data/Sounds/Shoot.mp3");
+	m_FireSound = ServiceLocator::GetSoundSystem()->AddClip("../Data/Sounds/Shoot.mp3");
 }
 
 void dae::PlayerControllerComponent::Init()
@@ -63,6 +63,7 @@ void dae::PlayerControllerComponent::Update()
 			const glm::vec2 direction = normalize(glm::vec2{ m_FireInput.x, m_FireInput.y });
 			ServiceLocator::GetBulletManager()->SpawnBullet(GetOwner()->GetWorldTransform().position, type, direction);
 			m_Cooldown = 0.0f;
+			ServiceLocator::GetSoundSystem()->Play(m_FireSound);
 		}
 
 		if (m_pGunRenderComponent)
@@ -109,7 +110,6 @@ void dae::PlayerControllerComponent::SetSpeed(float speed)
 
 void dae::PlayerControllerComponent::Die() const
 {
-	ServiceLocator::GetSoundSystem()->Play(m_DeathClipID);
 	playerDied.Notify(m_PlayerIndex);
 }
 

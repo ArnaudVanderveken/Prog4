@@ -18,6 +18,7 @@ public:
 	SoundSystemImpl& operator=(SoundSystemImpl&& other) noexcept = delete;
 
 	void Play(int clipId, bool looping);
+	void Stop(int clipId) const;
 	int AddClip(const std::string& clipFilePath);
 
 	void RunEventQueue();
@@ -64,6 +65,11 @@ void SoundSystem::SoundSystemImpl::Play(int clipId, bool looping)
 	m_SoundsToPlay.emplace(m_pClips[clipId].second.get(), looping);
 	lock.unlock();
 	m_CV.notify_all();
+}
+
+void SoundSystem::SoundSystemImpl::Stop(int clipId) const
+{
+	m_pClips[clipId].second->Stop();
 }
 
 int SoundSystem::SoundSystemImpl::AddClip(const std::string& clipFilePath)
@@ -120,6 +126,11 @@ void SoundSystem::Play(int clipId, bool looping)
 	m_pSoundSystem->Play(clipId, looping);
 }
 
+void SoundSystem::Stop(int clipId)
+{
+	m_pSoundSystem->Stop(clipId);
+}
+
 int SoundSystem::AddClip(const std::string& clipFilePath)
 {
 	return m_pSoundSystem->AddClip(clipFilePath);
@@ -129,6 +140,12 @@ void Logged_SoundSystem::Play(int clipId, bool looping)
 {
 	cout << "Playing Sound: \tId: " << clipId << endl;
 	SoundSystem::Play(clipId, looping);
+}
+
+void Logged_SoundSystem::Stop(int clipId)
+{
+	cout << "Stopping Sound: \tId: " << clipId << endl;
+	SoundSystem::Stop(clipId);
 }
 
 int Logged_SoundSystem::AddClip(const std::string& clipFilePath)

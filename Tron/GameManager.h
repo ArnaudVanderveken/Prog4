@@ -46,7 +46,7 @@ namespace dae
 		void UnpauseGame();
 		void SkipLevel();
 
-		void SetState(State state);
+		void SetState(State state, bool skipExit = false);
 		void ResetTanks() const;
 
 		void RegisterGamemodeText(TextComponent* pTextComponent);
@@ -66,6 +66,8 @@ namespace dae
 		State m_State{};
 		State m_PrePauseState{};
 		bool m_ResetLevel{ true };
+
+		int m_MainMenuSound{}, m_BackgroundSound{}, m_FailSound{};
 
 		std::shared_ptr<GameObject> m_pP1Tank{};
 		PlayerControllerComponent* m_pP1Component{};

@@ -15,9 +15,14 @@
 
 dae::GameManager::GameManager() noexcept
 {
+	// Sounds
+	m_MainMenuSound = ServiceLocator::GetSoundSystem()->AddClip("../Data/Sounds/MainMenuMusic.mp3");
+	m_BackgroundSound = ServiceLocator::GetSoundSystem()->AddClip("../Data/Sounds/Background.mp3");
+	m_FailSound = ServiceLocator::GetSoundSystem()->AddClip("../Data/Sounds/FailMusic.mp3");
+
 	// Fonts
-	const auto Lingua12 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
-	const auto Lingua36 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	const auto lingua12 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
+	const auto lingua36 = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 
 	// Red Tank (P1)
 	m_pP1Tank = std::make_shared<GameObject>(false);
@@ -62,19 +67,19 @@ dae::GameManager::GameManager() noexcept
 	// Life tracker
 	m_pLifeCounter = std::make_shared<GameObject>(false);
 	m_pLifeCounter->AddComponent(new RenderComponent(""));
-	m_pLifeCounter->AddComponent(new TextComponent("DefaultText...", SDL_Color(255, 255, 255), Lingua12));
+	m_pLifeCounter->AddComponent(new TextComponent("DefaultText...", SDL_Color(255, 255, 255), lingua12));
 	m_pLifeCounter->AddComponent(new LifeTrackerComponent());
 	m_pLifeCounter->SetLocalPosition({ 5, 100, 0 });
 
 	// Score tracker
 	m_pScoreCounter = std::make_shared<GameObject>(false);
 	m_pScoreCounter->AddComponent(new RenderComponent(""));
-	m_pScoreCounter->AddComponent(new TextComponent("DefaultText...", SDL_Color(255, 255, 255), Lingua12));
+	m_pScoreCounter->AddComponent(new TextComponent("DefaultText...", SDL_Color(255, 255, 255), lingua12));
 	m_pScoreCounter->AddComponent(new ScoreTrackerComponent());
 	m_pScoreCounter->SetLocalPosition({ 5, 120, 0 });
 
 	// Bind Main menu commands
-	SetState(State::MainMenu);
+	SetState(State::MainMenu, true);
 }
 
 void dae::GameManager::ToggleGamemode()
@@ -115,9 +120,10 @@ void dae::GameManager::SkipLevel()
 	}
 }
 
-void dae::GameManager::SetState(State state)
+void dae::GameManager::SetState(State state, bool skipExit)
 {
-	OnStateExit();
+	if (!skipExit)
+		OnStateExit();
 	m_State = state;
 	OnStateEnter();
 }
@@ -203,6 +209,7 @@ void dae::GameManager::OnStateEnter()
 	case State::MainMenu:
 		BindMainMenuCommands();
 		SceneManager::GetInstance().SetActiveScene(0);
+		ServiceLocator::GetSoundSystem()->Play(m_MainMenuSound);
 		break;
 
 	case State::Level1:
@@ -251,6 +258,8 @@ void dae::GameManager::OnStateEnter()
 		break;
 
 	case State::EndScreen:
+		ServiceLocator::GetSoundSystem()->Stop(m_BackgroundSound);
+		ServiceLocator::GetSoundSystem()->Play(m_FailSound);
 		BindEndScreenCommands();
 		SceneManager::GetInstance().SetActiveScene(5);
 		break;
@@ -267,6 +276,8 @@ void dae::GameManager::OnStateExit()
 	switch (m_State)
 	{
 	case State::MainMenu:
+		ServiceLocator::GetSoundSystem()->Stop(m_MainMenuSound);
+		ServiceLocator::GetSoundSystem()->Play(m_BackgroundSound, true);
 		InputManager::GetInstance().ClearActions();
 		break;
 
