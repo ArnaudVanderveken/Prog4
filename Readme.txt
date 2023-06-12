@@ -13,3 +13,21 @@ Design choices:
 
     The engine accepts both file formats, and checks the extension to know which parser to use.
 
+- Collision detection:
+    There is no physics engine implemented in the engine. The collisions to determine whether a tile is walkable or not is determined by it's type (wall, path, etc.).
+    The collision between a bullet and a tank is determined by the bullet's position being inside the tanks boundaries.
+
+- States:
+    States are used to handle the different scenes of the game in the game manager, bind the required commands to the input manager, or reset the objects that need it.
+
+Implemented patters:
+- Observer/Subject
+- Components
+- Singleton
+- Service locator
+- Game loop
+- States
+- Commands
+- Pimpl
+
+GitHub link: https://github.com/ArnaudVanderveken/Prog4
