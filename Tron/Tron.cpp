@@ -235,20 +235,6 @@ void load()
 	leaderboardText->AddComponent(new TextComponent("B/Escape to quit", SDL_Color(255, 0, 0), Lingua24));
 	leaderboardText->SetLocalPosition({ 350, 440, 0 });
 	leaderboard.Add(leaderboardText);
-
-	// display controls on the console
-	std::cout << "Controls:"
-				"\n\tController:"
-				"\n\t\tMove: DPAD"
-				"\n\t\tDie: A"
-				"\n\t\tScore: B"
-				"\n\tKeyboard:"
-				"\n\t\tMove: WASD"
-				"\n\t\tDie (+test sound): Q"
-				"\n\t\tScore: E"
-				"\n"
-				"\nPlayer 1: Keyboard"
-				"\nPlayer 2: Controller" << std::endl;
 }
 
 int main(int, char* []) {
